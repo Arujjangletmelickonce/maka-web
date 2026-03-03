@@ -2,7 +2,7 @@ name: run-maka-every-3h
 
 on:
   schedule:
-    - cron: "0 */3 * * *"
+    - cron: "30 21,0,3,6,9,12,15,18 * * *"  # KST 06:30 시작 + 3시간마다
   workflow_dispatch:
 
 permissions:
