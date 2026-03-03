@@ -1,0 +1,87 @@
+{
+  "run_id": "2026-03-04_0344",
+  "time_kst": "2026-03-04 03:44",
+  "ticker": "QQQ",
+  "pivot": 600.0,
+  "spot": 602.7999877929688,
+  "spot_source": "intraday_last",
+  "intraday": {
+    "now_et": "2026-03-03 13:44",
+    "phase_et": "mid_day",
+    "interval": "1m",
+    "last": 602.7999877929688,
+    "day_open": 596.67,
+    "day_high": 608.09,
+    "day_low": 591.8699951171875,
+    "vwap_like": 597.1966194626297,
+    "r_30m": 0.5018439580342093,
+    "flow_one_line": "VWAP 위에서 버티는 중(상방 우위)",
+    "pivot": 600.0,
+    "pivot_touches": 12
+  },
+  "analysis_json": {
+    "spot": 602.7999877929688,
+    "now_et": "2026-03-03 13:44",
+    "phase_et": "mid_day",
+    "flow_one_line": "VWAP 위에서 버티는 중(상방 우위)",
+    "day_stats": {
+      "open": 596.67,
+      "high": 608.09,
+      "low": 591.8699951171875,
+      "vwap_like": 597.1966194626297
+    },
+    "pivot": 600.0,
+    "pivot_touches": 12,
+    "one_liner": "정오 이후 600 재시험을 열두 번 치르고도 VWAP 위에서 다시 숨을 고르는, ‘600이 무너지지 않는 날’ 서사.",
+    "key_levels": [
+      {
+        "price": 600.0,
+        "role": "pivot",
+        "why": "당일 가장 많이 두드린 문턱(재시험 반복)이며 상단·하단 힘겨루기의 중심."
+      },
+      {
+        "price": 597.1966194626297,
+        "role": "support",
+        "why": "VWAP_like 축; 현재 흐름의 ‘유리한 위치’를 설명해주는 기준선."
+      },
+      {
+        "price": 608.09,
+        "role": "resistance",
+        "why": "오늘 고점; 600을 지킨 뒤 위쪽에서 마주칠 첫 번째 명확한 천장."
+      },
+      {
+        "price": 591.8699951171875,
+        "role": "support",
+        "why": "오늘 저점; 600 전투가 실패로 끝날 때 이야기가 급격히 어두워지는 최종 방어선."
+      }
+    ],
+    "core_thesis": "600을 중심으로 한 옵션 구간이 ‘자석’처럼 가격을 끌어당기고(DEX 상단), 동시에 음의 GEX가 탄성을 키워(움직임이 커지기 쉬움) 600 재시험이 반복되는 장이다. 그럼에도 현재는 VWAP 위에 서 있어, 600을 지키는 쪽이 이야기의 주도권을 쥔 상태로 전개된다.",
+    "branches": {
+      "if_hold": {
+        "condition": "가격이 600 위에서 머물며 600 재시험이 ‘눌림 후 회복’으로 끝날 때",
+        "expectation": "반복된 문턱 통과가 ‘지지 확인’ 서사로 굳어지고, 위쪽으로는 오늘 고점 구간을 다시 두드리는 압력이 커진다."
+      },
+      "if_break": {
+        "condition": "600 아래로 밀린 뒤, 되돌림에서 600이 ‘천장’으로 재시험될 때",
+        "expectation": "중심축이 뒤집히며 VWAP_like 쪽으로 이야기가 빠르게 이동하고, 아래로는 당일 저점 방향의 긴장감이 되살아난다."
+      }
+    },
+    "watch": [
+      "600 재시험이 ‘꼬리만 찍고 회복’인지 ‘아래에서 막히는 재시험’인지 형태 변화",
+      "VWAP_like 위 체류가 유지되는지(30분 흐름의 완만한 우상향 지속 여부)"
+    ],
+    "risks": [
+      "음의 GEX 구간에서 작은 촉발에도 변동성이 갑자기 커져 600 주변이 흔들릴 수 있음",
+      "600 부근 대규모 OI가 가격을 끌어당기며 방향성이 둔해져 ‘제자리 싸움’이 길어질 수 있음"
+    ],
+    "chart_window_usd": 20,
+    "chart_title_en": "QQQ: 600 pivot retest battle above VWAP",
+    "chart_what_to_watch_en": "600 retest outcome and VWAP hold"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}

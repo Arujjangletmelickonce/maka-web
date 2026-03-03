@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>QQQ Maka</title>
+  <style>
+    body{font-family:system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;max-width:980px;margin:24px auto;padding:0 14px;line-height:1.65}
+    header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+    nav a{margin-left:10px;text-decoration:none;color:#333}
+    nav a.active{font-weight:700}
+    .meta{color:#666;font-size:14px;margin:6px 0 14px}
+    img{max-width:100%;border-radius:12px;border:1px solid #eee}
+    .card{border:1px solid #eee;border-radius:14px;padding:14px;margin:12px 0}
+    .list{display:flex;flex-direction:column;gap:8px}
+    .item{padding:10px 12px;border:1px solid #eee;border-radius:12px;cursor:pointer}
+    .item:hover{background:#fafafa}
+    pre{white-space:pre-wrap;word-break:break-word}
+  </style>
+</head>
+<body>
+  <header>
+    <div style="font-size:20px;font-weight:800;">QQQ Maka</div>
+    <nav>
+      <a href="#latest" id="tab-latest" class="active">최신</a>
+      <a href="#archive" id="tab-archive">아카이브</a>
+    </nav>
+  </header>
+
+  <div id="view"></div>
+
+<script>
+const view = document.getElementById("view");
+const tabLatest = document.getElementById("tab-latest");
+const tabArchive = document.getElementById("tab-archive");
+
+function setActive(hash){
+  tabLatest.classList.toggle("active", hash === "#latest" || hash === "");
+  tabArchive.classList.toggle("active", hash === "#archive");
+}
+
+async function fetchJson(url){
+  const r = await fetch(url, {cache:"no-store"});
+  if(!r.ok) throw new Error("fetch failed: " + url);
+  return await r.json();
+}
+
+async function fetchText(url){
+  const r = await fetch(url, {cache:"no-store"});
+  if(!r.ok) throw new Error("fetch failed: " + url);
+  return await r.text();
+}
+
+function mdToHtml(md){
+  // minimal markdown renderer: paragraphs + lists + horizontal rules + line breaks
+  // (good enough for your posts; no external libs)
+  const esc = (s)=>s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+  const lines = md.split("\n");
+
+  let html = "";
+  let inList = false;
+  for(const raw of lines){
+    const line = raw.trimEnd();
+    if(line.trim() === ""){
+      if(inList){ html += "</ul>"; inList = false; }
+      html += "<div style='height:10px'></div>";
+      continue;
+    }
+    if(line.startsWith("---") || line.startsWith("------")){
+      if(inList){ html += "</ul>"; inList = false; }
+      html += "<hr/>";
+      continue;
+    }
+    if(line.startsWith("- ")){
+      if(!inList){ html += "<ul>"; inList = true; }
+      html += `<li>${esc(line.slice(2))}</li>`;
+      continue;
+    }
+    if(inList){ html += "</ul>"; inList = false; }
+    html += `<p>${esc(line)}</p>`;
+  }
+  if(inList) html += "</ul>";
+  return html;
+}
+
+async function renderRun(runId){
+  const base = `data/posts/${runId}/`;
+  const meta = await fetchJson(base + "meta.json");
+  const post = await fetchText(base + "post.md");
+
+  const files = meta.files || {};
+  const chart = files.maka_chart ? (base + files.maka_chart) : null;
+  const qqq = files.qqq_price ? (base + files.qqq_price) : null;
+
+  view.innerHTML = `
+    <div class="meta">KST ${meta.time_kst || ""} · Spot ${meta.spot ?? ""} (${meta.spot_source || ""})</div>
+    ${chart ? `<div class="card"><img src="${chart}" alt="maka_chart"/></div>` : ""}
+    ${qqq ? `<div class="card"><img src="${qqq}" alt="qqq_price"/></div>` : ""}
+    <div class="card">${mdToHtml(post)}</div>
+  `;
+}
+
+async function renderLatest(){
+  setActive("#latest");
+  const latest = await fetchJson("data/latest.json");
+  await renderRun(latest.latest_run_id);
+}
+
+async function renderArchive(){
+  setActive("#archive");
+  const idx = await fetchJson("data/index.json");
+  const items = idx.items || [];
+  if(items.length === 0){
+    view.innerHTML = "<div class='card'>아카이브가 비어 있습니다.</div>";
+    return;
+  }
+
+  view.innerHTML = `
+    <div class="card">
+      <div style="font-weight:800;margin-bottom:10px;">아카이브</div>
+      <div class="list" id="list"></div>
+    </div>
+    <div id="detail"></div>
+  `;
+
+  const list = document.getElementById("list");
+  const detail = document.getElementById("detail");
+
+  items.forEach((it, i)=>{
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `<b>${it.run_id}</b> <span style="color:#666">· KST ${it.time_kst||""} · Spot ${it.spot??""}</span>`;
+    div.onclick = async ()=>{
+      detail.innerHTML = "<div class='card'>불러오는 중...</div>";
+      await renderRun(it.run_id);
+      // renderRun writes to view; we want detail in archive view:
+      // so redo with detail target:
+      const base = `data/posts/${it.run_id}/`;
+      const meta = await fetchJson(base + "meta.json");
+      const post = await fetchText(base + "post.md");
+      const files = meta.files || {};
+      const chart = files.maka_chart ? (base + files.maka_chart) : null;
+      const qqq = files.qqq_price ? (base + files.qqq_price) : null;
+
+      detail.innerHTML = `
+        <div class="meta">KST ${meta.time_kst || ""} · Spot ${meta.spot ?? ""} (${meta.spot_source || ""})</div>
+        ${chart ? `<div class="card"><img src="${chart}" alt="maka_chart"/></div>` : ""}
+        ${qqq ? `<div class="card"><img src="${qqq}" alt="qqq_price"/></div>` : ""}
+        <div class="card">${mdToHtml(post)}</div>
+      `;
+    };
+    list.appendChild(div);
+  });
+
+  // auto-open the newest
+  items[0] && list.firstChild.click();
+}
+
+async function router(){
+  const h = location.hash;
+  try{
+    if(h === "#archive") await renderArchive();
+    else await renderLatest();
+  }catch(e){
+    view.innerHTML = `<div class="card"><b>에러</b><pre>${e}</pre></div>`;
+  }
+}
+
+window.addEventListener("hashchange", router);
+router();
+</script>
+</body>
+</html>
