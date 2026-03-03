@@ -25,10 +25,10 @@ jobs:
 
       - name: Debug repo files
         run: |
-          echo "PWD:" && pwd
-          echo "LS:" && ls -la
-          echo "BRANCH:" && git branch --show-current || true
-          echo "HEAD:" && git rev-parse HEAD || true
+          pwd
+          ls -la
+          git branch --show-current || true
+          git rev-parse HEAD || true
 
       - name: Ensure requirements.txt
         run: |
