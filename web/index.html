@@ -16,6 +16,8 @@
     .item{padding:10px 12px;border:1px solid #eee;border-radius:12px;cursor:pointer}
     .item:hover{background:#fafafa}
     pre{white-space:pre-wrap;word-break:break-word}
+    .grid{display:grid;grid-template-columns:1fr 1.2fr;gap:12px}
+    @media (max-width:900px){ .grid{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
@@ -52,11 +54,8 @@ async function fetchText(url){
 }
 
 function mdToHtml(md){
-  // minimal markdown renderer: paragraphs + lists + horizontal rules + line breaks
-  // (good enough for your posts; no external libs)
   const esc = (s)=>s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
   const lines = md.split("\n");
-
   let html = "";
   let inList = false;
   for(const raw of lines){
@@ -83,7 +82,7 @@ function mdToHtml(md){
   return html;
 }
 
-async function renderRun(runId){
+async function renderRunInto(runId, targetEl){
   const base = `data/posts/${runId}/`;
   const meta = await fetchJson(base + "meta.json");
   const post = await fetchText(base + "post.md");
@@ -92,7 +91,7 @@ async function renderRun(runId){
   const chart = files.maka_chart ? (base + files.maka_chart) : null;
   const qqq = files.qqq_price ? (base + files.qqq_price) : null;
 
-  view.innerHTML = `
+  targetEl.innerHTML = `
     <div class="meta">KST ${meta.time_kst || ""} · Spot ${meta.spot ?? ""} (${meta.spot_source || ""})</div>
     ${chart ? `<div class="card"><img src="${chart}" alt="maka_chart"/></div>` : ""}
     ${qqq ? `<div class="card"><img src="${qqq}" alt="qqq_price"/></div>` : ""}
@@ -103,7 +102,8 @@ async function renderRun(runId){
 async function renderLatest(){
   setActive("#latest");
   const latest = await fetchJson("data/latest.json");
-  await renderRun(latest.latest_run_id);
+  view.innerHTML = "<div class='card'>불러오는 중...</div>";
+  await renderRunInto(latest.latest_run_id, view);
 }
 
 async function renderArchive(){
@@ -116,44 +116,33 @@ async function renderArchive(){
   }
 
   view.innerHTML = `
-    <div class="card">
-      <div style="font-weight:800;margin-bottom:10px;">아카이브</div>
-      <div class="list" id="list"></div>
+    <div class="grid">
+      <div class="card">
+        <div style="font-weight:800;margin-bottom:10px;">아카이브</div>
+        <div class="list" id="list"></div>
+      </div>
+      <div id="detail">
+        <div class="card">왼쪽에서 항목을 선택하세요.</div>
+      </div>
     </div>
-    <div id="detail"></div>
   `;
 
   const list = document.getElementById("list");
   const detail = document.getElementById("detail");
 
-  items.forEach((it, i)=>{
+  items.forEach((it)=>{
     const div = document.createElement("div");
     div.className = "item";
-    div.innerHTML = `<b>${it.run_id}</b> <span style="color:#666">· KST ${it.time_kst||""} · Spot ${it.spot??""}</span>`;
+    div.innerHTML = `<b>${it.run_id}</b><div style="color:#666;font-size:13px;">KST ${it.time_kst||""} · Spot ${it.spot??""}</div>`;
     div.onclick = async ()=>{
       detail.innerHTML = "<div class='card'>불러오는 중...</div>";
-      await renderRun(it.run_id);
-      // renderRun writes to view; we want detail in archive view:
-      // so redo with detail target:
-      const base = `data/posts/${it.run_id}/`;
-      const meta = await fetchJson(base + "meta.json");
-      const post = await fetchText(base + "post.md");
-      const files = meta.files || {};
-      const chart = files.maka_chart ? (base + files.maka_chart) : null;
-      const qqq = files.qqq_price ? (base + files.qqq_price) : null;
-
-      detail.innerHTML = `
-        <div class="meta">KST ${meta.time_kst || ""} · Spot ${meta.spot ?? ""} (${meta.spot_source || ""})</div>
-        ${chart ? `<div class="card"><img src="${chart}" alt="maka_chart"/></div>` : ""}
-        ${qqq ? `<div class="card"><img src="${qqq}" alt="qqq_price"/></div>` : ""}
-        <div class="card">${mdToHtml(post)}</div>
-      `;
+      await renderRunInto(it.run_id, detail);
     };
     list.appendChild(div);
   });
 
-  // auto-open the newest
-  items[0] && list.firstChild.click();
+  // newest auto-open
+  list.firstChild.click();
 }
 
 async function router(){
