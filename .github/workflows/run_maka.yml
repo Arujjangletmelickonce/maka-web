@@ -46,6 +46,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          mkdir -p web/data
           git add web/data
+<<<<<<< Updated upstream
           git commit -m "auto: update web data" || echo "No changes"
           git push
+=======
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "auto: update web data"
+          git push origin HEAD:main
+>>>>>>> Stashed changes
