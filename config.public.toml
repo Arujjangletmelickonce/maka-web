@@ -1,0 +1,11 @@
+[models]
+maka_ft_model = "ft:gpt-4.1-2025-04-14:personal:maka-v2:DFKUMthB"
+pro_model = "gpt-5.2"
+
+[run]
+ticker = "QQQ"
+pivot = 600.0
+outputs_dir = "web/data"
+options_limit = 250
+max_contracts = 2000
+request_timeout = 10

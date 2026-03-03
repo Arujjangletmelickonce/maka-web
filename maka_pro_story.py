@@ -23,7 +23,8 @@ def load_config(path: str = "config.toml") -> dict:
     with open(path, "rb") as f:
         return tomllib.load(f)
 
-config = load_config("config.toml")
+cfg_path = "config.public.toml" if os.path.exists("config.public.toml") else "config.toml"
+config = load_config(cfg_path)
 
 OPENAI_KEY = os.getenv("OPENAI_KEY") or config.get("api_keys", {}).get("openai_key", "")
 POLYGON_KEY = os.getenv("POLYGON_KEY") or config.get("api_keys", {}).get("polygon_key", "")
