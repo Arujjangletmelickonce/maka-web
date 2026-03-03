@@ -23,30 +23,12 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Debug repo files
+      - name: Debug
         run: |
           pwd
           ls -la
-          git branch --show-current || true
-          git rev-parse HEAD || true
-
-      - name: Ensure requirements.txt
-        run: |
-          if [ -f requirements.txt ]; then
-            echo "requirements.txt exists"
-          else
-            echo "requirements.txt missing -> create it"
-            cat > requirements.txt << 'REQ'
-requests
-matplotlib
-numpy
-openai
-yfinance
-pandas
-REQ
-          fi
-          echo "=== requirements.txt ==="
-          cat requirements.txt
+          echo "BRANCH=$(git branch --show-current || true)"
+          echo "HEAD=$(git rev-parse HEAD || true)"
 
       - name: Install deps
         run: |
