@@ -12,9 +12,10 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout (force main)
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 1
 
       - name: Setup Python
@@ -31,12 +32,10 @@ jobs:
           echo "=== Git branch / HEAD ==="
           git branch --show-current || true
           git rev-parse HEAD || true
-          echo "=== requirements.txt ==="
+          echo "=== requirements ==="
           ls -la requirements.txt || true
           echo "=== web ==="
           ls -la web || true
-          echo "=== .github ==="
-          ls -la .github || true
 
       - name: Install deps
         run: |
@@ -46,10 +45,8 @@ jobs:
           elif [ -f web/requirements.txt ]; then
             python -m pip install -r web/requirements.txt
           else
-            echo "requirements.txt not found in repo root or web/"
-            echo "=== LS (root) ==="
+            echo "requirements.txt not found"
             ls -la
-            echo "=== LS (web) ==="
             ls -la web || true
             exit 1
           fi
@@ -58,9 +55,6 @@ jobs:
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           POLYGON_KEY: ${{ secrets.POLYGON_KEY }}
-          # 아래 2개는 선택: Secrets에 없으면 코드가 config.public.toml(또는 기본값)에서 읽게 두면 됨
-          MAKA_FT_MODEL: ${{ secrets.MAKA_FT_MODEL }}
-          PRO_MODEL: ${{ secrets.PRO_MODEL }}
         run: |
           python maka_pro_story.py
 
@@ -68,13 +62,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # 결과 파일이 없을 수도 있으니 상태 출력
-          ls -la web || true
-          ls -la web/data || true
-
           git add web/data
-          git status --porcelain
-
           git commit -m "auto: update web data" || echo "No changes"
           git push
