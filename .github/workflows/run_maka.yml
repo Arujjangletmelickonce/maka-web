@@ -2,6 +2,8 @@ name: run-maka-every-3h
 
 on:
   schedule:
+    # KST 기준: 06:30, 09:30, 12:30, 15:30, 18:30, 21:30, 00:30
+    # GitHub Actions cron은 UTC 기준이므로 아래 시간은 UTC로 들어간 값
     - cron: "30 21,0,6,9,12,15,18 * * *"
   workflow_dispatch:
 
@@ -46,16 +48,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 생성기가 web/data 이하를 만든다는 전제. 혹시 없으면 만들기만 해둠
           mkdir -p web/data
+
           git add web/data
-<<<<<<< Updated upstream
-          git commit -m "auto: update web data" || echo "No changes"
-          git push
-=======
+
           if git diff --cached --quiet; then
             echo "No changes"
             exit 0
           fi
+
           git commit -m "auto: update web data"
           git push origin HEAD:main
->>>>>>> Stashed changes
