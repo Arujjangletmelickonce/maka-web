@@ -1,12 +1,22 @@
 {
-  "count": 20,
+  "count": 21,
   "items": [
+    {
+      "run_id": "2026-03-06_1907",
+      "time_kst": "2026-03-06 19:07",
+      "spot": 607.01,
+      "pivot": 600.0,
+      "content_mode_kst": "premarket_preview",
+      "trend_mode": "medium",
+      "path": "data/posts/2026-03-06_1907/meta.json"
+    },
     {
       "run_id": "2026-03-06_1904",
       "time_kst": "2026-03-06 19:04",
       "spot": 606.68,
       "pivot": 600.0,
       "content_mode_kst": "premarket_preview",
+      "trend_mode": null,
       "path": "data/posts/2026-03-06_1904/meta.json"
     },
     {
@@ -15,6 +25,7 @@
       "spot": 606.15,
       "pivot": 600.0,
       "content_mode_kst": "premarket_preview",
+      "trend_mode": null,
       "path": "data/posts/2026-03-06_1845/meta.json"
     },
     {
@@ -23,6 +34,7 @@
       "spot": 607.77,
       "pivot": 600.0,
       "content_mode_kst": "premarket_preview",
+      "trend_mode": null,
       "path": "data/posts/2026-03-06_1819/meta.json"
     },
     {
@@ -31,6 +43,7 @@
       "spot": 609.1,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-06_1804/meta.json"
     },
     {
@@ -39,6 +52,7 @@
       "spot": 609.575,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-06_1624/meta.json"
     },
     {
@@ -47,6 +61,7 @@
       "spot": 609.575,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-06_1214/meta.json"
     },
     {
@@ -55,6 +70,7 @@
       "spot": 607.92,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-06_0700/meta.json"
     },
     {
@@ -63,6 +79,7 @@
       "spot": 604.0283203125,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-06_0444/meta.json"
     },
     {
@@ -71,6 +88,7 @@
       "spot": 604.0800170898438,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-06_0243/meta.json"
     },
     {
@@ -79,6 +97,7 @@
       "spot": 606.6300048828125,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-06_0031/meta.json"
     },
     {
@@ -87,6 +106,7 @@
       "spot": 610.27,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-05_1849/meta.json"
     },
     {
@@ -95,6 +115,7 @@
       "spot": 612.7164,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-05_1526/meta.json"
     },
     {
@@ -103,6 +124,7 @@
       "spot": 601.4409,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-04_1259/meta.json"
     },
     {
@@ -111,6 +133,7 @@
       "spot": 601.8499755859375,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-04_0543/meta.json"
     },
     {
@@ -119,6 +142,7 @@
       "spot": 602.5399780273438,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-04_0536/meta.json"
     },
     {
@@ -127,6 +151,7 @@
       "spot": 603.4400024414062,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-04_0448/meta.json"
     },
     {
@@ -135,6 +160,7 @@
       "spot": 602.6699829101562,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-04_0354/meta.json"
     },
     {
@@ -143,6 +169,7 @@
       "spot": 602.1799926757812,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-04_0347/meta.json"
     },
     {
@@ -151,6 +178,7 @@
       "spot": 602.7999877929688,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-04_0344/meta.json"
     },
     {
@@ -159,6 +187,7 @@
       "spot": 601.6900024414062,
       "pivot": 600.0,
       "content_mode_kst": null,
+      "trend_mode": null,
       "path": "data/posts/2026-03-04_0327/meta.json"
     }
   ]
