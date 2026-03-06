@@ -3,6 +3,7 @@ import os
 import re
 import textwrap
 import tomllib
+from copy import deepcopy
 from pathlib import Path
 from datetime import datetime, time as dtime
 from zoneinfo import ZoneInfo
@@ -19,27 +20,71 @@ from openai import OpenAI
 # =========================
 # Config load
 # =========================
-def load_config(path: str = "config.toml") -> dict:
+def load_toml(path: str) -> dict:
     with open(path, "rb") as f:
         return tomllib.load(f)
 
 
-cfg_path = "config.public.toml" if os.path.exists("config.public.toml") else "config.toml"
-config = load_config(cfg_path)
+def deep_merge(base: dict, override: dict) -> dict:
+    out = deepcopy(base)
+    for k, v in (override or {}).items():
+        if isinstance(v, dict) and isinstance(out.get(k), dict):
+            out[k] = deep_merge(out[k], v)
+        else:
+            out[k] = v
+    return out
 
-OPENAI_KEY = os.getenv("OPENAI_KEY") or config.get("api_keys", {}).get("openai_key", "")
-POLYGON_KEY = os.getenv("POLYGON_KEY") or config.get("api_keys", {}).get("polygon_key", "")
+
+def load_merged_config() -> tuple[dict, list[str]]:
+    loaded_paths = []
+    base_cfg = {}
+
+    if os.path.exists("config.toml"):
+        base_cfg = load_toml("config.toml")
+        loaded_paths.append("config.toml")
+
+    override_name = None
+    for candidate in ("config.public.toml", "public.config.toml"):
+        if os.path.exists(candidate):
+            override_name = candidate
+            break
+
+    if override_name:
+        override_cfg = load_toml(override_name)
+        loaded_paths.append(override_name)
+        return deep_merge(base_cfg, override_cfg), loaded_paths
+
+    if not base_cfg:
+        raise RuntimeError(
+            "No config file found. Expected config.toml and optionally config.public.toml/public.config.toml."
+        )
+
+    return base_cfg, loaded_paths
+
+
+config, loaded_config_paths = load_merged_config()
+
+OPENAI_KEY = (os.getenv("OPENAI_KEY") or config.get("api_keys", {}).get("openai_key", "")).strip()
+POLYGON_KEY = (os.getenv("POLYGON_KEY") or config.get("api_keys", {}).get("polygon_key", "")).strip()
 
 if not OPENAI_KEY:
-    raise RuntimeError("OPENAI_KEY is missing (set env OPENAI_KEY or api_keys.openai_key in config.toml)")
+    raise RuntimeError(
+        f"OPENAI_KEY is missing. Checked env OPENAI_KEY and merged config from: {', '.join(loaded_config_paths)}"
+    )
 if not POLYGON_KEY:
-    raise RuntimeError("POLYGON_KEY is missing (set env POLYGON_KEY or api_keys.polygon_key in config.toml)")
+    raise RuntimeError(
+        f"POLYGON_KEY is missing. Checked env POLYGON_KEY and merged config from: {', '.join(loaded_config_paths)}"
+    )
 
-MY_MODEL_ID = config.get("models", {}).get("maka_ft_model", "")
-PRO_MODEL_ID = config.get("models", {}).get("pro_model", "gpt-5.2")
+MY_MODEL_ID = config.get("models", {}).get("maka_ft_model", "").strip()
+PRO_MODEL_ID = (
+    config.get("models", {}).get("pro_model")
+    or config.get("models", {}).get("model")
+    or "gpt-5.2"
+)
 
 if not MY_MODEL_ID:
-    raise RuntimeError("maka_ft_model is missing in config.toml under [models]")
+    raise RuntimeError(f"maka_ft_model is missing in merged config from: {', '.join(loaded_config_paths)}")
 
 RUN_TICKER = config.get("run", {}).get("ticker", "QQQ")
 PIVOT_DEFAULT = float(config.get("run", {}).get("pivot", 600.0))
@@ -48,12 +93,15 @@ OUTPUTS_DIR = str(config.get("run", {}).get("outputs_dir", "web/data"))
 REQUEST_TIMEOUT = int(config.get("run", {}).get("request_timeout", 10))
 OPTIONS_LIMIT = int(config.get("run", {}).get("options_limit", 250))
 MAX_CONTRACTS = int(config.get("run", {}).get("max_contracts", 2000))
+TREND_MODE = str(config.get("run", {}).get("trend_mode", "medium")).strip().lower()
+
+if TREND_MODE not in {"off", "low", "medium", "high"}:
+    TREND_MODE = "medium"
 
 CONTRACT_MULTIPLIER = 100.0
 
 client = OpenAI(api_key=OPENAI_KEY)
 
-# matplotlib text는 영어만
 plt.rcParams["font.family"] = "DejaVu Sans"
 plt.rcParams["axes.unicode_minus"] = False
 
@@ -80,12 +128,14 @@ ANALYST_JSON_SYSTEM = (
     "- one_liner는 제목이 아니라 본문 첫 문장으로 바로 써도 될 정도로 강해야 한다.\n"
     "- core_thesis는 친절한 설명이 아니라 운전 가설이어야 한다.\n"
     "- participants_view는 누가 어디서 무엇을 팔고 싶은지 드러나야 한다.\n"
-    "- key_levels는 가격 사전이 아니라, 왜 그 자리가 심리전의 무대인지 드러내야 한다.\n\n"
+    "- key_levels는 가격 사전이 아니라, 왜 그 자리가 심리전의 무대인지 드러내야 한다.\n"
+    "- 문장을 예쁘게 정리하려 하지 말고, 판의 중심축이 먼저 보이게 재료를 줘라.\n\n"
 
     "반드시 반영:\n"
     "- content_mode_kst\n"
     "- intraday(now_et, phase_et, flow_one_line, day_open, day_high, day_low, vwap_like, r_30m)\n"
-    "- summary(top_gex, top_dex, top_oi)\n\n"
+    "- summary(top_gex, top_dex, top_oi)\n"
+    "- trend_mode\n\n"
 
     "표현 가이드:\n"
     "- 기본은 단정적으로 써라.\n"
@@ -93,7 +143,8 @@ ANALYST_JSON_SYSTEM = (
     "- '오늘은 방향보다 순서가 중요하다', '방패가 가속 페달로 바뀐다', '공포를 파는 자리 / 희망을 파는 자리' 같은 압축된 사고를 선호한다.\n"
     "- 같은 뜻을 반복하지 마라.\n"
     "- key_levels는 최대 4개.\n"
-    "- watch 2개, risks 2개까지만.\n\n"
+    "- watch 2개, risks 2개까지만.\n"
+    "- trend_mode가 off면 추이 해석 비중을 낮추고, high면 최근 흐름 변화와 반응성을 더 강조해라.\n\n"
 
     "절대 금지:\n"
     "- 매매지시, 손절/익절, 수량, 평단, 매수·매도 권유\n"
@@ -159,18 +210,25 @@ MAKA_WRITER_SYSTEM = (
     "- 공포를 파는 자리와 희망을 파는 자리가 어디인지 드러내라.\n"
     "- 독자가 읽자마자 '오늘 판은 이런 식으로 흔들겠구나' 하고 감이 오게 써라.\n"
     "- 너무 예쁘고 균형 잡힌 설명문을 쓰지 마라. 약간 거칠더라도 중심축이 분명해야 한다.\n"
-    "- '~가능성이 있다', '~보인다', '~일 듯하다' 같은 말을 남발하지 마라. 기본은 단정적으로 깔고, 꼭 필요한 곳에서만 유보해라.\n\n"
+    "- '~가능성이 있다', '~보인다', '~일 듯하다' 같은 말을 남발하지 마라. 기본은 단정적으로 깔고, 꼭 필요한 곳에서만 유보해라.\n"
+    "- 한 문장에서 같은 뜻을 두 번 설명하지 마라.\n"
+    "- 가격 설명을 사전처럼 늘어놓지 말고, 왜 그 자리가 오늘 의미가 있는지만 남겨라.\n\n"
 
     "문장/리듬:\n"
-    "- 총 7~10문단 정도.\n"
+    "- 총 6~9문단 정도.\n"
     "- 각 문단은 1~3문장.\n"
     "- 문단 사이에는 빈 줄을 둬라.\n"
     "- 장전/장중은 더 짧고 날카롭게, 정오/장후는 약간 더 눌러서 써라.\n"
     "- 같은 리듬의 문장을 연속으로 반복하지 마라.\n"
     "- 문장마다 친절하게 다 설명하지 말고, 중요한 문장 몇 개가 먼저 박히게 써라.\n\n"
 
+    "첫 줄 규칙:\n"
+    "- 첫 줄에는 반드시 시간과 스팟을 짧게 찍어라.\n"
+    "- 형식 예시: '03:30 KST / QQQ 606.15'\n"
+    "- 첫 줄 다음 줄부터 본문을 시작해라.\n\n"
+
     "자연스러운 전개:\n"
-    "1) one_liner를 바탕으로 첫 문장에서 판의 핵심을 바로 찌른다.\n"
+    "1) 첫 문장에서 판의 핵심을 바로 찌른다.\n"
     "2) 지금 시간대(content_mode_kst, now_et, phase_et)에 맞는 시장의 성격을 짧게 규정한다.\n"
     "3) 오늘 또는 최근 흐름(day_stats, flow_one_line)은 길게 설명하지 말고 한 번만 짚는다.\n"
     "4) 핵심 가격대 2~4개를 이야기하되, 중심 자리부터 설명하고 나머지는 거기에 딸려오게 써라.\n"
@@ -205,7 +263,7 @@ SILENT_FIX_SYSTEM = (
     "지나치게 친절한 설명문처럼 보이면 더 압축해라.\n"
     "문장이 너무 무난하면 더 단정적으로 다듬어라.\n"
     "후반부가 같은 뜻을 반복하면 1문단으로 압축해라.\n"
-    "첫 문단의 시간감은 유지해라.\n"
+    "첫 줄의 시간/스팟 라인은 반드시 유지해라.\n"
     "리스트처럼 보이는 부분이 있으면 산문으로 바꿔라.\n"
     "출력은 최종 본문만."
 )
@@ -250,6 +308,7 @@ def build_public_index(outputs_dir: str):
                         "spot": meta.get("spot"),
                         "pivot": meta.get("pivot"),
                         "content_mode_kst": meta.get("content_mode_kst"),
+                        "trend_mode": meta.get("trend_mode"),
                         "path": f"data/posts/{d.name}/meta.json",
                     }
                 )
@@ -331,6 +390,16 @@ def get_mode_guide_kst(content_mode: str) -> str:
         "post_close_recap": "오늘 어떤 식으로 운전했는지 복기하고 다음 세션으로 이어질 포인트를 남긴다.",
     }
     return guides.get(content_mode, "현재 시점의 QQQ 옵션 구조와 참여자 심리를 정리한다.")
+
+
+def get_trend_mode_guide(trend_mode: str) -> str:
+    guides = {
+        "off": "옵션 추이 해석은 최소화하고 현재 구조와 핵심 벽 중심으로만 본다.",
+        "low": "옵션 추이는 약하게 반영하고 현재 구조를 우선한다.",
+        "medium": "옵션 추이와 현재 구조를 균형 있게 본다.",
+        "high": "최근 옵션 반응과 흐름 변화를 강하게 반영한다.",
+    }
+    return guides.get(trend_mode, "옵션 추이와 현재 구조를 균형 있게 본다.")
 
 
 # =========================
@@ -545,7 +614,7 @@ def _annotate_key_lines(ax, levels: list, xmin: float, xmax: float, ymax_hint: f
     if not isinstance(levels, list):
         return
     used = 0
-    for lv in levels[:4]:
+    for lv in levels[:3]:
         try:
             p = float(lv.get("price"))
             if not (xmin <= p <= xmax):
@@ -565,7 +634,7 @@ def _annotate_key_lines(ax, levels: list, xmin: float, xmax: float, ymax_hint: f
                 bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.55),
             )
             used += 1
-            if used >= 4:
+            if used >= 3:
                 break
         except Exception:
             pass
@@ -625,7 +694,7 @@ def generate_chart(
             except Exception:
                 return 1e9
 
-        levels_sel = sorted(levels, key=dist)[:4]
+        levels_sel = sorted(levels, key=dist)[:3]
         for lv in levels_sel:
             try:
                 p = float(lv.get("price"))
@@ -637,10 +706,10 @@ def generate_chart(
     else:
         levels_sel = []
 
-    title = str(analysis_json.get("chart_title_en", "QQQ Options Positioning")).strip()[:55]
+    title = str(analysis_json.get("chart_title_en", "QQQ Options Positioning")).strip()[:48]
     what = str(analysis_json.get("chart_what_to_watch_en", "watch key strike reaction")).strip()
-    what = re.sub(r"\s+", " ", what)[:90]
-    subtitle = textwrap.fill(f"What to watch: {what}", width=70)
+    what = re.sub(r"\s+", " ", what)[:64]
+    subtitle = textwrap.fill(f"What to watch: {what}", width=62)
     ax1.set_title(f"{title}\n{subtitle}", fontsize=12)
 
     h1, l1 = ax1.get_legend_handles_labels()
@@ -753,7 +822,14 @@ def _extract_first_json(text: str) -> dict:
     return json.loads(m.group(0))
 
 
-def normalize_analysis_json(analysis_json: dict, content_mode_kst: str, intraday: dict, pivot: float, spot: float) -> dict:
+def normalize_analysis_json(
+    analysis_json: dict,
+    content_mode_kst: str,
+    intraday: dict,
+    pivot: float,
+    spot: float,
+    trend_mode: str,
+) -> dict:
     if not isinstance(analysis_json, dict):
         analysis_json = {}
 
@@ -796,8 +872,13 @@ def normalize_analysis_json(analysis_json: dict, content_mode_kst: str, intraday
         "post_close_recap": "which wall controlled the session",
     }.get(content_mode_kst, "watch key strike reaction")
 
-    analysis_json["chart_title_en"] = str(analysis_json.get("chart_title_en") or chart_title_default)[:55]
-    analysis_json["chart_what_to_watch_en"] = str(analysis_json.get("chart_what_to_watch_en") or chart_watch_default)[:90]
+    if trend_mode == "off":
+        chart_watch_default = "current wall map around spot"
+    elif trend_mode == "high" and content_mode_kst == "intraday_live":
+        chart_watch_default = "live reaction and fast strike rotation"
+
+    analysis_json["chart_title_en"] = str(analysis_json.get("chart_title_en") or chart_title_default)[:48]
+    analysis_json["chart_what_to_watch_en"] = str(analysis_json.get("chart_what_to_watch_en") or chart_watch_default)[:64]
     analysis_json["chart_window_usd"] = float(analysis_json.get("chart_window_usd") or 25.0)
 
     if not isinstance(analysis_json.get("watch"), list):
@@ -822,8 +903,10 @@ def normalize_analysis_json(analysis_json: dict, content_mode_kst: str, intraday
 def run(ticker: str = "QQQ", pivot: float = 600.0):
     now_kst = datetime.now(ZoneInfo("Asia/Seoul"))
     time_kst = now_kst.strftime("%Y-%m-%d %H:%M")
+    time_kst_short = now_kst.strftime("%H:%M")
     content_mode_kst = get_content_mode_kst(now_kst)
     mode_guide_kst = get_mode_guide_kst(content_mode_kst)
+    trend_mode_guide = get_trend_mode_guide(TREND_MODE)
 
     run_id = now_kst.strftime("%Y-%m-%d_%H%M")
     base = ensure_dir(Path(OUTPUTS_DIR) / "posts" / run_id)
@@ -876,6 +959,8 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
         "time_kst": time_kst,
         "content_mode_kst": content_mode_kst,
         "mode_guide_kst": mode_guide_kst,
+        "trend_mode": TREND_MODE,
+        "trend_mode_guide": trend_mode_guide,
         "ticker": ticker,
         "spot": spot,
         "spot_source": spot_source,
@@ -899,6 +984,7 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
         intraday=intraday,
         pivot=pivot,
         spot=spot,
+        trend_mode=TREND_MODE,
     )
 
     chart_file = generate_chart(
@@ -916,8 +1002,11 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
 
     user_prompt = (
         f"[TIME_KST] {time_kst}\n"
+        f"[TIME_KST_SHORT] {time_kst_short}\n"
         f"[CONTENT_MODE_KST] {content_mode_kst}\n"
         f"[MODE_GUIDE_KST] {mode_guide_kst}\n"
+        f"[TREND_MODE] {TREND_MODE}\n"
+        f"[TREND_MODE_GUIDE] {trend_mode_guide}\n"
         f"[INTRADAY_ET] {json.dumps(intraday, ensure_ascii=False)}\n"
         f"[SPOT] {ticker} = {spot:.2f}\n"
         f"[PIVOT] {pivot:.2f}\n"
@@ -932,7 +1021,7 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
             {"role": "system", "content": MAKA_WRITER_SYSTEM},
             {"role": "user", "content": user_prompt},
         ],
-        temperature=0.75,
+        temperature=0.8,
     )
     maka_body = (r2.choices[0].message.content or "").strip()
 
@@ -957,6 +1046,8 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
         "spot_source": spot_source,
         "content_mode_kst": content_mode_kst,
         "mode_guide_kst": mode_guide_kst,
+        "trend_mode": TREND_MODE,
+        "trend_mode_guide": trend_mode_guide,
         "intraday": intraday,
         "analysis_json": analysis_json,
         "files": {
@@ -973,11 +1064,12 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
         "updated_kst": time_kst,
         "meta_path": str((Path(OUTPUTS_DIR) / "posts" / run_id / "meta.json").as_posix()),
         "content_mode_kst": content_mode_kst,
+        "trend_mode": TREND_MODE,
     }
     write_json(Path(OUTPUTS_DIR) / "latest.json", latest)
 
     print("\n" + "=" * 70)
-    print(f"[Maka Body - {time_kst} | {content_mode_kst}]")
+    print(f"[Maka Body - {time_kst} | {content_mode_kst} | trend={TREND_MODE}]")
     print("=" * 70)
     print(final_body)
     print("=" * 70)
