@@ -1,7 +1,7 @@
 {
-  "latest_run_id": "2026-03-07_0412",
-  "updated_kst": "2026-03-07 04:12",
-  "meta_path": "web/data/posts/2026-03-07_0412/meta.json",
-  "content_mode_kst": "intraday_live",
+  "latest_run_id": "2026-03-07_0654",
+  "updated_kst": "2026-03-07 06:54",
+  "meta_path": "web/data/posts/2026-03-07_0654/meta.json",
+  "content_mode_kst": "post_close_recap",
   "trend_mode": "medium"
 }
