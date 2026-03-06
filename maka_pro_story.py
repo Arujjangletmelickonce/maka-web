@@ -23,6 +23,7 @@ def load_config(path: str = "config.toml") -> dict:
     with open(path, "rb") as f:
         return tomllib.load(f)
 
+
 cfg_path = "config.public.toml" if os.path.exists("config.public.toml") else "config.toml"
 config = load_config(cfg_path)
 
@@ -42,7 +43,7 @@ if not MY_MODEL_ID:
 
 RUN_TICKER = config.get("run", {}).get("ticker", "QQQ")
 PIVOT_DEFAULT = float(config.get("run", {}).get("pivot", 600.0))
-OUTPUTS_DIR = str(config.get("run", {}).get("outputs_dir", "outputs"))
+OUTPUTS_DIR = str(config.get("run", {}).get("outputs_dir", "web/data"))
 
 REQUEST_TIMEOUT = int(config.get("run", {}).get("request_timeout", 10))
 OPTIONS_LIMIT = int(config.get("run", {}).get("options_limit", 250))
@@ -52,7 +53,7 @@ CONTRACT_MULTIPLIER = 100.0
 
 client = OpenAI(api_key=OPENAI_KEY)
 
-# Chart: keep English-only to avoid tofu(□□) in matplotlib text
+# Chart: English-only for matplotlib text
 plt.rcParams["font.family"] = "DejaVu Sans"
 plt.rcParams["axes.unicode_minus"] = False
 
@@ -66,20 +67,38 @@ KOREAN_SYSTEM = (
 )
 
 ANALYST_JSON_SYSTEM = (
-    "너는 옵션 수급 분석가다. 입력(JSON)을 읽고 반드시 JSON만 출력해라. 설명 문장/코드블록 금지.\n"
-    "목표: 마카가 '원문 제작자 톤'으로 게시글을 쓰기 좋게, 스토리 재료를 뽑아라.\n"
+    "너는 QQQ 옵션 구조와 참여자 심리를 해석하는 분석가다. "
+    "입력(JSON)을 읽고 반드시 JSON만 출력해라. 설명 문장, 코드블록, 주석 금지.\n\n"
+    "목표:\n"
+    "- 마카가 게시글을 쓸 때 바로 사용할 수 있는 '스토리 재료'를 뽑아라.\n"
+    "- 정답 예측이 목적이 아니다. '이 시점에 참여자들이 어떤 태도였는지'를 자연스럽게 설명할 재료를 만들어라.\n\n"
+    "반드시 반영:\n"
+    "- content_mode_kst\n"
+    "- intraday(now_et, phase_et, flow_one_line, day_open, day_high, day_low, vwap_like, r_30m)\n"
+    "- 옵션벽(콜월/풋월), 핀 후보, 자석 역할, 감마/델타의 압력\n"
+    "- 마켓메이커 운전 가설, 고래/개미 심리\n\n"
+    "방향:\n"
+    "- 숫자 나열보다 '왜 그 선이 중요한지'를 설명하는 재료를 줘라.\n"
+    "- pivot은 숫자를 반복하기보다 중심값, 두꺼운 옵션벽, 그 선, 그 자리 같은 서술로 풀 수 있게 만들어라.\n"
+    "- key_levels는 최대 4개만.\n"
+    "- watch 2개, risks 2개까지만.\n"
+    "- 한 줄 요약(one_liner)은 게시글 첫 문장으로 바로 이어질 수 있게 짧고 강하게.\n"
+    "- core_thesis는 문장 2~4개 분량의 압축된 생각거리여야 한다.\n"
+    "- if_hold / if_break는 기계적 매매전략이 아니라 '심리와 흐름 변화'를 설명하라.\n"
+    "- chart_title_en / chart_what_to_watch_en 은 matplotlib 용이므로 짧은 영어만 써라.\n\n"
     "절대 금지:\n"
-    "- 매매계획(평단/수익/손절/수량/매수·매도 지시)\n"
-    "- 한국장/빅테크/다른 종목으로 빠지기(QQQ만)\n\n"
-    "중요:\n"
-    "- intraday(now_et/phase/flow, 오늘 고점/저점/오픈, 최근 30분 흐름)을 반드시 반영.\n"
-    "- pivot은 '가격 숫자 반복' 대신 '그 선/그 자리/중심값/두꺼운 옵션벽' 같은 표현으로 설명하도록 재료를 줘라.\n"
-    "- 핵심은 '옵션벽(풋월/콜월/맥스페인/피닝/감마 전환) + 마켓메이커 운전 + 심리전' 톤.\n"
-    "- 결론은 단정형으로 만들되, 표현은 '가능성이 높다/확률이 우세하다' 같은 확률어는 허용.\n"
-    "- 레벨은 4개까지만. watch 2개, risks 2개까지만.\n"
-    "- chart_what_to_watch_en 은 최대 14단어.\n\n"
+    "- 매매지시, 손절/익절, 수량, 평단, 매수·매도 권유\n"
+    "- QQQ 외 다른 종목/한국장/빅테크로 화제 전환\n"
+    "- 장황한 거시경제 강의\n\n"
+    "content_mode_kst별 우선순위:\n"
+    "- overnight_recap: 전일/야간 흐름을 요약하고 오늘 밤의 심리선을 제시\n"
+    "- noon_brief: 최근 며칠 흐름과 참여자 태도를 설명\n"
+    "- premarket_preview: 개장 전 벽, 자석, 가짜 방향 가능성을 제시\n"
+    "- intraday_live: 지금 가격 변화와 옵션 반응의 상호작용을 가장 우선\n"
+    "- post_close_recap: 오늘 실제 운전과 벽의 효력을 복기하고 다음 세션 단서를 남김\n\n"
     "스키마:\n"
     "{\n"
+    '  "content_mode_kst": string,\n'
     '  "spot": number,\n'
     '  "now_et": string,\n'
     '  "phase_et": string,\n'
@@ -90,6 +109,11 @@ ANALYST_JSON_SYSTEM = (
     '  "one_liner": string,\n'
     '  "key_levels": [{"price": number, "role": "pivot"|"support"|"resistance", "why": string}],\n'
     '  "core_thesis": string,\n'
+    '  "participants_view": {\n'
+    '     "market_maker": string,\n'
+    '     "whales": string,\n'
+    '     "retail": string\n'
+    "  },\n"
     '  "branches": {\n'
     '     "if_hold": {"condition": string, "expectation": string},\n'
     '     "if_break": {"condition": string, "expectation": string}\n'
@@ -103,44 +127,56 @@ ANALYST_JSON_SYSTEM = (
 )
 
 MAKA_WRITER_SYSTEM = (
-    "너는 '마카'다. 글은 리포트가 아니라 '게시글'이다.\n"
-    "금지:\n"
-    "- 섹션 제목(오늘의 초점/핵심 레벨/리스크 등) 같은 헤더 금지\n"
-    "- (이미지 1) (이미지 2)등 출력 금지\n"
-    "- 인사/감사/댓글유도 금지\n"
-    "- 한국장/다른 종목/빅테크 금지(QQQ만)\n"
-    "- 매매계획(평단/수익/손절/수량/매수·매도 지시) 금지\n\n"
-    "길이/리듬(필수):\n"
-    "- 너무 짧게 쓰지 마라. 최소 10문단(각 문단 1~3문장), 총 900~1400자 정도.\n"
-    "- 문단 사이에는 반드시 빈 줄(두 줄 띄기)로 리듬을 만든다.\n"
-    "- 중후반부에 '(이미지 1)', '(이미지 2)'를 자연스럽게 1~2번 넣는다(실제 이미지는 차트 파일로 대체).\n\n"
-    "반복 제어(필수):\n"
-    "- pivot 숫자는 최대 3~4회만 직접 쓰고, 나머진 '그 선/그 자리/두꺼운 옵션벽/중심값'으로 치환.\n"
-    "- 같은 뜻을 같은 리듬으로 반복 금지.\n\n"
-    "톤(원문 제작자 톤):\n"
-    "- '수많은 돈들의 이해관계', '심리싸움', '월가가 운전' 같은 어휘를 과하지 않게 섞어라.\n"
-    "- 마켓메이커, 옵션월(풋월/콜월), 피닝, 감마(양수/음수) 같은 키워드는 짧게 직관적으로.\n"
-    "- 독자와 한 번만 툭 던지듯 대화(‘눈 아프시죠?’ 같은) 허용.\n\n"
-    "구성(자연스러운 흐름):\n"
-    "1) one_liner로 시작 + now_et/phase_et를 1문장에 녹이기\n"
-    "2) 오늘 흐름(day_stats/flow_one_line) 한 문단\n"
-    "3) 차트 읽는 법 bullet 3개(put OI/red, call OI/blue, Net GEX/line, Net DEX/bottom)\n"
-    "4) 레벨은 4개만: pivot / 아래 2개 / 위 1개(숫자 남발 금지)\n"
-    "5) core_thesis를 이야기로 풀기(pivot_touches를 '여러 번 두드림'으로 서술)\n"
-    "6) if_hold / if_break 각각 2문장 이내\n"
-    "7) 오늘 체크 2개 + 리스크 2개\n"
-    "8) 끝맺음: '오늘은 결국 뭐만 보면 된다' 톤으로 2~3문장 깔끔 요약(도돌이표 금지)\n"
+    "너는 '마카'다. 글은 리포트가 아니라 커뮤니티 게시글이다.\n\n"
+    "절대 금지:\n"
+    "- 섹션 제목, 소제목, 번호 매기기, bullet list 금지\n"
+    "- (이미지 1), (이미지 2) 같은 문구 출력 금지\n"
+    "- 인사, 감사, 댓글 유도 금지\n"
+    "- QQQ 외 다른 종목 언급 금지\n"
+    "- 매매지시, 수량, 평단, 손절/익절, 매수·매도 권유 금지\n"
+    "- 지나치게 보고서처럼 정리된 문체 금지\n\n"
+    "문체 목표:\n"
+    "- 로니 계열의 흐름을 참고하되 완전 복사하지 말고, 자연스러운 한국어 게시글로 써라.\n"
+    "- '돈들의 이해관계', '운전', '심리전', '벽', '자석', '핀', '눌러두기' 같은 말을 과하지 않게 섞어라.\n"
+    "- 숫자는 꼭 필요한 핵심값만 쓰고, 같은 숫자를 계속 반복하지 마라.\n"
+    "- pivot 숫자는 최대 3회 정도만 직접 쓰고, 나머지는 그 선, 그 자리, 중심값, 두꺼운 옵션벽 등으로 치환하라.\n"
+    "- 마켓메이커, 고래, 개미의 태도를 자연스럽게 녹여라.\n"
+    "- 독자에게 한 번 정도 툭 던지는 말투는 허용되지만 과하지 마라.\n\n"
+    "글 길이와 리듬:\n"
+    "- 총 8~12문단 정도.\n"
+    "- 각 문단은 1~3문장.\n"
+    "- 문단 사이에는 빈 줄을 둬라.\n"
+    "- 장중/장전은 조금 더 짧고 날카롭게, 정오/장후는 약간 더 설명적으로 써라.\n\n"
+    "자연스러운 전개:\n"
+    "1) one_liner를 바탕으로 강한 첫 문장으로 시작\n"
+    "2) 지금 시간대(content_mode_kst, now_et, phase_et)에 맞는 판의 성격을 한 문단으로 설명\n"
+    "3) 오늘 또는 최근 흐름(day_stats, flow_one_line)을 짧게 짚기\n"
+    "4) 핵심 가격대 2~4개와 그 의미를 이야기로 풀기\n"
+    "5) participants_view와 core_thesis를 활용해 누가 무엇을 원할지 설명\n"
+    "6) if_hold / if_break를 이용해 위아래 시나리오를 짧게 정리\n"
+    "7) watch / risks를 억지 목록처럼 쓰지 말고 본문 흐름 안에 녹여라\n"
+    "8) 마지막은 '오늘 결국 뭘 봐야 하는지' 한 번에 닫아라\n\n"
+    "시간대별 톤:\n"
+    "- overnight_recap: 전일과 야간 흐름을 바탕으로 오늘 밤 심리선을 정리\n"
+    "- noon_brief: 최근 며칠의 태도 변화와 누가 판을 쥐고 있는지 설명\n"
+    "- premarket_preview: 개장 직전 어디가 함정이고 어디가 자석인지 경계감 있게\n"
+    "- intraday_live: 지금 벌어지는 가격 반응과 옵션벽의 상호작용을 가장 생생하게\n"
+    "- post_close_recap: 오늘 어떤 식으로 운전했는지 복기하고 내일로 넘길 포인트 제시\n\n"
+    "중요:\n"
+    "- 본문은 자연스럽게 이어지는 산문이어야 한다.\n"
+    "- 체크리스트처럼 쓰지 마라.\n"
+    "- '오늘은 결국 여기만 보면 된다' 같은 마무리는 가능하지만, 너무 도돌이표처럼 반복하지 마라.\n"
 )
 
 SILENT_FIX_SYSTEM = (
     "너는 감수 편집자다. 글을 새로 쓰지 마라.\n"
     "표시 없이 반영 수정만 수행해라.\n"
-    "중복 단어/중복 문장 리듬을 강하게 제거해라(특히 pivot 숫자 반복).\n"
-    "후반부 2~3문단이 요약을 반복하면, 1문단(2~3문장)으로 압축해서 깔끔하게 끝내라.\n"
-    "첫 문단에 now_et/phase_et는 반드시 남겨라.\n"
-    "출력은 최종 본문만.\n"
+    "중복 단어, 중복 문장 리듬, 같은 숫자 반복을 강하게 줄여라.\n"
+    "후반부가 같은 뜻을 반복하면 1문단으로 압축해라.\n"
+    "첫 문단의 시간감은 유지해라.\n"
+    "리스트처럼 보이는 부분이 있으면 산문으로 바꿔라.\n"
+    "출력은 최종 본문만."
 )
-
 
 
 # =========================
@@ -151,11 +187,14 @@ def ensure_dir(p: str | Path) -> Path:
     p.mkdir(parents=True, exist_ok=True)
     return p
 
+
 def write_text(path: Path, text: str):
     path.write_text(text, encoding="utf-8")
 
+
 def write_json(path: Path, obj: dict):
     path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
+
 
 def build_public_index(outputs_dir: str):
     """
@@ -181,6 +220,7 @@ def build_public_index(outputs_dir: str):
                         "time_kst": meta.get("time_kst"),
                         "spot": meta.get("spot"),
                         "pivot": meta.get("pivot"),
+                        "content_mode_kst": meta.get("content_mode_kst"),
                         "path": f"data/posts/{d.name}/meta.json",
                     }
                 )
@@ -207,6 +247,7 @@ def flatten_columns_if_needed(df: pd.DataFrame) -> pd.DataFrame:
         df.columns = [c[0] for c in df.columns]
     return df
 
+
 def to_series(x):
     if isinstance(x, pd.DataFrame):
         return x.iloc[:, 0]
@@ -232,6 +273,43 @@ def get_session_phase_et(now_et: datetime) -> str:
 
 
 # =========================
+# Content mode (KST)
+# =========================
+def get_content_mode_kst(now_kst: datetime) -> str:
+    """
+    KST 기준 운영용 모드.
+    워크플로 스케줄:
+    06:30, 09:30, 12:30, 15:30, 18:30, 21:30, 00:30, 03:30
+    """
+    h = now_kst.hour
+    m = now_kst.minute
+    hm = h * 60 + m
+
+    if 6 * 60 <= hm < 9 * 60:
+        return "post_close_recap"
+    if 9 * 60 <= hm < 12 * 60:
+        return "overnight_recap"
+    if 12 * 60 <= hm < 18 * 60:
+        return "noon_brief"
+    if 18 * 60 <= hm < 22 * 60 + 30:
+        return "premarket_preview"
+    if 22 * 60 + 30 <= hm or hm < 5 * 60:
+        return "intraday_live"
+    return "overnight_recap"
+
+
+def get_mode_guide_kst(content_mode: str) -> str:
+    guides = {
+        "overnight_recap": "전일 장과 야간 흐름을 짚고 오늘 밤 어디가 심리선인지 정리한다.",
+        "noon_brief": "최근 며칠간 흐름과 참여자 태도를 설명하고 오늘 밤의 중심 자리를 제시한다.",
+        "premarket_preview": "개장 전 벽, 자석, 가짜 방향 가능성을 짚고 초반 함정을 경계한다.",
+        "intraday_live": "지금 가격 변화와 옵션 반응의 상호작용을 가장 생생하게 해석한다.",
+        "post_close_recap": "오늘 어떤 식으로 운전했는지 복기하고 다음 세션으로 이어질 포인트를 남긴다.",
+    }
+    return guides.get(content_mode, "현재 시점의 QQQ 옵션 구조와 참여자 심리를 자연스럽게 정리한다.")
+
+
+# =========================
 # yfinance intraday DF + pivot touches
 # =========================
 def fetch_intraday_df(ticker: str):
@@ -245,6 +323,7 @@ def fetch_intraday_df(ticker: str):
             pass
     return None, None
 
+
 def count_pivot_touches(df: pd.DataFrame, pivot: float, band: float = 0.25) -> int:
     if df is None or len(df) == 0:
         return 0
@@ -257,6 +336,7 @@ def count_pivot_touches(df: pd.DataFrame, pivot: float, band: float = 0.25) -> i
             touches += 1
         prev = x
     return touches
+
 
 def fetch_intraday_context(ticker: str = "QQQ", pivot: float = 600.0) -> dict:
     now_et = datetime.now(ZoneInfo("America/New_York"))
@@ -294,16 +374,16 @@ def fetch_intraday_context(ticker: str = "QQQ", pivot: float = 600.0) -> dict:
         r_30m = 0.0
 
     if phase in ("closed", "afterhours", "premarket"):
-        flow = "정규장 밖에서 " + ("위쪽이 상대적으로 단단한 흐름" if last >= vwap_like else "아래쪽이 무거운 흐름")
+        flow = "정규장 밖에서는 " + ("위쪽을 더 열어두는 흐름" if last >= vwap_like else "아래쪽을 더 무겁게 보는 흐름")
     else:
         if last >= vwap_like and r_30m >= 0:
-            flow = "VWAP 위에서 버티는 중(상방 우위)"
+            flow = "VWAP 위에서 버티며 상방 우위가 유지되는 흐름"
         elif last >= vwap_like and r_30m < 0:
-            flow = "VWAP 위지만 식는 중(되밀림 경계)"
+            flow = "VWAP 위지만 탄력이 식으며 되밀림을 경계해야 하는 흐름"
         elif last < vwap_like and r_30m < 0:
-            flow = "VWAP 아래로 밀리는 중(하방 우위)"
+            flow = "VWAP 아래로 눌리며 하방 우위가 이어지는 흐름"
         else:
-            flow = "VWAP 아래지만 되돌림 시도(휩쏘 가능)"
+            flow = "VWAP 아래지만 되돌림 시도가 나오며 휩쏘 가능성이 있는 흐름"
 
     touches = count_pivot_touches(df, pivot=pivot, band=0.25)
 
@@ -381,7 +461,7 @@ def fetch_options_snapshot_all(ticker: str, polygon_key: str, limit: int, max_co
 
 
 # =========================
-# Aggregate by strike: call OI, put OI, netGEX, netDEX
+# Aggregate by strike
 # =========================
 def aggregate_by_strike(contracts: list[dict], spot: float):
     agg = {}
@@ -426,10 +506,6 @@ def _clip_ylim(vals: np.ndarray, p_low=1, p_high=99, pad=1.15):
 
 
 def _set_strike_ticks(ax, x: np.ndarray, max_ticks: int = 14):
-    """
-    Show strike labels outside plot box as x-axis ticks.
-    To avoid clutter, downsample tick labels if needed.
-    """
     if x is None or len(x) == 0:
         return
     n = len(x)
@@ -440,8 +516,38 @@ def _set_strike_ticks(ax, x: np.ndarray, max_ticks: int = 14):
     ax.set_xticklabels([f"{v:.0f}" for v in xt], rotation=0, fontsize=9)
 
 
+def _annotate_key_lines(ax, levels: list, xmin: float, xmax: float, ymax_hint: float | None = None):
+    if not isinstance(levels, list):
+        return
+    used = 0
+    for lv in levels[:4]:
+        try:
+            p = float(lv.get("price"))
+            if not (xmin <= p <= xmax):
+                continue
+            role = str(lv.get("role", "")).strip()
+            label = f"{role} {p:.0f}" if role else f"{p:.0f}"
+            y = ymax_hint if ymax_hint is not None else ax.get_ylim()[1]
+            ax.text(
+                p,
+                y,
+                label,
+                fontsize=8,
+                ha="center",
+                va="bottom",
+                rotation=0,
+                alpha=0.85,
+                bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.55),
+            )
+            used += 1
+            if used >= 4:
+                break
+        except Exception:
+            pass
+
+
 # =========================
-# Chart (English-only) + short title
+# Chart
 # =========================
 def generate_chart(
     spot: float,
@@ -471,7 +577,7 @@ def generate_chart(
     if len(x) >= 2:
         width = max(0.6, min(2.0, float(np.median(np.diff(x))) * 0.8))
 
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(13, 7.6), sharex=True)
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(13, 7.8), sharex=True)
 
     # Top: OI bars
     ax1.bar(x - width * 0.20, pOI, width=width * 0.40, alpha=0.75, label="Put OI", color="#e74c3c")
@@ -485,10 +591,11 @@ def generate_chart(
     ax1b.set_ylabel("Net GEX")
     ax1b.set_ylim(*_clip_ylim(g))
 
-    # Spot
+    # Spot line
     ax1.axvline(x=spot, color="black", linestyle="--", linewidth=1.8)
+    ax2.axvline(x=spot, color="black", linestyle="--", linewidth=1.2, label=f"Spot {spot:.2f}")
 
-    # Key levels: max 4, closest-to-spot first
+    # Key levels
     levels = analysis_json.get("key_levels", [])
     if isinstance(levels, list) and len(levels) > 0:
         def dist(lv):
@@ -496,40 +603,59 @@ def generate_chart(
                 return abs(float(lv.get("price")) - spot)
             except Exception:
                 return 1e9
+
         levels_sel = sorted(levels, key=dist)[:4]
         for lv in levels_sel:
             try:
                 p = float(lv.get("price"))
                 if xmin <= p <= xmax:
-                    ax1.axvline(x=p, linestyle=":", linewidth=1.0, alpha=0.65)
+                    ax1.axvline(x=p, linestyle=":", linewidth=1.0, alpha=0.65, color="#666666")
+                    ax2.axvline(x=p, linestyle=":", linewidth=0.9, alpha=0.45, color="#666666")
             except Exception:
                 pass
+    else:
+        levels_sel = []
 
-    # Short title: cap + wrap
+    # Title
     title = str(analysis_json.get("chart_title_en", "QQQ Options Positioning")).strip()[:55]
     what = str(analysis_json.get("chart_what_to_watch_en", "pivot retest")).strip()
     what = re.sub(r"\s+", " ", what)[:90]
     subtitle = textwrap.fill(f"What to watch: {what}", width=70)
     ax1.set_title(f"{title}\n{subtitle}", fontsize=12)
 
-    # Merge legends
+    # Legends
     h1, l1 = ax1.get_legend_handles_labels()
     h2, l2 = ax1b.get_legend_handles_labels()
     ax1.legend(h1 + h2, l1 + l2, loc="upper right")
 
     # Bottom: Net DEX
     ax2.plot(x, d, linewidth=2.0, label="Net DEX", color="#2c3e50")
-    ax2.axvline(x=spot, color="black", linestyle="--", linewidth=1.2, label=f"Spot {spot:.2f}")
     ax2.set_xlabel("Strike")
     ax2.set_ylabel("Net DEX")
     ax2.grid(axis="y", linestyle="--", alpha=0.35)
     ax2.set_ylim(*_clip_ylim(d))
     ax2.legend(loc="upper right")
-
     ax2.set_xlim(xmin, xmax)
 
-    # ✅ Strike labels outside plot box: use ticks on bottom axis
+    # Bottom ticks
     _set_strike_ticks(ax2, x, max_ticks=14)
+
+    # Top panel also show strike labels
+    ax1.tick_params(axis="x", labelbottom=True)
+    _set_strike_ticks(ax1, x, max_ticks=14)
+
+    # Spot / levels labels
+    y1 = ax1.get_ylim()[1] * 0.98
+    ax1.text(
+        spot,
+        y1,
+        f"spot {spot:.2f}",
+        fontsize=8,
+        ha="center",
+        va="top",
+        bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.7),
+    )
+    _annotate_key_lines(ax1, levels_sel, xmin, xmax, ymax_hint=ax1.get_ylim()[1] * 0.90)
 
     plt.tight_layout()
     plt.savefig(outfile, dpi=170)
@@ -548,7 +674,6 @@ def generate_qqq_session_chart_kst(outfile="qqq_price.png") -> str | None:
     tz_et = ZoneInfo("America/New_York")
     tz_kst = ZoneInfo("Asia/Seoul")
 
-    # Prefer 1m, fallback to 5m
     df = None
     interval_used = None
     for interval in ("1m", "5m"):
@@ -565,19 +690,15 @@ def generate_qqq_session_chart_kst(outfile="qqq_price.png") -> str | None:
     if df is None or len(df) == 0:
         return None
 
-    # Ensure tz-aware index in ET
     idx = df.index
     if getattr(idx, "tz", None) is None:
-        # yfinance usually returns tz-aware, but guard anyway
         try:
             idx = idx.tz_localize(tz_et)
         except Exception:
-            # if it fails, treat as ET naive
             idx = pd.DatetimeIndex(idx).tz_localize(tz_et)
 
     idx_et = idx.tz_convert(tz_et)
 
-    # Filter regular session: 09:30~16:00 ET
     t_open = dtime(9, 30)
     t_close = dtime(16, 0)
     mask = (idx_et.time >= t_open) & (idx_et.time <= t_close)
@@ -591,14 +712,12 @@ def generate_qqq_session_chart_kst(outfile="qqq_price.png") -> str | None:
     fig, ax = plt.subplots(figsize=(13, 4.4))
     ax.plot(idx_kst, close.values, linewidth=2.0)
 
-    # Title in English only (matplotlib)
     day_kst = idx_kst[-1].strftime("%Y-%m-%d")
     ax.set_title(f"QQQ Regular Session (KST) - {day_kst}  |  interval {interval_used}")
     ax.set_xlabel("KST Time")
     ax.set_ylabel("Price")
     ax.grid(True, linestyle="--", alpha=0.35)
 
-    # Format x-axis: show HH:MM in KST
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M", tz=tz_kst))
     fig.autofmt_xdate(rotation=0)
 
@@ -619,14 +738,77 @@ def _extract_first_json(text: str) -> dict:
     return json.loads(m.group(0))
 
 
+def normalize_analysis_json(analysis_json: dict, content_mode_kst: str, intraday: dict, pivot: float, spot: float) -> dict:
+    if not isinstance(analysis_json, dict):
+        analysis_json = {}
+
+    analysis_json["content_mode_kst"] = analysis_json.get("content_mode_kst") or content_mode_kst
+    analysis_json["spot"] = float(analysis_json.get("spot") or spot)
+    analysis_json["now_et"] = analysis_json.get("now_et") or intraday.get("now_et", "")
+    analysis_json["phase_et"] = analysis_json.get("phase_et") or intraday.get("phase_et", "")
+    analysis_json["flow_one_line"] = analysis_json.get("flow_one_line") or intraday.get("flow_one_line", "")
+    analysis_json["pivot"] = float(analysis_json.get("pivot") or pivot)
+    analysis_json["pivot_touches"] = int(analysis_json.get("pivot_touches") or intraday.get("pivot_touches", 0))
+
+    if "day_stats" not in analysis_json or not isinstance(analysis_json["day_stats"], dict):
+        analysis_json["day_stats"] = {
+            "open": float(intraday.get("day_open", spot)),
+            "high": float(intraday.get("day_high", spot)),
+            "low": float(intraday.get("day_low", spot)),
+            "vwap_like": float(intraday.get("vwap_like", spot)),
+        }
+
+    if "participants_view" not in analysis_json or not isinstance(analysis_json["participants_view"], dict):
+        analysis_json["participants_view"] = {
+            "market_maker": "중심값 근처에서 가격을 붙들며 양쪽 심리를 흔들려는 태도",
+            "whales": "방향성 확신보다는 두꺼운 벽 주변에서 효율적인 자리만 노리는 태도",
+            "retail": "눈에 잘 보이는 돌파와 이탈에 쉽게 끌릴 수 있는 상태",
+        }
+
+    chart_title_default = {
+        "overnight_recap": "QQQ Overnight Positioning",
+        "noon_brief": "QQQ Multi-Day Positioning",
+        "premarket_preview": "QQQ Pre-Open Positioning",
+        "intraday_live": "QQQ Live Positioning",
+        "post_close_recap": "QQQ Session Recap Positioning",
+    }.get(content_mode_kst, "QQQ Options Positioning")
+
+    chart_watch_default = {
+        "overnight_recap": "last session pressure and next key magnet",
+        "noon_brief": "multi-day bias around heavy strike clusters",
+        "premarket_preview": "open reaction near key strike walls",
+        "intraday_live": "live reaction around pivot and nearby walls",
+        "post_close_recap": "which wall controlled the session",
+    }.get(content_mode_kst, "pivot retest and nearby walls")
+
+    analysis_json["chart_title_en"] = str(analysis_json.get("chart_title_en") or chart_title_default)[:55]
+    analysis_json["chart_what_to_watch_en"] = str(analysis_json.get("chart_what_to_watch_en") or chart_watch_default)[:90]
+    analysis_json["chart_window_usd"] = float(analysis_json.get("chart_window_usd") or 45.0)
+
+    if not isinstance(analysis_json.get("watch"), list):
+        analysis_json["watch"] = []
+    if not isinstance(analysis_json.get("risks"), list):
+        analysis_json["risks"] = []
+
+    analysis_json["watch"] = analysis_json["watch"][:2]
+    analysis_json["risks"] = analysis_json["risks"][:2]
+
+    if not isinstance(analysis_json.get("key_levels"), list):
+        analysis_json["key_levels"] = []
+
+    return analysis_json
+
+
 # =========================
 # Main pipeline
 # =========================
 def run(ticker: str = "QQQ", pivot: float = 600.0):
-    time_kst = datetime.now(ZoneInfo("Asia/Seoul")).strftime("%Y-%m-%d %H:%M")
+    now_kst = datetime.now(ZoneInfo("Asia/Seoul"))
+    time_kst = now_kst.strftime("%Y-%m-%d %H:%M")
+    content_mode_kst = get_content_mode_kst(now_kst)
+    mode_guide_kst = get_mode_guide_kst(content_mode_kst)
 
-    # outputs folder per run
-    run_id = datetime.now(ZoneInfo("Asia/Seoul")).strftime("%Y-%m-%d_%H%M")
+    run_id = now_kst.strftime("%Y-%m-%d_%H%M")
     base = ensure_dir(Path(OUTPUTS_DIR) / "posts" / run_id)
 
     # Intraday first
@@ -681,6 +863,8 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
     # Stage 1: analysis JSON
     payload = {
         "time_kst": time_kst,
+        "content_mode_kst": content_mode_kst,
+        "mode_guide_kst": mode_guide_kst,
         "ticker": ticker,
         "spot": spot,
         "spot_source": spot_source,
@@ -698,8 +882,15 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
         ],
     )
     analysis_json = _extract_first_json((r1.output_text or "").strip())
+    analysis_json = normalize_analysis_json(
+        analysis_json=analysis_json,
+        content_mode_kst=content_mode_kst,
+        intraday=intraday,
+        pivot=pivot,
+        spot=spot,
+    )
 
-    # Charts (saved into run folder)
+    # Charts
     chart_file = generate_chart(
         spot=spot,
         strikes=strikes,
@@ -711,12 +902,13 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
         outfile=str(base / "maka_chart.png"),
     )
 
-    # ✅ QQQ session chart in KST
     qqq_price_file = generate_qqq_session_chart_kst(outfile=str(base / "qqq_price.png"))
 
     # Stage 2: Maka write
     user_prompt = (
         f"[TIME_KST] {time_kst}\n"
+        f"[CONTENT_MODE_KST] {content_mode_kst}\n"
+        f"[MODE_GUIDE_KST] {mode_guide_kst}\n"
         f"[INTRADAY_ET] {json.dumps(intraday, ensure_ascii=False)}\n"
         f"[SPOT] {ticker} = {spot:.2f}\n"
         f"[PIVOT] {pivot:.2f}\n"
@@ -756,6 +948,8 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
         "pivot": pivot,
         "spot": spot,
         "spot_source": spot_source,
+        "content_mode_kst": content_mode_kst,
+        "mode_guide_kst": mode_guide_kst,
         "intraday": intraday,
         "analysis_json": analysis_json,
         "files": {
@@ -771,18 +965,19 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
         "latest_run_id": run_id,
         "updated_kst": time_kst,
         "meta_path": str((Path(OUTPUTS_DIR) / "posts" / run_id / "meta.json").as_posix()),
+        "content_mode_kst": content_mode_kst,
     }
     write_json(Path(OUTPUTS_DIR) / "latest.json", latest)
 
-    # Console output (optional)
     print("\n" + "=" * 70)
-    print(f"[Maka Body - {time_kst}]")
+    print(f"[Maka Body - {time_kst} | {content_mode_kst}]")
     print("=" * 70)
     print(final_body)
     print("=" * 70)
     print(f"[saved] {base}")
     print(f"[chart] {chart_file}")
     print(f"[qqq]   {qqq_price_file}")
+
     build_public_index(OUTPUTS_DIR)
 
 
