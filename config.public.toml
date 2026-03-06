@@ -1,5 +1,5 @@
 [models]
-maka_ft_model = "ft:gpt-4.1-2025-04-14:personal:maka-v2:DFKUMthB"
+maka_ft_model = "ft:gpt-4.1-2025-04-14:personal:maka-v6:DGCJvd2e"
 pro_model = "gpt-5.2"
 
 [run]
