@@ -1,42 +1,6 @@
 {
-  "count": 30,
+  "count": 22,
   "items": [
-    {
-      "run_id": "2026-03-07_2308",
-      "time_kst": "2026-03-07 23:08",
-      "spot": 598.83,
-      "pivot": 600.0,
-      "content_mode_kst": "intraday_live",
-      "trend_mode": "medium",
-      "path": "data/posts/2026-03-07_2308/meta.json"
-    },
-    {
-      "run_id": "2026-03-07_2223",
-      "time_kst": "2026-03-07 22:23",
-      "spot": 598.83,
-      "pivot": 600.0,
-      "content_mode_kst": "premarket_preview",
-      "trend_mode": "medium",
-      "path": "data/posts/2026-03-07_2223/meta.json"
-    },
-    {
-      "run_id": "2026-03-07_1853",
-      "time_kst": "2026-03-07 18:53",
-      "spot": 598.83,
-      "pivot": 600.0,
-      "content_mode_kst": "premarket_preview",
-      "trend_mode": "medium",
-      "path": "data/posts/2026-03-07_1853/meta.json"
-    },
-    {
-      "run_id": "2026-03-07_1605",
-      "time_kst": "2026-03-07 16:05",
-      "spot": 598.83,
-      "pivot": 600.0,
-      "content_mode_kst": "noon_brief",
-      "trend_mode": "medium",
-      "path": "data/posts/2026-03-07_1605/meta.json"
-    },
     {
       "run_id": "2026-03-07_1204",
       "time_kst": "2026-03-07 12:04",
@@ -92,15 +56,6 @@
       "path": "data/posts/2026-03-06_1907/meta.json"
     },
     {
-      "run_id": "2026-03-06_1904",
-      "time_kst": "2026-03-06 19:04",
-      "spot": 606.68,
-      "pivot": 600.0,
-      "content_mode_kst": "premarket_preview",
-      "trend_mode": null,
-      "path": "data/posts/2026-03-06_1904/meta.json"
-    },
-    {
       "run_id": "2026-03-06_1845",
       "time_kst": "2026-03-06 18:45",
       "spot": 606.15,
@@ -108,15 +63,6 @@
       "content_mode_kst": "premarket_preview",
       "trend_mode": null,
       "path": "data/posts/2026-03-06_1845/meta.json"
-    },
-    {
-      "run_id": "2026-03-06_1819",
-      "time_kst": "2026-03-06 18:19",
-      "spot": 607.77,
-      "pivot": 600.0,
-      "content_mode_kst": "premarket_preview",
-      "trend_mode": null,
-      "path": "data/posts/2026-03-06_1819/meta.json"
     },
     {
       "run_id": "2026-03-06_1804",
@@ -144,24 +90,6 @@
       "content_mode_kst": null,
       "trend_mode": null,
       "path": "data/posts/2026-03-06_1214/meta.json"
-    },
-    {
-      "run_id": "2026-03-06_0700",
-      "time_kst": "2026-03-06 07:00",
-      "spot": 607.92,
-      "pivot": 600.0,
-      "content_mode_kst": null,
-      "trend_mode": null,
-      "path": "data/posts/2026-03-06_0700/meta.json"
-    },
-    {
-      "run_id": "2026-03-06_0444",
-      "time_kst": "2026-03-06 04:44",
-      "spot": 604.0283203125,
-      "pivot": 600.0,
-      "content_mode_kst": null,
-      "trend_mode": null,
-      "path": "data/posts/2026-03-06_0444/meta.json"
     },
     {
       "run_id": "2026-03-06_0243",
