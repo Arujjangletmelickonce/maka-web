@@ -39,6 +39,7 @@
       border-radius:12px;
       border:1px solid #eee;
       display:block;
+      margin:0 0 12px;
     }
     .card{
       border:1px solid #eee;
@@ -51,6 +52,11 @@
       display:flex;
       flex-direction:column;
       gap:8px;
+    }
+    .list-scroll{
+      max-height:52vh;
+      overflow:auto;
+      padding-right:4px;
     }
     .item{
       padding:10px 12px;
@@ -223,25 +229,6 @@
       font-size:13px;
       margin-top:10px;
     }
-    .detail-card{
-      margin-top:0;
-    }
-    .detail-scroll{
-      max-height:78vh;
-      overflow:auto;
-      padding-right:4px;
-    }
-    .detail-scroll img{
-      margin:0 0 12px;
-    }
-    .detail-scroll p{
-      margin:0 0 10px;
-    }
-    .detail-scroll hr{
-      border:none;
-      border-top:1px solid #eee;
-      margin:14px 0;
-    }
     .detail-placeholder{
       margin-top:0;
     }
@@ -249,8 +236,8 @@
       .grid{
         grid-template-columns:1fr;
       }
-      .detail-scroll{
-        max-height:60vh;
+      .list-scroll{
+        max-height:40vh;
       }
     }
   </style>
@@ -578,14 +565,10 @@ async function renderRunInto(runId, targetEl, token){
   const qqq = files.qqq_price ? (base + files.qqq_price) : null;
 
   targetEl.innerHTML = `
-    <div class="card detail-card">
-      <div class="detail-scroll">
-        <div class="meta">KST ${meta.time_kst || ""} · Spot ${meta.spot ?? ""} (${meta.spot_source || ""})</div>
-        ${chart ? `<img src="${chart}" alt="maka_chart"/>` : ""}
-        ${qqq ? `<img src="${qqq}" alt="qqq_price"/>` : ""}
-        <div>${mdToHtml(post)}</div>
-      </div>
-    </div>
+    <div class="meta">KST ${meta.time_kst || ""} · Spot ${meta.spot ?? ""} (${meta.spot_source || ""})</div>
+    ${chart ? `<img src="${chart}" alt="maka_chart"/>` : ""}
+    ${qqq ? `<img src="${qqq}" alt="qqq_price"/>` : ""}
+    <div>${mdToHtml(post)}</div>
   `;
 }
 
@@ -637,7 +620,7 @@ async function renderArchive(){
           </div>
 
           <div id="week-info" class="small" style="margin-bottom:10px;"></div>
-          <div class="list" id="list"></div>
+          <div class="list list-scroll" id="list"></div>
 
           <div class="admin-top">
             <button class="btn primary" id="admin-toggle-btn" type="button">관리 기능 보기</button>
