@@ -1,5 +1,5 @@
 {
-  "count": 22,
+  "count": 17,
   "items": [
     {
       "run_id": "2026-03-07_1204",
@@ -63,15 +63,6 @@
       "content_mode_kst": "premarket_preview",
       "trend_mode": null,
       "path": "data/posts/2026-03-06_1845/meta.json"
-    },
-    {
-      "run_id": "2026-03-06_1804",
-      "time_kst": "2026-03-06 18:04",
-      "spot": 609.1,
-      "pivot": 600.0,
-      "content_mode_kst": null,
-      "trend_mode": null,
-      "path": "data/posts/2026-03-06_1804/meta.json"
     },
     {
       "run_id": "2026-03-06_1624",
@@ -146,33 +137,6 @@
       "path": "data/posts/2026-03-04_0543/meta.json"
     },
     {
-      "run_id": "2026-03-04_0536",
-      "time_kst": "2026-03-04 05:36",
-      "spot": 602.5399780273438,
-      "pivot": 600.0,
-      "content_mode_kst": null,
-      "trend_mode": null,
-      "path": "data/posts/2026-03-04_0536/meta.json"
-    },
-    {
-      "run_id": "2026-03-04_0448",
-      "time_kst": "2026-03-04 04:48",
-      "spot": 603.4400024414062,
-      "pivot": 600.0,
-      "content_mode_kst": null,
-      "trend_mode": null,
-      "path": "data/posts/2026-03-04_0448/meta.json"
-    },
-    {
-      "run_id": "2026-03-04_0354",
-      "time_kst": "2026-03-04 03:54",
-      "spot": 602.6699829101562,
-      "pivot": 600.0,
-      "content_mode_kst": null,
-      "trend_mode": null,
-      "path": "data/posts/2026-03-04_0354/meta.json"
-    },
-    {
       "run_id": "2026-03-04_0347",
       "time_kst": "2026-03-04 03:47",
       "spot": 602.1799926757812,
@@ -189,15 +153,6 @@
       "content_mode_kst": null,
       "trend_mode": null,
       "path": "data/posts/2026-03-04_0344/meta.json"
-    },
-    {
-      "run_id": "2026-03-04_0327",
-      "time_kst": "2026-03-04 03:27",
-      "spot": 601.6900024414062,
-      "pivot": 600.0,
-      "content_mode_kst": null,
-      "trend_mode": null,
-      "path": "data/posts/2026-03-04_0327/meta.json"
     }
   ]
 }
