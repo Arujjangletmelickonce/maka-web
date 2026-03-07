@@ -6,7 +6,7 @@ import streamlit as st
 st.set_page_config(page_title="QQQ Maka", layout="wide")
 
 # 실제 운영 경로에 맞게 필요하면 outputs -> web/data 로 바꾸세요.
-OUT_DIR = Path("outputs")
+OUT_DIR = Path("web/data")
 LATEST = OUT_DIR / "latest.json"
 POSTS = OUT_DIR / "posts"
 
