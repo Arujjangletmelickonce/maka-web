@@ -10,71 +10,75 @@
       max-width:980px;
       margin:24px auto;
       padding:0 14px;
-      line-height:1.65
+      line-height:1.65;
+      background:#fff;
+      color:#111;
     }
     header{
       display:flex;
       align-items:baseline;
       justify-content:space-between;
-      margin-bottom:12px
+      margin-bottom:12px;
+      gap:12px;
     }
     nav a{
       margin-left:10px;
       text-decoration:none;
-      color:#333
+      color:#333;
     }
     nav a.active{
-      font-weight:700
+      font-weight:700;
     }
     .meta{
       color:#666;
       font-size:14px;
-      margin:6px 0 14px
+      margin:6px 0 14px;
     }
     img{
       max-width:100%;
       border-radius:12px;
-      border:1px solid #eee
+      border:1px solid #eee;
     }
     .card{
       border:1px solid #eee;
       border-radius:14px;
       padding:14px;
       margin:12px 0;
-      background:#fff
+      background:#fff;
     }
     .list{
       display:flex;
       flex-direction:column;
-      gap:8px
+      gap:8px;
     }
     .item{
       padding:10px 12px;
       border:1px solid #eee;
       border-radius:12px;
       cursor:pointer;
-      background:#fff
+      background:#fff;
+      transition:background .12s ease,border-color .12s ease;
     }
     .item:hover{
-      background:#fafafa
+      background:#fafafa;
     }
     .item.active{
       border-color:#222;
-      background:#f7f7f7
+      background:#f7f7f7;
     }
     pre{
       white-space:pre-wrap;
-      word-break:break-word
+      word-break:break-word;
     }
     .grid{
       display:grid;
       grid-template-columns:320px 1fr;
-      gap:12px
+      gap:12px;
     }
     .label{
       font-size:13px;
       color:#666;
-      margin-bottom:6px
+      margin-bottom:6px;
     }
     .select{
       width:100%;
@@ -82,21 +86,27 @@
       border:1px solid #ddd;
       border-radius:10px;
       font-size:14px;
-      background:#fff
+      background:#fff;
+      color:#111;
     }
     .archive-top{
       display:grid;
       grid-template-columns:1fr;
       gap:10px;
-      margin-bottom:10px
+      margin-bottom:10px;
     }
     .small{
       color:#666;
-      font-size:13px
+      font-size:13px;
+    }
+    .empty{
+      color:#666;
+      font-size:14px;
+      padding:8px 2px;
     }
     @media (max-width:900px){
       .grid{
-        grid-template-columns:1fr
+        grid-template-columns:1fr;
       }
     }
   </style>
@@ -118,6 +128,9 @@ const tabLatest = document.getElementById("tab-latest");
 const tabArchive = document.getElementById("tab-archive");
 
 let renderToken = 0;
+
+const WEEKDAY_KR = ["일", "월", "화", "수", "목", "금", "토"];
+const FILTER_WEEKDAYS = ["월", "화", "수", "목", "금", "토"];
 
 function normalizeHash(){
   const h = (location.hash || "").toLowerCase();
@@ -220,9 +233,16 @@ function getWeekLabelFromTime(timeStr){
   return `${year}년 ${month}월 ${weekNo}주차`;
 }
 
+function getWeekdayKrFromTime(timeStr){
+  const dt = parseTimeKst(timeStr);
+  if(!dt) return "기타";
+  return WEEKDAY_KR[dt.getDay()] || "기타";
+}
+
 function makePostLabel(it){
   const dt = parseTimeKst(it.time_kst || "");
   let mmddhhmm = it.time_kst || "";
+
   if(dt){
     const mm = String(dt.getMonth() + 1).padStart(2, "0");
     const dd = String(dt.getDate()).padStart(2, "0");
@@ -247,13 +267,12 @@ function groupItemsByWeek(items){
   const grouped = {};
 
   for(const it of items){
-    const key = getWeekLabelFromTime(it.time_kst || "");
-    if(!grouped[key]) grouped[key] = [];
-    grouped[key].push(it);
+    const weekKey = getWeekLabelFromTime(it.time_kst || "");
+    if(!grouped[weekKey]) grouped[weekKey] = [];
+    grouped[weekKey].push(it);
   }
 
   const weekKeys = Object.keys(grouped).sort((a, b) => {
-    // label 파싱 대신 각 그룹의 첫 항목 time_kst 최신순 사용
     const aTime = grouped[a]?.[0]?.time_kst || "";
     const bTime = grouped[b]?.[0]?.time_kst || "";
     return bTime.localeCompare(aTime);
@@ -264,6 +283,35 @@ function groupItemsByWeek(items){
   }
 
   return { grouped, weekKeys };
+}
+
+function groupWeekItemsByWeekday(weekItems){
+  const byDay = {};
+  for(const day of FILTER_WEEKDAYS){
+    byDay[day] = [];
+  }
+
+  for(const it of weekItems){
+    const dayKr = getWeekdayKrFromTime(it.time_kst || "");
+    if(byDay[dayKr]){
+      byDay[dayKr].push(it);
+    }
+  }
+
+  for(const day of FILTER_WEEKDAYS){
+    byDay[day].sort((a, b) => (b.time_kst || "").localeCompare(a.time_kst || ""));
+  }
+
+  return byDay;
+}
+
+function findDefaultWeekday(byDay){
+  for(const day of FILTER_WEEKDAYS){
+    if((byDay[day] || []).length > 0){
+      return day;
+    }
+  }
+  return FILTER_WEEKDAYS[0];
 }
 
 async function renderRunInto(runId, targetEl, token){
@@ -314,7 +362,6 @@ async function renderArchive(){
 
   const { grouped, weekKeys } = groupItemsByWeek(items);
   const firstWeek = weekKeys[0];
-  const firstWeekItems = grouped[firstWeek] || [];
 
   view.innerHTML = `
     <div class="grid">
@@ -326,6 +373,11 @@ async function renderArchive(){
             <div>
               <div class="label">주차 선택</div>
               <select id="week-select" class="select"></select>
+            </div>
+
+            <div>
+              <div class="label">요일 선택</div>
+              <select id="day-select" class="select"></select>
             </div>
           </div>
 
@@ -341,6 +393,7 @@ async function renderArchive(){
   `;
 
   const weekSelect = document.getElementById("week-select");
+  const daySelect = document.getElementById("day-select");
   const weekInfo = document.getElementById("week-info");
   const list = document.getElementById("list");
   const detail = document.getElementById("detail");
@@ -352,15 +405,35 @@ async function renderArchive(){
     weekSelect.appendChild(opt);
   });
 
-  weekSelect.value = firstWeek;
+  FILTER_WEEKDAYS.forEach((day) => {
+    const opt = document.createElement("option");
+    opt.value = day;
+    opt.textContent = day요일로표현(day);
+    daySelect.appendChild(opt);
+  });
 
-  async function drawWeekList(weekKey){
+  function day요일로표현(day){
+    return `${day}요일`;
+  }
+
+  async function drawList(weekKey, dayKey){
     const weekItems = grouped[weekKey] || [];
-    weekInfo.textContent = `이 주차 게시글 ${weekItems.length}개`;
+    const byDay = groupWeekItemsByWeekday(weekItems);
+    const dayItems = byDay[dayKey] || [];
+
+    const totalInWeek = weekItems.length;
+    const totalInDay = dayItems.length;
+
+    weekInfo.textContent = `${weekKey} · ${dayKey}요일 게시글 ${totalInDay}개 / 주간 전체 ${totalInWeek}개`;
     list.innerHTML = "";
     detail.innerHTML = "<div class='card'>왼쪽에서 항목을 선택하세요.</div>";
 
-    weekItems.forEach((it, idx) => {
+    if(dayItems.length === 0){
+      list.innerHTML = `<div class="empty">${dayKey}요일 게시글이 없습니다.</div>`;
+      return;
+    }
+
+    dayItems.forEach((it, idx) => {
       const div = document.createElement("div");
       div.className = "item";
       div.innerHTML = `
@@ -383,17 +456,36 @@ async function renderArchive(){
         setTimeout(() => div.click(), 0);
       }
     });
-
-    if(weekItems.length === 0){
-      list.innerHTML = "<div class='card'>이 주차에는 게시글이 없습니다.</div>";
-    }
   }
 
+  async function refreshDayOptionsForWeek(weekKey){
+    const weekItems = grouped[weekKey] || [];
+    const byDay = groupWeekItemsByWeekday(weekItems);
+    const defaultDay = findDefaultWeekday(byDay);
+
+    daySelect.innerHTML = "";
+    FILTER_WEEKDAYS.forEach((day) => {
+      const count = (byDay[day] || []).length;
+      const opt = document.createElement("option");
+      opt.value = day;
+      opt.textContent = `${day}요일 (${count})`;
+      daySelect.appendChild(opt);
+    });
+
+    daySelect.value = defaultDay;
+    await drawList(weekKey, defaultDay);
+  }
+
+  weekSelect.value = firstWeek;
+  await refreshDayOptionsForWeek(firstWeek);
+
   weekSelect.onchange = async () => {
-    await drawWeekList(weekSelect.value);
+    await refreshDayOptionsForWeek(weekSelect.value);
   };
 
-  await drawWeekList(firstWeek);
+  daySelect.onchange = async () => {
+    await drawList(weekSelect.value, daySelect.value);
+  };
 }
 
 async function router(){
