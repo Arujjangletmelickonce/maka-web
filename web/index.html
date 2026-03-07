@@ -16,7 +16,7 @@
     }
     header{
       display:flex;
-      align-items:baseline;
+      align-items:flex-start;
       justify-content:space-between;
       margin-bottom:12px;
       gap:12px;
@@ -28,6 +28,44 @@
     }
     nav a.active{
       font-weight:700;
+    }
+    .support-top{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:8px;
+    }
+    .support-btn{
+      border:1px solid #ddd;
+      background:#fff;
+      border-radius:999px;
+      padding:8px 14px;
+      font-size:13px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .support-btn:hover{
+      background:#fafafa;
+    }
+    .support-note{
+      font-size:12px;
+      color:#666;
+      display:none;
+      margin-top:6px;
+    }
+    .support-note.show{
+      display:block;
+    }
+    .footer-support{
+      margin:40px 0 24px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+    .footer-support .support-note{
+      text-align:center;
     }
     .meta{
       color:#666;
@@ -234,24 +272,45 @@
       .list-scroll{
         max-height:40vh;
       }
+      .support-top{
+        align-items:flex-end;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <div style="font-size:20px;font-weight:800;">QQQ Maka</div>
-    <nav>
-      <a href="#latest" id="tab-latest" class="active">최신</a>
-      <a href="#archive" id="tab-archive">아카이브</a>
-    </nav>
+
+    <div class="support-top">
+      <nav>
+        <a href="#latest" id="tab-latest" class="active">최신</a>
+        <a href="#archive" id="tab-archive">아카이브</a>
+      </nav>
+
+      <div>
+        <button class="support-btn" id="support-btn-top" type="button">☕ 커피 한 잔 사주기</button>
+        <div class="support-note" id="support-note-top">현재는 마음만 받고 있습니다 껄껄껄 (&gt;ㅅ&lt;)</div>
+      </div>
+    </div>
   </header>
 
   <div id="view"></div>
+
+  <div class="footer-support">
+    <button class="support-btn" id="support-btn-bottom" type="button">☕ 커피 한 잔 사주기</button>
+    <div class="support-note" id="support-note-bottom">현재는 마음만 받고 있습니다 껄껄껄 (&gt;ㅅ&lt;)</div>
+  </div>
 
 <script>
 const view = document.getElementById("view");
 const tabLatest = document.getElementById("tab-latest");
 const tabArchive = document.getElementById("tab-archive");
+
+const supportBtnTop = document.getElementById("support-btn-top");
+const supportNoteTop = document.getElementById("support-note-top");
+const supportBtnBottom = document.getElementById("support-btn-bottom");
+const supportNoteBottom = document.getElementById("support-note-bottom");
 
 let renderToken = 0;
 
@@ -269,6 +328,11 @@ function normalizeHash(){
 function setActive(hash){
   tabLatest.classList.toggle("active", hash === "#latest");
   tabArchive.classList.toggle("active", hash === "#archive");
+}
+
+function toggleSupportNote(noteEl){
+  if(!noteEl) return;
+  noteEl.classList.toggle("show");
 }
 
 async function fetchJson(url){
@@ -804,6 +868,18 @@ window.addEventListener("hashchange", router);
 
 if (!location.hash) location.hash = "#latest";
 router();
+
+if (supportBtnTop) {
+  supportBtnTop.onclick = () => {
+    toggleSupportNote(supportNoteTop);
+  };
+}
+
+if (supportBtnBottom) {
+  supportBtnBottom.onclick = () => {
+    toggleSupportNote(supportNoteBottom);
+  };
+}
 </script>
 </body>
 </html>
