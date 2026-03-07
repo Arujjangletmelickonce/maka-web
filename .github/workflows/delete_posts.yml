@@ -1,0 +1,53 @@
+name: delete-selected-posts
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_ids:
+        description: "삭제할 run_id들 (쉼표 또는 줄바꿈으로 여러 개 가능)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (main)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Show targets
+        run: |
+          echo "RUN_IDS:"
+          echo "${{ github.event.inputs.run_ids }}"
+
+      - name: Delete selected posts and rebuild index/latest
+        env:
+          RUN_IDS: ${{ github.event.inputs.run_ids }}
+        run: |
+          python delete_posts.py
+
+      - name: Commit & push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add web/data delete_posts.py
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          git commit -m "admin: delete selected posts"
+          git push origin HEAD:main
