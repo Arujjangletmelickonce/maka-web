@@ -347,6 +347,10 @@ const FILTER_WEEKDAYS = ["월", "화", "수", "목", "금", "토"];
 const DELETE_STORAGE_KEY = "maka_delete_candidates_v2";
 const ADMIN_VISIBLE_KEY = "maka_admin_visible_v1";
 
+const SUPPORT_URL = "https://fmkorea.com/stock";
+const SUPPORT_BOTTOM_URL = "supertoss://send?amount=2000&bank=케이뱅크&accountNo=100195910010&origin=qr";
+const SUPPORT_DELAY_MS = 700;
+
 function normalizeHash(){
   const h = (location.hash || "").toLowerCase();
   if (h.startsWith("#archive")) return "#archive";
@@ -358,9 +362,27 @@ function setActive(hash){
   tabArchive.classList.toggle("active", hash === "#archive");
 }
 
-function toggleSupportNote(noteEl){
+function showSupportNote(noteEl){
   if(!noteEl) return;
-  noteEl.classList.toggle("show");
+  noteEl.classList.add("show");
+}
+
+function handleSupportClick(noteEl){
+  showSupportNote(noteEl);
+  if(SUPPORT_URL){
+    setTimeout(() => {
+      window.open(SUPPORT_URL, "_blank", "noopener,noreferrer");
+    }, SUPPORT_DELAY_MS);
+  }
+}
+
+function handleBottomSupportClick(noteEl){
+  showSupportNote(noteEl);
+  if(SUPPORT_BOTTOM_URL){
+    setTimeout(() => {
+      window.location.href = SUPPORT_BOTTOM_URL;
+    }, SUPPORT_DELAY_MS);
+  }
 }
 
 async function fetchJson(url){
@@ -899,19 +921,19 @@ router();
 
 if (supportBtnTop) {
   supportBtnTop.onclick = () => {
-    toggleSupportNote(supportNoteTop);
+    handleSupportClick(supportNoteTop);
   };
 }
 
 if (supportBtnBottomTitle) {
   supportBtnBottomTitle.onclick = () => {
-    toggleSupportNote(supportNoteBottom);
+    handleBottomSupportClick(supportNoteBottom);
   };
 }
 
 if (supportBtnBottomLink) {
   supportBtnBottomLink.onclick = () => {
-    toggleSupportNote(supportNoteBottom);
+    handleBottomSupportClick(supportNoteBottom);
   };
 }
 </script>
