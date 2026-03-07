@@ -64,6 +64,10 @@
       justify-content:center;
       gap:4px;
       text-align:center;
+
+      -webkit-user-select:none;
+      user-select:none;
+      -webkit-touch-callout:none;
     }
     .footer-support-title{
       border:none;
@@ -90,8 +94,11 @@
     .footer-support-link:hover{
       opacity:.85;
     }
-    .footer-support .support-note{
-      text-align:center;
+    .footer-support-title,
+    .footer-support-link{
+      -webkit-user-select:none;
+      user-select:none;
+      -webkit-touch-callout:none;
     }
     .meta{
       color:#666;
@@ -323,10 +330,9 @@
 
   <div id="view"></div>
 
-  <div class="footer-support">
-    <button class="footer-support-title" id="support-btn-bottom-title" type="button">이 페이지가 유익했다면? 후원(Click)</button>
-    <button class="footer-support-link" id="support-btn-bottom-link" type="button">토스 링크로 안내합니다</button>
-    <div class="support-note" id="support-note-bottom">현재는 마음만 받고 있습니다 껄껄껄 (&gt;ㅅ&lt;)</div>
+  <div class="footer-support" id="footer-support">
+    <button class="footer-support-title" id="support-btn-bottom-title" type="button" draggable="false">이 페이지가 유익했다면? 후원(Click)</button>
+    <button class="footer-support-link" id="support-btn-bottom-link" type="button" draggable="false">토스 링크로 안내합니다</button>
   </div>
 
 <script>
@@ -338,7 +344,7 @@ const supportBtnTop = document.getElementById("support-btn-top");
 const supportNoteTop = document.getElementById("support-note-top");
 const supportBtnBottomTitle = document.getElementById("support-btn-bottom-title");
 const supportBtnBottomLink = document.getElementById("support-btn-bottom-link");
-const supportNoteBottom = document.getElementById("support-note-bottom");
+const footerSupport = document.getElementById("footer-support");
 
 let renderToken = 0;
 
@@ -347,9 +353,17 @@ const FILTER_WEEKDAYS = ["월", "화", "수", "목", "금", "토"];
 const DELETE_STORAGE_KEY = "maka_delete_candidates_v2";
 const ADMIN_VISIBLE_KEY = "maka_admin_visible_v1";
 
-const SUPPORT_URL = "https://fmkorea.com/stock";
-const SUPPORT_BOTTOM_URL = "supertoss://send?amount=2000&bank=케이뱅크&accountNo=100195910010&origin=qr";
-const SUPPORT_DELAY_MS = 700;
+const SUPPORT_TOP_DELAY_MS = 0;
+
+function buildBottomSupportUrl(){
+  const p1 = "supertoss://";
+  const p2 = "send";
+  const p3 = "?amount=" + "2000";
+  const p4 = "&bank=" + encodeURIComponent("케이뱅크");
+  const p5 = "&accountNo=" + "100195910010";
+  const p6 = "&origin=" + "qr";
+  return p1 + p2 + p3 + p4 + p5 + p6;
+}
 
 function normalizeHash(){
   const h = (location.hash || "").toLowerCase();
@@ -367,21 +381,14 @@ function showSupportNote(noteEl){
   noteEl.classList.add("show");
 }
 
-function handleSupportClick(noteEl){
+function handleTopSupportClick(noteEl){
   showSupportNote(noteEl);
-  if(SUPPORT_URL){
-    setTimeout(() => {
-      window.open(SUPPORT_URL, "_blank", "noopener,noreferrer");
-    }, SUPPORT_DELAY_MS);
-  }
 }
 
-function handleBottomSupportClick(noteEl){
-  showSupportNote(noteEl);
-  if(SUPPORT_BOTTOM_URL){
-    setTimeout(() => {
-      window.location.href = SUPPORT_BOTTOM_URL;
-    }, SUPPORT_DELAY_MS);
+function handleBottomSupportClick(){
+  const url = buildBottomSupportUrl();
+  if(url){
+    window.location.href = url;
   }
 }
 
@@ -921,19 +928,31 @@ router();
 
 if (supportBtnTop) {
   supportBtnTop.onclick = () => {
-    handleSupportClick(supportNoteTop);
+    handleTopSupportClick(supportNoteTop);
   };
 }
 
 if (supportBtnBottomTitle) {
   supportBtnBottomTitle.onclick = () => {
-    handleBottomSupportClick(supportNoteBottom);
+    handleBottomSupportClick();
   };
 }
 
 if (supportBtnBottomLink) {
   supportBtnBottomLink.onclick = () => {
-    handleBottomSupportClick(supportNoteBottom);
+    handleBottomSupportClick();
+  };
+}
+
+if (footerSupport) {
+  footerSupport.oncontextmenu = (e) => {
+    e.preventDefault();
+  };
+  footerSupport.ondragstart = (e) => {
+    e.preventDefault();
+  };
+  footerSupport.oncopy = (e) => {
+    e.preventDefault();
   };
 }
 </script>
