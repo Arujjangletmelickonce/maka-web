@@ -2,7 +2,15 @@ name: run-maka-every-3h
 
 on:
   schedule:
-    - cron: "30 21,0,3,6,9,12,15,18 * * *"  # KST 06:30, 09:30, 12:30, 15:30, 18:30, 21:30, 00:30, 03:30
+    # KST 월~금 12:30, 15:30, 18:30, 21:30
+    - cron: "30 3,6,9,12 * * 1-5"
+
+    # KST 화~토 00:30, 03:30, 06:30
+    - cron: "30 15,18,21 * * 1-5"
+
+    # KST 화~토 09:30
+    - cron: "30 0 * * 2-6"
+
   workflow_dispatch:
 
 permissions:
@@ -19,50 +27,12 @@ jobs:
           ref: main
           fetch-depth: 1
 
-      - name: Decide whether to run (KST window)
-        id: window
-        shell: bash
-        run: |
-          KST_NOW="$(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M:%S %a')"
-          KST_DOW="$(TZ=Asia/Seoul date '+%u')"   # 1=Mon ... 6=Sat 7=Sun
-          KST_HOUR="$(TZ=Asia/Seoul date '+%H')"
-          KST_MIN="$(TZ=Asia/Seoul date '+%M')"
-
-          echo "KST_NOW=$KST_NOW"
-          echo "KST_DOW=$KST_DOW"
-          echo "KST_HOUR=$KST_HOUR"
-          echo "KST_MIN=$KST_MIN"
-
-          SHOULD_RUN="true"
-
-          # 스킵 구간:
-          # - 토요일 12:00 KST부터 전부 스킵
-          # - 일요일 전부 스킵
-          # - 월요일 12:00 KST 전까지 스킵
-          if [ "$KST_DOW" = "6" ] && [ "$KST_HOUR" -ge 12 ]; then
-            SHOULD_RUN="false"
-          elif [ "$KST_DOW" = "7" ]; then
-            SHOULD_RUN="false"
-          elif [ "$KST_DOW" = "1" ] && [ "$KST_HOUR" -lt 12 ]; then
-            SHOULD_RUN="false"
-          fi
-
-          echo "should_run=$SHOULD_RUN" >> "$GITHUB_OUTPUT"
-
-          if [ "$SHOULD_RUN" = "false" ]; then
-            echo "Skipping this run due to weekend/pause window in KST."
-          else
-            echo "This run is allowed."
-          fi
-
       - name: Setup Python
-        if: steps.window.outputs.should_run == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Debug
-        if: steps.window.outputs.should_run == 'true'
         run: |
           pwd
           ls -la
@@ -70,13 +40,11 @@ jobs:
           echo "HEAD=$(git rev-parse HEAD || true)"
 
       - name: Install deps
-        if: steps.window.outputs.should_run == 'true'
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
       - name: Run generator
-        if: steps.window.outputs.should_run == 'true'
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           POLYGON_KEY: ${{ secrets.POLYGON_KEY }}
@@ -84,7 +52,6 @@ jobs:
           python maka_pro_story.py
 
       - name: Commit & push updated web data
-        if: steps.window.outputs.should_run == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
