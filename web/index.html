@@ -5,19 +5,100 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>QQQ Maka</title>
   <style>
-    body{font-family:system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;max-width:980px;margin:24px auto;padding:0 14px;line-height:1.65}
-    header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
-    nav a{margin-left:10px;text-decoration:none;color:#333}
-    nav a.active{font-weight:700}
-    .meta{color:#666;font-size:14px;margin:6px 0 14px}
-    img{max-width:100%;border-radius:12px;border:1px solid #eee}
-    .card{border:1px solid #eee;border-radius:14px;padding:14px;margin:12px 0}
-    .list{display:flex;flex-direction:column;gap:8px}
-    .item{padding:10px 12px;border:1px solid #eee;border-radius:12px;cursor:pointer}
-    .item:hover{background:#fafafa}
-    pre{white-space:pre-wrap;word-break:break-word}
-    .grid{display:grid;grid-template-columns:1fr 1.2fr;gap:12px}
-    @media (max-width:900px){ .grid{grid-template-columns:1fr} }
+    body{
+      font-family:system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;
+      max-width:980px;
+      margin:24px auto;
+      padding:0 14px;
+      line-height:1.65
+    }
+    header{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      margin-bottom:12px
+    }
+    nav a{
+      margin-left:10px;
+      text-decoration:none;
+      color:#333
+    }
+    nav a.active{
+      font-weight:700
+    }
+    .meta{
+      color:#666;
+      font-size:14px;
+      margin:6px 0 14px
+    }
+    img{
+      max-width:100%;
+      border-radius:12px;
+      border:1px solid #eee
+    }
+    .card{
+      border:1px solid #eee;
+      border-radius:14px;
+      padding:14px;
+      margin:12px 0;
+      background:#fff
+    }
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:8px
+    }
+    .item{
+      padding:10px 12px;
+      border:1px solid #eee;
+      border-radius:12px;
+      cursor:pointer;
+      background:#fff
+    }
+    .item:hover{
+      background:#fafafa
+    }
+    .item.active{
+      border-color:#222;
+      background:#f7f7f7
+    }
+    pre{
+      white-space:pre-wrap;
+      word-break:break-word
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:320px 1fr;
+      gap:12px
+    }
+    .label{
+      font-size:13px;
+      color:#666;
+      margin-bottom:6px
+    }
+    .select{
+      width:100%;
+      padding:10px 12px;
+      border:1px solid #ddd;
+      border-radius:10px;
+      font-size:14px;
+      background:#fff
+    }
+    .archive-top{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-bottom:10px
+    }
+    .small{
+      color:#666;
+      font-size:13px
+    }
+    @media (max-width:900px){
+      .grid{
+        grid-template-columns:1fr
+      }
+    }
   </style>
 </head>
 <body>
@@ -36,11 +117,9 @@ const view = document.getElementById("view");
 const tabLatest = document.getElementById("tab-latest");
 const tabArchive = document.getElementById("tab-archive");
 
-// 렌더 경합 방지용 토큰
 let renderToken = 0;
 
 function normalizeHash(){
-  // '#archive', '#archive/', '#archive?x=y' 등도 archive로 처리
   const h = (location.hash || "").toLowerCase();
   if (h.startsWith("#archive")) return "#archive";
   return "#latest";
@@ -52,13 +131,13 @@ function setActive(hash){
 }
 
 async function fetchJson(url){
-  const r = await fetch(url, {cache:"no-store"});
+  const r = await fetch(url, { cache: "no-store" });
   if(!r.ok) throw new Error("fetch failed: " + url);
   return await r.json();
 }
 
 async function fetchText(url){
-  const r = await fetch(url, {cache:"no-store"});
+  const r = await fetch(url, { cache: "no-store" });
   if(!r.ok) throw new Error("fetch failed: " + url);
   return await r.text();
 }
@@ -68,37 +147,132 @@ function mdToHtml(md){
   const lines = md.split("\n");
   let html = "";
   let inList = false;
+
   for(const raw of lines){
     const line = raw.trimEnd();
+
     if(line.trim() === ""){
-      if(inList){ html += "</ul>"; inList = false; }
+      if(inList){
+        html += "</ul>";
+        inList = false;
+      }
       html += "<div style='height:10px'></div>";
       continue;
     }
+
     if(line.startsWith("---") || line.startsWith("------")){
-      if(inList){ html += "</ul>"; inList = false; }
+      if(inList){
+        html += "</ul>";
+        inList = false;
+      }
       html += "<hr/>";
       continue;
     }
+
     if(line.startsWith("- ")){
-      if(!inList){ html += "<ul>"; inList = true; }
+      if(!inList){
+        html += "<ul>";
+        inList = true;
+      }
       html += `<li>${esc(line.slice(2))}</li>`;
       continue;
     }
-    if(inList){ html += "</ul>"; inList = false; }
+
+    if(inList){
+      html += "</ul>";
+      inList = false;
+    }
+
     html += `<p>${esc(line)}</p>`;
   }
+
   if(inList) html += "</ul>";
   return html;
+}
+
+function parseTimeKst(timeStr){
+  if(!timeStr) return null;
+
+  // "2026-03-07 03:30:12" 또는 "2026-03-07 03:30"
+  const normalized = timeStr.replace(" ", "T");
+  const dt = new Date(normalized);
+  if(isNaN(dt.getTime())) return null;
+  return dt;
+}
+
+function getWeekNo(day){
+  if(day >= 1 && day <= 7) return 1;
+  if(day >= 8 && day <= 14) return 2;
+  if(day >= 15 && day <= 21) return 3;
+  if(day >= 22 && day <= 28) return 4;
+  return 5;
+}
+
+function getWeekLabelFromTime(timeStr){
+  const dt = parseTimeKst(timeStr);
+  if(!dt) return "기타";
+
+  const year = dt.getFullYear();
+  const month = dt.getMonth() + 1;
+  const day = dt.getDate();
+  const weekNo = getWeekNo(day);
+
+  return `${year}년 ${month}월 ${weekNo}주차`;
+}
+
+function makePostLabel(it){
+  const dt = parseTimeKst(it.time_kst || "");
+  let mmddhhmm = it.time_kst || "";
+  if(dt){
+    const mm = String(dt.getMonth() + 1).padStart(2, "0");
+    const dd = String(dt.getDate()).padStart(2, "0");
+    const hh = String(dt.getHours()).padStart(2, "0");
+    const mi = String(dt.getMinutes()).padStart(2, "0");
+    mmddhhmm = `${mm}-${dd} ${hh}:${mi}`;
+  }
+
+  let spotText = "-";
+  if(it.spot !== undefined && it.spot !== null && it.spot !== ""){
+    const n = Number(it.spot);
+    spotText = Number.isFinite(n) ? n.toFixed(2) : String(it.spot);
+  }
+
+  const mode = it.content_mode_kst || it.mode || "";
+  return mode
+    ? `${mmddhhmm} / QQQ ${spotText} / ${mode}`
+    : `${mmddhhmm} / QQQ ${spotText}`;
+}
+
+function groupItemsByWeek(items){
+  const grouped = {};
+
+  for(const it of items){
+    const key = getWeekLabelFromTime(it.time_kst || "");
+    if(!grouped[key]) grouped[key] = [];
+    grouped[key].push(it);
+  }
+
+  const weekKeys = Object.keys(grouped).sort((a, b) => {
+    // label 파싱 대신 각 그룹의 첫 항목 time_kst 최신순 사용
+    const aTime = grouped[a]?.[0]?.time_kst || "";
+    const bTime = grouped[b]?.[0]?.time_kst || "";
+    return bTime.localeCompare(aTime);
+  });
+
+  for(const key of weekKeys){
+    grouped[key].sort((a, b) => (b.time_kst || "").localeCompare(a.time_kst || ""));
+  }
+
+  return { grouped, weekKeys };
 }
 
 async function renderRunInto(runId, targetEl, token){
   const base = `data/posts/${runId}/`;
   const meta = await fetchJson(base + "meta.json");
-  if (token !== renderToken) return; // 경합 방지
+  if(token !== renderToken) return;
 
   const post = await fetchText(base + "post.md");
-  if (token !== renderToken) return;
+  if(token !== renderToken) return;
 
   const files = meta.files || {};
   const chart = files.maka_chart ? (base + files.maka_chart) : null;
@@ -116,8 +290,10 @@ async function renderLatest(){
   const token = ++renderToken;
   setActive("#latest");
   view.innerHTML = "<div class='card'>불러오는 중...</div>";
+
   const latest = await fetchJson("data/latest.json");
-  if (token !== renderToken) return;
+  if(token !== renderToken) return;
+
   await renderRunInto(latest.latest_run_id, view, token);
 }
 
@@ -127,43 +303,97 @@ async function renderArchive(){
 
   view.innerHTML = "<div class='card'>불러오는 중...</div>";
   const idx = await fetchJson("data/index.json");
-  if (token !== renderToken) return;
+  if(token !== renderToken) return;
 
   const items = idx.items || [];
+
   if(items.length === 0){
     view.innerHTML = "<div class='card'>아카이브가 비어 있습니다.</div>";
     return;
   }
 
+  const { grouped, weekKeys } = groupItemsByWeek(items);
+  const firstWeek = weekKeys[0];
+  const firstWeekItems = grouped[firstWeek] || [];
+
   view.innerHTML = `
     <div class="grid">
-      <div class="card">
-        <div style="font-weight:800;margin-bottom:10px;">아카이브</div>
-        <div class="list" id="list"></div>
+      <div>
+        <div class="card">
+          <div style="font-weight:800;margin-bottom:10px;">아카이브</div>
+
+          <div class="archive-top">
+            <div>
+              <div class="label">주차 선택</div>
+              <select id="week-select" class="select"></select>
+            </div>
+          </div>
+
+          <div id="week-info" class="small" style="margin-bottom:10px;"></div>
+          <div class="list" id="list"></div>
+        </div>
       </div>
+
       <div id="detail">
         <div class="card">왼쪽에서 항목을 선택하세요.</div>
       </div>
     </div>
   `;
 
+  const weekSelect = document.getElementById("week-select");
+  const weekInfo = document.getElementById("week-info");
   const list = document.getElementById("list");
   const detail = document.getElementById("detail");
 
-  items.forEach((it)=>{
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `<b>${it.run_id}</b><div style="color:#666;font-size:13px;">KST ${it.time_kst||""} · Spot ${it.spot??""}</div>`;
-    div.onclick = async ()=>{
-      const t2 = renderToken; // 현재 토큰 유지
-      detail.innerHTML = "<div class='card'>불러오는 중...</div>";
-      await renderRunInto(it.run_id, detail, t2);
-    };
-    list.appendChild(div);
+  weekKeys.forEach((weekKey) => {
+    const opt = document.createElement("option");
+    opt.value = weekKey;
+    opt.textContent = weekKey;
+    weekSelect.appendChild(opt);
   });
 
-  // newest auto-open
-  list.firstChild.click();
+  weekSelect.value = firstWeek;
+
+  async function drawWeekList(weekKey){
+    const weekItems = grouped[weekKey] || [];
+    weekInfo.textContent = `이 주차 게시글 ${weekItems.length}개`;
+    list.innerHTML = "";
+    detail.innerHTML = "<div class='card'>왼쪽에서 항목을 선택하세요.</div>";
+
+    weekItems.forEach((it, idx) => {
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `
+        <div style="font-weight:700;">${makePostLabel(it)}</div>
+        <div style="color:#666;font-size:13px;">run_id: ${it.run_id}</div>
+      `;
+
+      div.onclick = async () => {
+        document.querySelectorAll(".item").forEach(el => el.classList.remove("active"));
+        div.classList.add("active");
+
+        const t2 = renderToken;
+        detail.innerHTML = "<div class='card'>불러오는 중...</div>";
+        await renderRunInto(it.run_id, detail, t2);
+      };
+
+      list.appendChild(div);
+
+      if(idx === 0){
+        setTimeout(() => div.click(), 0);
+      }
+    });
+
+    if(weekItems.length === 0){
+      list.innerHTML = "<div class='card'>이 주차에는 게시글이 없습니다.</div>";
+    }
+  }
+
+  weekSelect.onchange = async () => {
+    await drawWeekList(weekSelect.value);
+  };
+
+  await drawWeekList(firstWeek);
 }
 
 async function router(){
@@ -178,7 +408,6 @@ async function router(){
 
 window.addEventListener("hashchange", router);
 
-// 초기 로딩: 해시가 비어있으면 latest로 고정
 if (!location.hash) location.hash = "#latest";
 router();
 </script>
