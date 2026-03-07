@@ -32,12 +32,13 @@
     .meta{
       color:#666;
       font-size:14px;
-      margin:6px 0 14px;
+      margin:0 0 14px;
     }
     img{
       max-width:100%;
       border-radius:12px;
       border:1px solid #eee;
+      display:block;
     }
     .card{
       border:1px solid #eee;
@@ -107,6 +108,7 @@
       display:grid;
       grid-template-columns:320px 1fr;
       gap:12px;
+      align-items:start;
     }
     .label{
       font-size:13px;
@@ -221,9 +223,34 @@
       font-size:13px;
       margin-top:10px;
     }
+    .detail-card{
+      margin-top:0;
+    }
+    .detail-scroll{
+      max-height:78vh;
+      overflow:auto;
+      padding-right:4px;
+    }
+    .detail-scroll img{
+      margin:0 0 12px;
+    }
+    .detail-scroll p{
+      margin:0 0 10px;
+    }
+    .detail-scroll hr{
+      border:none;
+      border-top:1px solid #eee;
+      margin:14px 0;
+    }
+    .detail-placeholder{
+      margin-top:0;
+    }
     @media (max-width:900px){
       .grid{
         grid-template-columns:1fr;
+      }
+      .detail-scroll{
+        max-height:60vh;
       }
     }
   </style>
@@ -551,10 +578,14 @@ async function renderRunInto(runId, targetEl, token){
   const qqq = files.qqq_price ? (base + files.qqq_price) : null;
 
   targetEl.innerHTML = `
-    <div class="meta">KST ${meta.time_kst || ""} · Spot ${meta.spot ?? ""} (${meta.spot_source || ""})</div>
-    ${chart ? `<div class="card"><img src="${chart}" alt="maka_chart"/></div>` : ""}
-    ${qqq ? `<div class="card"><img src="${qqq}" alt="qqq_price"/></div>` : ""}
-    <div class="card">${mdToHtml(post)}</div>
+    <div class="card detail-card">
+      <div class="detail-scroll">
+        <div class="meta">KST ${meta.time_kst || ""} · Spot ${meta.spot ?? ""} (${meta.spot_source || ""})</div>
+        ${chart ? `<img src="${chart}" alt="maka_chart"/>` : ""}
+        ${qqq ? `<img src="${qqq}" alt="qqq_price"/>` : ""}
+        <div>${mdToHtml(post)}</div>
+      </div>
+    </div>
   `;
 }
 
@@ -610,7 +641,6 @@ async function renderArchive(){
 
           <div class="admin-top">
             <button class="btn primary" id="admin-toggle-btn" type="button">관리 기능 보기</button>
-            <div class="hint">삭제 후보 선택 기능은 필요할 때만 열어 두는 방식입니다.</div>
           </div>
 
           <div class="candidate-box hidden" id="admin-panel">
@@ -635,7 +665,7 @@ async function renderArchive(){
       </div>
 
       <div id="detail">
-        <div class="card">왼쪽에서 항목을 선택하세요.</div>
+        <div class="card detail-placeholder">왼쪽에서 항목을 선택하세요.</div>
       </div>
     </div>
   `;
@@ -685,7 +715,7 @@ async function renderArchive(){
 
     weekInfo.textContent = `${weekKey} · ${dayKey}요일 게시글 ${totalInDay}개 / 주간 전체 ${totalInWeek}개`;
     list.innerHTML = "";
-    detail.innerHTML = "<div class='card'>왼쪽에서 항목을 선택하세요.</div>";
+    detail.innerHTML = "<div class='card detail-placeholder'>왼쪽에서 항목을 선택하세요.</div>";
 
     if(dayItems.length === 0){
       list.innerHTML = `<div class="empty">${dayKey}요일 게시글이 없습니다.</div>`;
@@ -720,7 +750,7 @@ async function renderArchive(){
         div.classList.add("active");
 
         const t2 = renderToken;
-        detail.innerHTML = "<div class='card'>불러오는 중...</div>";
+        detail.innerHTML = "<div class='card detail-placeholder'>불러오는 중...</div>";
         await renderRunInto(it.run_id, detail, t2);
       };
 
