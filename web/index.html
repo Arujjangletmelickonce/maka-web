@@ -355,15 +355,7 @@ const ADMIN_VISIBLE_KEY = "maka_admin_visible_v1";
 
 const SUPPORT_TOP_DELAY_MS = 0;
 
-function buildBottomSupportUrl(){
-  const p1 = "supertoss://";
-  const p2 = "send";
-  const p3 = "?amount=" + "2000";
-  const p4 = "&bank=" + encodeURIComponent("케이뱅크");
-  const p5 = "&accountNo=" + "100195910010";
-  const p6 = "&origin=" + "qr";
-  return p1 + p2 + p3 + p4 + p5 + p6;
-}
+const SUPPORT_BOTTOM_URL = "supertoss://send?amount=2000&bank=케이뱅크&accountNo=100195910010&origin=qr";
 
 function normalizeHash(){
   const h = (location.hash || "").toLowerCase();
@@ -386,12 +378,8 @@ function handleTopSupportClick(noteEl){
 }
 
 function handleBottomSupportClick(){
-  const url = buildBottomSupportUrl();
-  if(url){
-    window.location.href = url;
-  }
+  window.location.href = SUPPORT_BOTTOM_URL;
 }
-
 async function fetchJson(url){
   const r = await fetch(url, { cache: "no-store" });
   if(!r.ok) throw new Error("fetch failed: " + url);
