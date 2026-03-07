@@ -66,6 +66,36 @@
       border-color:#222;
       background:#f7f7f7;
     }
+    .item-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .item-main{
+      flex:1;
+      min-width:0;
+    }
+    .item-sub{
+      color:#666;
+      font-size:13px;
+      margin-top:4px;
+      word-break:break-all;
+    }
+    .check-wrap{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      flex-shrink:0;
+      font-size:12px;
+      color:#555;
+      user-select:none;
+    }
+    .check-wrap input{
+      width:16px;
+      height:16px;
+      cursor:pointer;
+    }
     pre{
       white-space:pre-wrap;
       word-break:break-word;
@@ -104,6 +134,52 @@
       font-size:14px;
       padding:8px 2px;
     }
+    .candidate-box{
+      margin-top:12px;
+      padding-top:12px;
+      border-top:1px solid #eee;
+    }
+    .candidate-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+    .btn{
+      border:1px solid #ddd;
+      background:#fff;
+      border-radius:10px;
+      padding:9px 12px;
+      font-size:13px;
+      cursor:pointer;
+    }
+    .btn:hover{
+      background:#fafafa;
+    }
+    textarea{
+      width:100%;
+      min-height:120px;
+      border:1px solid #ddd;
+      border-radius:10px;
+      padding:10px 12px;
+      font-size:13px;
+      resize:vertical;
+      box-sizing:border-box;
+    }
+    .hint{
+      color:#666;
+      font-size:12px;
+      margin-top:6px;
+    }
+    .pill{
+      display:inline-block;
+      padding:3px 8px;
+      border:1px solid #e5e5e5;
+      border-radius:999px;
+      font-size:12px;
+      color:#444;
+      margin-left:6px;
+    }
     @media (max-width:900px){
       .grid{
         grid-template-columns:1fr;
@@ -131,6 +207,7 @@ let renderToken = 0;
 
 const WEEKDAY_KR = ["일", "월", "화", "수", "목", "금", "토"];
 const FILTER_WEEKDAYS = ["월", "화", "수", "목", "금", "토"];
+const DELETE_STORAGE_KEY = "maka_delete_candidates_v1";
 
 function normalizeHash(){
   const h = (location.hash || "").toLowerCase();
@@ -205,8 +282,6 @@ function mdToHtml(md){
 
 function parseTimeKst(timeStr){
   if(!timeStr) return null;
-
-  // "2026-03-07 03:30:12" 또는 "2026-03-07 03:30"
   const normalized = timeStr.replace(" ", "T");
   const dt = new Date(normalized);
   if(isNaN(dt.getTime())) return null;
@@ -314,6 +389,74 @@ function findDefaultWeekday(byDay){
   return FILTER_WEEKDAYS[0];
 }
 
+function loadDeleteCandidates(){
+  try{
+    const raw = localStorage.getItem(DELETE_STORAGE_KEY);
+    if(!raw) return [];
+    const arr = JSON.parse(raw);
+    if(!Array.isArray(arr)) return [];
+    return arr.filter(x => typeof x === "string" && x.trim() !== "");
+  }catch{
+    return [];
+  }
+}
+
+function saveDeleteCandidates(arr){
+  localStorage.setItem(DELETE_STORAGE_KEY, JSON.stringify(arr));
+}
+
+function hasDeleteCandidate(runId){
+  return loadDeleteCandidates().includes(runId);
+}
+
+function addDeleteCandidate(runId){
+  const arr = loadDeleteCandidates();
+  if(!arr.includes(runId)){
+    arr.push(runId);
+    saveDeleteCandidates(arr);
+  }
+}
+
+function removeDeleteCandidate(runId){
+  const arr = loadDeleteCandidates().filter(x => x !== runId);
+  saveDeleteCandidates(arr);
+}
+
+function clearDeleteCandidates(){
+  saveDeleteCandidates([]);
+}
+
+function getDeleteCandidatesText(){
+  return loadDeleteCandidates().join("\n");
+}
+
+function renderCandidatePanel(){
+  const box = document.getElementById("candidate-box");
+  const countEl = document.getElementById("candidate-count");
+  const textEl = document.getElementById("candidate-text");
+
+  if(!box || !countEl || !textEl) return;
+
+  const arr = loadDeleteCandidates();
+  countEl.textContent = `${arr.length}개 선택됨`;
+  textEl.value = arr.join("\n");
+}
+
+async function copyCandidates(){
+  const text = getDeleteCandidatesText();
+  if(!text){
+    alert("삭제 후보가 비어 있습니다.");
+    return;
+  }
+
+  try{
+    await navigator.clipboard.writeText(text);
+    alert("run_id 목록을 복사했습니다.");
+  }catch{
+    alert("복사에 실패했습니다. 아래 텍스트를 직접 복사해 주세요.");
+  }
+}
+
 async function renderRunInto(runId, targetEl, token){
   const base = `data/posts/${runId}/`;
   const meta = await fetchJson(base + "meta.json");
@@ -383,6 +526,21 @@ async function renderArchive(){
 
           <div id="week-info" class="small" style="margin-bottom:10px;"></div>
           <div class="list" id="list"></div>
+
+          <div class="candidate-box" id="candidate-box">
+            <div style="font-weight:800;">
+              삭제 후보
+              <span class="pill" id="candidate-count">0개 선택됨</span>
+            </div>
+            <div class="hint">아래 run_id를 복사해서 GitHub Actions의 delete-selected-posts 입력칸에 넣으면 됩니다.</div>
+            <div style="margin-top:8px;">
+              <textarea id="candidate-text" readonly></textarea>
+            </div>
+            <div class="candidate-actions">
+              <button class="btn" id="copy-btn" type="button">run_id 복사</button>
+              <button class="btn" id="clear-btn" type="button">전체 비우기</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -397,6 +555,20 @@ async function renderArchive(){
   const weekInfo = document.getElementById("week-info");
   const list = document.getElementById("list");
   const detail = document.getElementById("detail");
+  const copyBtn = document.getElementById("copy-btn");
+  const clearBtn = document.getElementById("clear-btn");
+
+  copyBtn.onclick = async () => {
+    await copyCandidates();
+  };
+
+  clearBtn.onclick = () => {
+    const ok = confirm("삭제 후보 목록을 전부 비울까요?");
+    if(!ok) return;
+    clearDeleteCandidates();
+    renderCandidatePanel();
+    drawList(weekSelect.value, daySelect.value);
+  };
 
   weekKeys.forEach((weekKey) => {
     const opt = document.createElement("option");
@@ -408,15 +580,11 @@ async function renderArchive(){
   FILTER_WEEKDAYS.forEach((day) => {
     const opt = document.createElement("option");
     opt.value = day;
-    opt.textContent = day요일로표현(day);
+    opt.textContent = `${day}요일`;
     daySelect.appendChild(opt);
   });
 
-  function day요일로표현(day){
-    return `${day}요일`;
-  }
-
-  async function drawList(weekKey, dayKey){
+  function drawList(weekKey, dayKey){
     const weekItems = grouped[weekKey] || [];
     const byDay = groupWeekItemsByWeekday(weekItems);
     const dayItems = byDay[dayKey] || [];
@@ -430,15 +598,27 @@ async function renderArchive(){
 
     if(dayItems.length === 0){
       list.innerHTML = `<div class="empty">${dayKey}요일 게시글이 없습니다.</div>`;
+      renderCandidatePanel();
       return;
     }
 
     dayItems.forEach((it, idx) => {
       const div = document.createElement("div");
       div.className = "item";
+
+      const checked = hasDeleteCandidate(it.run_id) ? "checked" : "";
+
       div.innerHTML = `
-        <div style="font-weight:700;">${makePostLabel(it)}</div>
-        <div style="color:#666;font-size:13px;">run_id: ${it.run_id}</div>
+        <div class="item-top">
+          <div class="item-main">
+            <div style="font-weight:700;">${makePostLabel(it)}</div>
+            <div class="item-sub">run_id: ${it.run_id}</div>
+          </div>
+          <label class="check-wrap">
+            <input type="checkbox" data-run-id="${it.run_id}" ${checked}/>
+            삭제 후보
+          </label>
+        </div>
       `;
 
       div.onclick = async () => {
@@ -450,15 +630,30 @@ async function renderArchive(){
         await renderRunInto(it.run_id, detail, t2);
       };
 
+      const checkbox = div.querySelector('input[type="checkbox"]');
+      checkbox.onclick = (e) => {
+        e.stopPropagation();
+      };
+      checkbox.onchange = () => {
+        if(checkbox.checked){
+          addDeleteCandidate(it.run_id);
+        }else{
+          removeDeleteCandidate(it.run_id);
+        }
+        renderCandidatePanel();
+      };
+
       list.appendChild(div);
 
       if(idx === 0){
         setTimeout(() => div.click(), 0);
       }
     });
+
+    renderCandidatePanel();
   }
 
-  async function refreshDayOptionsForWeek(weekKey){
+  function refreshDayOptionsForWeek(weekKey){
     const weekItems = grouped[weekKey] || [];
     const byDay = groupWeekItemsByWeekday(weekItems);
     const defaultDay = findDefaultWeekday(byDay);
@@ -473,19 +668,21 @@ async function renderArchive(){
     });
 
     daySelect.value = defaultDay;
-    await drawList(weekKey, defaultDay);
+    drawList(weekKey, defaultDay);
   }
 
   weekSelect.value = firstWeek;
-  await refreshDayOptionsForWeek(firstWeek);
+  refreshDayOptionsForWeek(firstWeek);
 
-  weekSelect.onchange = async () => {
-    await refreshDayOptionsForWeek(weekSelect.value);
+  weekSelect.onchange = () => {
+    refreshDayOptionsForWeek(weekSelect.value);
   };
 
-  daySelect.onchange = async () => {
-    await drawList(weekSelect.value, daySelect.value);
+  daySelect.onchange = () => {
+    drawList(weekSelect.value, daySelect.value);
   };
+
+  renderCandidatePanel();
 }
 
 async function router(){
