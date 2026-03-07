@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -26,14 +27,11 @@ def normalize_run_ids(raw: str) -> list[str]:
     if not raw:
         return []
 
-    text = raw.replace(",", "\n").replace("\r", "\n")
-    parts = []
+    # 쉼표/줄바꿈/탭/여러 공백 전부 분리
+    parts = re.split(r"[\s,]+", raw.strip())
 
-    for line in text.split("\n"):
-        s = line.strip()
-        if not s:
-            continue
-        parts.append(s)
+    # 빈값 제거
+    parts = [p.strip() for p in parts if p.strip()]
 
     # 중복 제거, 순서 유지
     seen = set()
@@ -171,7 +169,6 @@ def main():
     print(" -", INDEX_PATH)
     print(" -", LATEST_PATH)
 
-    # 아무것도 안 지웠으면 실패 처리
     if not deleted:
         print("\nNo posts were deleted.")
         sys.exit(1)
