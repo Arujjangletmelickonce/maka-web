@@ -76,9 +76,12 @@
       flex:1;
       min-width:0;
     }
+    .item-title{
+      font-weight:700;
+    }
     .item-sub{
       color:#666;
-      font-size:13px;
+      font-size:12px;
       margin-top:4px;
       word-break:break-all;
     }
@@ -134,6 +137,11 @@
       font-size:14px;
       padding:8px 2px;
     }
+    .admin-top{
+      margin-top:12px;
+      padding-top:12px;
+      border-top:1px solid #eee;
+    }
     .candidate-box{
       margin-top:12px;
       padding-top:12px;
@@ -155,6 +163,9 @@
     }
     .btn:hover{
       background:#fafafa;
+    }
+    .btn.primary{
+      border-color:#222;
     }
     textarea{
       width:100%;
@@ -179,6 +190,36 @@
       font-size:12px;
       color:#444;
       margin-left:6px;
+    }
+    .hidden{
+      display:none;
+    }
+    .candidate-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:10px;
+    }
+    .candidate-item{
+      border:1px solid #eee;
+      border-radius:12px;
+      padding:10px 12px;
+      background:#fff;
+    }
+    .candidate-item-title{
+      font-size:14px;
+      font-weight:700;
+    }
+    .candidate-item-sub{
+      color:#666;
+      font-size:12px;
+      margin-top:4px;
+      word-break:break-all;
+    }
+    .candidate-empty{
+      color:#666;
+      font-size:13px;
+      margin-top:10px;
     }
     @media (max-width:900px){
       .grid{
@@ -207,7 +248,8 @@ let renderToken = 0;
 
 const WEEKDAY_KR = ["일", "월", "화", "수", "목", "금", "토"];
 const FILTER_WEEKDAYS = ["월", "화", "수", "목", "금", "토"];
-const DELETE_STORAGE_KEY = "maka_delete_candidates_v1";
+const DELETE_STORAGE_KEY = "maka_delete_candidates_v2";
+const ADMIN_VISIBLE_KEY = "maka_admin_visible_v1";
 
 function normalizeHash(){
   const h = (location.hash || "").toLowerCase();
@@ -395,7 +437,7 @@ function loadDeleteCandidates(){
     if(!raw) return [];
     const arr = JSON.parse(raw);
     if(!Array.isArray(arr)) return [];
-    return arr.filter(x => typeof x === "string" && x.trim() !== "");
+    return arr.filter(x => x && typeof x.run_id === "string");
   }catch{
     return [];
   }
@@ -406,19 +448,22 @@ function saveDeleteCandidates(arr){
 }
 
 function hasDeleteCandidate(runId){
-  return loadDeleteCandidates().includes(runId);
+  return loadDeleteCandidates().some(x => x.run_id === runId);
 }
 
-function addDeleteCandidate(runId){
+function addDeleteCandidate(item){
   const arr = loadDeleteCandidates();
-  if(!arr.includes(runId)){
-    arr.push(runId);
+  if(!arr.some(x => x.run_id === item.run_id)){
+    arr.push({
+      run_id: item.run_id,
+      label: makePostLabel(item)
+    });
     saveDeleteCandidates(arr);
   }
 }
 
 function removeDeleteCandidate(runId){
-  const arr = loadDeleteCandidates().filter(x => x !== runId);
+  const arr = loadDeleteCandidates().filter(x => x.run_id !== runId);
   saveDeleteCandidates(arr);
 }
 
@@ -427,19 +472,55 @@ function clearDeleteCandidates(){
 }
 
 function getDeleteCandidatesText(){
-  return loadDeleteCandidates().join("\n");
+  return loadDeleteCandidates().map(x => x.run_id).join("\n");
+}
+
+function isAdminVisible(){
+  return localStorage.getItem(ADMIN_VISIBLE_KEY) === "1";
+}
+
+function setAdminVisible(v){
+  localStorage.setItem(ADMIN_VISIBLE_KEY, v ? "1" : "0");
 }
 
 function renderCandidatePanel(){
-  const box = document.getElementById("candidate-box");
   const countEl = document.getElementById("candidate-count");
   const textEl = document.getElementById("candidate-text");
-
-  if(!box || !countEl || !textEl) return;
+  const listEl = document.getElementById("candidate-list");
+  const toggleBtn = document.getElementById("admin-toggle-btn");
+  const adminPanel = document.getElementById("admin-panel");
 
   const arr = loadDeleteCandidates();
-  countEl.textContent = `${arr.length}개 선택됨`;
-  textEl.value = arr.join("\n");
+
+  if(countEl) countEl.textContent = `${arr.length}개 선택됨`;
+  if(textEl) textEl.value = arr.map(x => x.run_id).join("\n");
+
+  if(listEl){
+    listEl.innerHTML = "";
+    if(arr.length === 0){
+      listEl.innerHTML = `<div class="candidate-empty">선택된 삭제 후보가 없습니다.</div>`;
+    }else{
+      arr.forEach((it) => {
+        const div = document.createElement("div");
+        div.className = "candidate-item";
+        div.innerHTML = `
+          <div class="candidate-item-title">${it.label || it.run_id}</div>
+          <div class="candidate-item-sub">run_id: ${it.run_id}</div>
+        `;
+        listEl.appendChild(div);
+      });
+    }
+  }
+
+  const visible = isAdminVisible();
+
+  if(toggleBtn){
+    toggleBtn.textContent = visible ? "관리 기능 숨기기" : "관리 기능 보기";
+  }
+
+  if(adminPanel){
+    adminPanel.classList.toggle("hidden", !visible);
+  }
 }
 
 async function copyCandidates(){
@@ -527,15 +608,24 @@ async function renderArchive(){
           <div id="week-info" class="small" style="margin-bottom:10px;"></div>
           <div class="list" id="list"></div>
 
-          <div class="candidate-box" id="candidate-box">
+          <div class="admin-top">
+            <button class="btn primary" id="admin-toggle-btn" type="button">관리 기능 보기</button>
+            <div class="hint">삭제 후보 선택 기능은 필요할 때만 열어 두는 방식입니다.</div>
+          </div>
+
+          <div class="candidate-box hidden" id="admin-panel">
             <div style="font-weight:800;">
               삭제 후보
               <span class="pill" id="candidate-count">0개 선택됨</span>
             </div>
             <div class="hint">아래 run_id를 복사해서 GitHub Actions의 delete-selected-posts 입력칸에 넣으면 됩니다.</div>
-            <div style="margin-top:8px;">
+
+            <div id="candidate-list" class="candidate-list"></div>
+
+            <div style="margin-top:10px;">
               <textarea id="candidate-text" readonly></textarea>
             </div>
+
             <div class="candidate-actions">
               <button class="btn" id="copy-btn" type="button">run_id 복사</button>
               <button class="btn" id="clear-btn" type="button">전체 비우기</button>
@@ -557,6 +647,7 @@ async function renderArchive(){
   const detail = document.getElementById("detail");
   const copyBtn = document.getElementById("copy-btn");
   const clearBtn = document.getElementById("clear-btn");
+  const adminToggleBtn = document.getElementById("admin-toggle-btn");
 
   copyBtn.onclick = async () => {
     await copyCandidates();
@@ -570,6 +661,12 @@ async function renderArchive(){
     drawList(weekSelect.value, daySelect.value);
   };
 
+  adminToggleBtn.onclick = () => {
+    setAdminVisible(!isAdminVisible());
+    renderCandidatePanel();
+    drawList(weekSelect.value, daySelect.value);
+  };
+
   weekKeys.forEach((weekKey) => {
     const opt = document.createElement("option");
     opt.value = weekKey;
@@ -577,17 +674,11 @@ async function renderArchive(){
     weekSelect.appendChild(opt);
   });
 
-  FILTER_WEEKDAYS.forEach((day) => {
-    const opt = document.createElement("option");
-    opt.value = day;
-    opt.textContent = `${day}요일`;
-    daySelect.appendChild(opt);
-  });
-
   function drawList(weekKey, dayKey){
     const weekItems = grouped[weekKey] || [];
     const byDay = groupWeekItemsByWeekday(weekItems);
     const dayItems = byDay[dayKey] || [];
+    const adminVisible = isAdminVisible();
 
     const totalInWeek = weekItems.length;
     const totalInDay = dayItems.length;
@@ -607,17 +698,20 @@ async function renderArchive(){
       div.className = "item";
 
       const checked = hasDeleteCandidate(it.run_id) ? "checked" : "";
+      const checkHtml = adminVisible ? `
+        <label class="check-wrap">
+          <input type="checkbox" data-run-id="${it.run_id}" ${checked}/>
+          삭제 후보
+        </label>
+      ` : "";
 
       div.innerHTML = `
         <div class="item-top">
           <div class="item-main">
-            <div style="font-weight:700;">${makePostLabel(it)}</div>
+            <div class="item-title">${makePostLabel(it)}</div>
             <div class="item-sub">run_id: ${it.run_id}</div>
           </div>
-          <label class="check-wrap">
-            <input type="checkbox" data-run-id="${it.run_id}" ${checked}/>
-            삭제 후보
-          </label>
+          ${checkHtml}
         </div>
       `;
 
@@ -630,18 +724,22 @@ async function renderArchive(){
         await renderRunInto(it.run_id, detail, t2);
       };
 
-      const checkbox = div.querySelector('input[type="checkbox"]');
-      checkbox.onclick = (e) => {
-        e.stopPropagation();
-      };
-      checkbox.onchange = () => {
-        if(checkbox.checked){
-          addDeleteCandidate(it.run_id);
-        }else{
-          removeDeleteCandidate(it.run_id);
+      if(adminVisible){
+        const checkbox = div.querySelector('input[type="checkbox"]');
+        if(checkbox){
+          checkbox.onclick = (e) => {
+            e.stopPropagation();
+          };
+          checkbox.onchange = () => {
+            if(checkbox.checked){
+              addDeleteCandidate(it);
+            }else{
+              removeDeleteCandidate(it.run_id);
+            }
+            renderCandidatePanel();
+          };
         }
-        renderCandidatePanel();
-      };
+      }
 
       list.appendChild(div);
 
