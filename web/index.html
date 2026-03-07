@@ -62,7 +62,33 @@
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      gap:8px;
+      gap:4px;
+      text-align:center;
+    }
+    .footer-support-title{
+      border:none;
+      background:none;
+      padding:0;
+      margin:0;
+      font-size:15px;
+      color:#111;
+      cursor:pointer;
+    }
+    .footer-support-title:hover{
+      opacity:.8;
+    }
+    .footer-support-link{
+      border:none;
+      background:none;
+      padding:0;
+      margin:0;
+      font-size:13px;
+      color:#2563eb;
+      text-decoration:underline;
+      cursor:pointer;
+    }
+    .footer-support-link:hover{
+      opacity:.85;
     }
     .footer-support .support-note{
       text-align:center;
@@ -289,7 +315,7 @@
       </nav>
 
       <div>
-        <button class="support-btn" id="support-btn-top" type="button">☕ 커피 한 잔 사주기</button>
+        <button class="support-btn" id="support-btn-top" type="button">☕ 후원하기</button>
         <div class="support-note" id="support-note-top">현재는 마음만 받고 있습니다 껄껄껄 (&gt;ㅅ&lt;)</div>
       </div>
     </div>
@@ -298,7 +324,8 @@
   <div id="view"></div>
 
   <div class="footer-support">
-    <button class="support-btn" id="support-btn-bottom" type="button">☕ 커피 한 잔 사주기</button>
+    <button class="footer-support-title" id="support-btn-bottom-title" type="button">이 페이지가 유익했다면? 후원(Click)</button>
+    <button class="footer-support-link" id="support-btn-bottom-link" type="button">토스 링크로 안내합니다</button>
     <div class="support-note" id="support-note-bottom">현재는 마음만 받고 있습니다 껄껄껄 (&gt;ㅅ&lt;)</div>
   </div>
 
@@ -309,7 +336,8 @@ const tabArchive = document.getElementById("tab-archive");
 
 const supportBtnTop = document.getElementById("support-btn-top");
 const supportNoteTop = document.getElementById("support-note-top");
-const supportBtnBottom = document.getElementById("support-btn-bottom");
+const supportBtnBottomTitle = document.getElementById("support-btn-bottom-title");
+const supportBtnBottomLink = document.getElementById("support-btn-bottom-link");
 const supportNoteBottom = document.getElementById("support-note-bottom");
 
 let renderToken = 0;
@@ -875,8 +903,14 @@ if (supportBtnTop) {
   };
 }
 
-if (supportBtnBottom) {
-  supportBtnBottom.onclick = () => {
+if (supportBtnBottomTitle) {
+  supportBtnBottomTitle.onclick = () => {
+    toggleSupportNote(supportNoteBottom);
+  };
+}
+
+if (supportBtnBottomLink) {
+  supportBtnBottomLink.onclick = () => {
     toggleSupportNote(supportNoteBottom);
   };
 }
