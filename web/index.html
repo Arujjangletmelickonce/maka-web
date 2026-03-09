@@ -35,34 +35,14 @@
       align-items:flex-end;
       gap:8px;
     }
-    .support-btn{
-      border:1px solid #ddd;
-      background:#fff;
-      border-radius:999px;
-      padding:8px 14px;
-      font-size:13px;
-      cursor:pointer;
-      white-space:nowrap;
-    }
-    .support-btn:hover{
-      background:#fafafa;
-    }
-    .support-note{
-      font-size:12px;
-      color:#666;
-      display:none;
-      margin-top:6px;
-    }
-    .support-note.show{
-      display:block;
-    }
     .footer-support{
-      margin:40px 0 24px;
+      margin:72px 0 0;
+      padding:0 0 calc(88px + env(safe-area-inset-bottom, 0px));
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      gap:4px;
+      gap:6px;
       text-align:center;
 
       -webkit-user-select:none;
@@ -70,23 +50,18 @@
       -webkit-touch-callout:none;
     }
     .footer-support-title{
-      border:none;
-      background:none;
-      padding:0;
-      margin:0;
-      font-size:15px;
-      color:#111;
-      cursor:pointer;
-    }
-    .footer-support-title:hover{
-      opacity:.8;
-    }
-    .footer-support-link{
-      border:none;
-      background:none;
-      padding:0;
       margin:0;
       font-size:13px;
+      color:#111;
+      line-height:1.45;
+    }
+    .footer-support-note{
+      margin:0;
+      font-size:12px;
+      color:#666;
+      line-height:1.45;
+    }
+    .footer-support-link{
       color:#2563eb;
       text-decoration:underline;
       cursor:pointer;
@@ -95,6 +70,7 @@
       opacity:.85;
     }
     .footer-support-title,
+    .footer-support-note,
     .footer-support-link{
       -webkit-user-select:none;
       user-select:none;
@@ -321,18 +297,14 @@
         <a href="#archive" id="tab-archive">아카이브</a>
       </nav>
 
-      <div>
-        <button class="support-btn" id="support-btn-top" type="button">☕ 후원하기</button>
-        <div class="support-note" id="support-note-top">현재는 마음만 받고 있습니다 껄껄껄 (&gt;ㅅ&lt;)</div>
-      </div>
     </div>
   </header>
 
   <div id="view"></div>
 
   <div class="footer-support" id="footer-support">
-    <button class="footer-support-title" id="support-btn-bottom-title" type="button" draggable="false">이 페이지가 유익했다면? 후원(Click)</button>
-    <button class="footer-support-link" id="support-btn-bottom-link" type="button" draggable="false">토스 링크로 안내합니다</button>
+    <p class="footer-support-title">이 페이지가 유익했다면? 후원(Click)</p>
+    <p class="footer-support-note">토스로 이동하려면 <a class="footer-support-link" id="support-btn-bottom-link" href="supertoss://send?amount=2000&bank=케이뱅크&accountNo=100195910010&origin=qr" draggable="false">파란색 부분</a>을 눌러주세요.</p>
   </div>
 
 <script>
@@ -340,9 +312,6 @@ const view = document.getElementById("view");
 const tabLatest = document.getElementById("tab-latest");
 const tabArchive = document.getElementById("tab-archive");
 
-const supportBtnTop = document.getElementById("support-btn-top");
-const supportNoteTop = document.getElementById("support-note-top");
-const supportBtnBottomTitle = document.getElementById("support-btn-bottom-title");
 const supportBtnBottomLink = document.getElementById("support-btn-bottom-link");
 const footerSupport = document.getElementById("footer-support");
 
@@ -352,8 +321,6 @@ const WEEKDAY_KR = ["일", "월", "화", "수", "목", "금", "토"];
 const FILTER_WEEKDAYS = ["월", "화", "수", "목", "금", "토"];
 const DELETE_STORAGE_KEY = "maka_delete_candidates_v2";
 const ADMIN_VISIBLE_KEY = "maka_admin_visible_v1";
-
-const SUPPORT_TOP_DELAY_MS = 0;
 
 const SUPPORT_BOTTOM_URL = "supertoss://send?amount=2000&bank=케이뱅크&accountNo=100195910010&origin=qr";
 
@@ -366,15 +333,6 @@ function normalizeHash(){
 function setActive(hash){
   tabLatest.classList.toggle("active", hash === "#latest");
   tabArchive.classList.toggle("active", hash === "#archive");
-}
-
-function showSupportNote(noteEl){
-  if(!noteEl) return;
-  noteEl.classList.add("show");
-}
-
-function handleTopSupportClick(noteEl){
-  showSupportNote(noteEl);
 }
 
 function handleBottomSupportClick(){
@@ -914,20 +872,9 @@ window.addEventListener("hashchange", router);
 if (!location.hash) location.hash = "#latest";
 router();
 
-if (supportBtnTop) {
-  supportBtnTop.onclick = () => {
-    handleTopSupportClick(supportNoteTop);
-  };
-}
-
-if (supportBtnBottomTitle) {
-  supportBtnBottomTitle.onclick = () => {
-    handleBottomSupportClick();
-  };
-}
-
 if (supportBtnBottomLink) {
-  supportBtnBottomLink.onclick = () => {
+  supportBtnBottomLink.onclick = (e) => {
+    e.preventDefault();
     handleBottomSupportClick();
   };
 }
