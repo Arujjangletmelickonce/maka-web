@@ -1,6 +1,24 @@
 {
-  "count": 20,
+  "count": 22,
   "items": [
+    {
+      "run_id": "2026-03-10_0004",
+      "time_kst": "2026-03-10 00:04",
+      "spot": 597.5800170898438,
+      "pivot": 600.0,
+      "content_mode_kst": "intraday_live",
+      "trend_mode": "medium",
+      "path": "data/posts/2026-03-10_0004/meta.json"
+    },
+    {
+      "run_id": "2026-03-10_0003",
+      "time_kst": "2026-03-10 00:03",
+      "spot": 597.4000244140625,
+      "pivot": 600.0,
+      "content_mode_kst": "intraday_live",
+      "trend_mode": "medium",
+      "path": "data/posts/2026-03-10_0003/meta.json"
+    },
     {
       "run_id": "2026-03-09_2245",
       "time_kst": "2026-03-09 22:45",
