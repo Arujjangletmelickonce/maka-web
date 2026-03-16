@@ -1,13 +1,40 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "maka-web",
+  "main": "src/index.js",
+  "workers_dev": true,
   "compatibility_date": "2025-09-27",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "web"
+    "directory": "web",
+    "binding": "ASSETS",
+    "run_worker_first": true
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "qqq-maka-db",
+      "database_id": "99382f6e-4eec-4610-8dec-fa851f2751db"
+    }
+  ],
+  "vars": {
+    "AUTH_FROM_EMAIL": "auth@makaworkshop.com",
+    "AUTH_EMAIL_SUBJECT_PREFIX": "Maka Workshop",
+    "AUTH_CODE_TTL_MINUTES": "10",
+    "AUTH_SESSION_DAYS": "30",
+    "APNS_KEY_ID": "D47KTBYZJS",
+    "APNS_TEAM_ID": "858NCCUBG5",
+    "APNS_BUNDLE_ID": "net.daum.hsw2746.Maka",
+    "APNS_ENVIRONMENT": "sandbox"
+  },
+  "routes": [
+    {
+      "pattern": "api.makaworkshop.com",
+      "custom_domain": true
+    }
+  ],
   "compatibility_flags": [
     "nodejs_compat"
   ]

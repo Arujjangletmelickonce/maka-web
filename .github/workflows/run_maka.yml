@@ -49,6 +49,7 @@ jobs:
           python maka_pro_story.py
 
       - name: Commit & push updated web data
+        id: publish_data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -57,8 +58,24 @@ jobs:
 
           if git diff --cached --quiet; then
             echo "No changes"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           git commit -m "auto: update web data"
           git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Send latest post push notification
+        if: steps.publish_data.outputs.changed == 'true'
+        env:
+          PUSH_ADMIN_CODE: ${{ secrets.PUSH_ADMIN_CODE }}
+          PUSH_NOTIFY_URL: ${{ secrets.PUSH_NOTIFY_URL }}
+        run: |
+          : "${PUSH_ADMIN_CODE:?Missing PUSH_ADMIN_CODE secret}"
+          PUSH_NOTIFY_URL="${PUSH_NOTIFY_URL:-https://api.makaworkshop.com/notifications/publish-latest}"
+
+          curl --fail --silent --show-error \
+            -X POST "${PUSH_NOTIFY_URL}" \
+            -H "Content-Type: application/json" \
+            -H "X-Admin-Code: ${PUSH_ADMIN_CODE}"
