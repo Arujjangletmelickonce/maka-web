@@ -1613,9 +1613,9 @@ function normalizeJarTicker(value) {
 
 function isValidAdminRequest(request, env) {
   const adminCode = request.headers.get("X-Admin-Code");
-  const expectedCode = env.ADMIN_PASSCODE ?? "12345";
+  const expectedCode = env.ADMIN_PASSCODE;
 
-  return Boolean(adminCode) && adminCode === expectedCode;
+  return Boolean(expectedCode) && Boolean(adminCode) && adminCode === expectedCode;
 }
 
 function isValidEmail(value) {
