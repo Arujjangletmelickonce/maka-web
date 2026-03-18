@@ -88,6 +88,7 @@ if not MY_MODEL_ID:
 
 RUN_TICKER = config.get("run", {}).get("ticker", "QQQ")
 PIVOT_DEFAULT = float(config.get("run", {}).get("pivot", 600.0))
+PIVOT_MODE = str(config.get("run", {}).get("pivot_mode", "manual")).strip().lower()
 OUTPUTS_DIR = str(config.get("run", {}).get("outputs_dir", "web/data"))
 
 REQUEST_TIMEOUT = int(config.get("run", {}).get("request_timeout", 10))
@@ -189,72 +190,30 @@ ANALYST_JSON_SYSTEM = (
     "}\n"
 )
 
-MAKA_WRITER_SYSTEM = (
-    "너는 '마카'다. 글은 리포트가 아니라 커뮤니티 게시글이다.\n\n"
+MAKA_WRITER_SYSTEM = """
+You are 'Maka', a Korean writer who explains QQQ market structure.
 
-    "절대 금지:\n"
-    "- 특정 개인의 문체를 그대로 복제했다고 말하거나 그대로 베끼지 마라.\n"
-    "- 섹션 제목, 소제목, 번호 매기기, bullet list 금지\n"
-    "- (이미지 1), (이미지 2) 같은 문구 출력 금지\n"
-    "- 인사, 감사, 댓글 유도 금지\n"
-    "- QQQ 외 다른 종목 언급 금지\n"
-    "- 매매지시, 수량, 평단, 손절/익절, 매수·매도 권유 금지\n"
-    "- 친절한 강의문, 보고서식 정리문 금지\n\n"
+Write only from the raw data in the brief.
+Do not add macro events, news, earnings, Fed, calendar items, or any outside context unless they are explicitly present in the brief.
 
-    "원하는 글의 성격:\n"
-    "- 단정적이고 밀도 높은 게시글이어야 한다.\n"
-    "- 설명을 다 해주려 하지 말고, 핵심 운전 가설 하나를 먼저 던진 뒤 나머지 문장이 그 가설을 감싸게 써라.\n"
-    "- 숫자는 꼭 필요한 핵심값만 쓰고, 같은 숫자를 여러 번 반복하지 마라.\n"
-    "- pivot 숫자는 최대 3회 정도만 직접 쓰고, 나머지는 그 선, 그 자리, 중심값, 두꺼운 옵션벽, 자석 같은 말로 치환하라.\n"
-    "- 가격대는 2~4개까지 허용하지만, 모든 가격을 같은 비중으로 설명하지 마라. 한두 자리를 중심으로 나머지를 종속시켜라.\n"
-    "- 공포를 파는 자리와 희망을 파는 자리가 어디인지 드러내라.\n"
-    "- 독자가 읽자마자 '오늘 판은 이런 식으로 흔들겠구나' 하고 감이 오게 써라.\n"
-    "- 너무 예쁘고 균형 잡힌 설명문을 쓰지 마라. 약간 거칠더라도 중심축이 분명해야 한다.\n"
-    "- '~가능성이 있다', '~보인다', '~일 듯하다' 같은 말을 남발하지 마라. 기본은 단정적으로 깔고, 꼭 필요한 곳에서만 유보해라.\n"
-    "- 한 문장에서 같은 뜻을 두 번 설명하지 마라.\n"
-    "- 가격 설명을 사전처럼 늘어놓지 말고, 왜 그 자리가 오늘 의미가 있는지만 남겨라.\n\n"
+Primary goals:
+- Explain today's market structure, not what the reader should buy or sell.
+- Stay readable for a general QQQ or U.S. stock investor.
+- Sound gentle, considerate, and calm.
+- Build the explanation in steps instead of dumping all conclusions at once.
 
-    "문장/리듬:\n"
-    "- 총 6~9문단 정도.\n"
-    "- 각 문단은 1~3문장.\n"
-    "- 문단 사이에는 빈 줄을 둬라.\n"
-    "- 장전/장중은 더 짧고 날카롭게, 정오/장후는 약간 더 눌러서 써라.\n"
-    "- 같은 리듬의 문장을 연속으로 반복하지 마라.\n"
-    "- 문장마다 친절하게 다 설명하지 말고, 중요한 문장 몇 개가 먼저 박히게 써라.\n\n"
-
-    "첫 줄 규칙:\n"
-    "- 첫 줄에는 반드시 시간과 스팟을 짧게 찍어라.\n"
-    "- 형식 예시: '03:30 KST / QQQ 606.15'\n"
-    "- 첫 줄 다음 줄부터 본문을 시작해라.\n\n"
-
-    "자연스러운 전개:\n"
-    "1) 첫 문장에서 판의 핵심을 바로 찌른다.\n"
-    "2) 지금 시간대(content_mode_kst, now_et, phase_et)에 맞는 시장의 성격을 짧게 규정한다.\n"
-    "3) 오늘 또는 최근 흐름(day_stats, flow_one_line)은 길게 설명하지 말고 한 번만 짚는다.\n"
-    "4) 핵심 가격대 2~4개를 이야기하되, 중심 자리부터 설명하고 나머지는 거기에 딸려오게 써라.\n"
-    "5) participants_view와 core_thesis를 활용해 누가 어디서 무엇을 팔고 싶은지 보여줘라.\n"
-    "6) if_hold / if_break는 체크리스트처럼 따로 떼지 말고 본문 안에서 자연스럽게 녹여라.\n"
-    "7) 마지막은 '결국 오늘 뭐만 보면 되는지'로 한 번에 닫아라.\n\n"
-
-    "시간대별 톤:\n"
-    "- overnight_recap: 전일과 야간 흐름을 바탕으로 오늘 밤 심리선을 정리\n"
-    "- noon_brief: 최근 며칠의 태도 변화와 누가 판을 쥐고 있는지 설명\n"
-    "- premarket_preview: 개장 직전 어디가 함정이고 어디가 자석인지 경계감 있게\n"
-    "- intraday_live: 지금 벌어지는 가격 반응과 옵션벽의 상호작용을 가장 생생하게\n"
-    "- post_close_recap: 오늘 어떤 식으로 운전했는지 복기하고 내일로 넘길 포인트 제시\n\n"
-
-    "좋아하는 문장 결:\n"
-    "- 오늘은 방향보다 순서가 더 중요하다.\n"
-    "- 여기서는 방패가 될 수도 있지만, 한 번 밀리면 가속 페달이 된다.\n"
-    "- 위에서는 희망을 팔기 좋고, 아래에서는 공포를 팔기 좋다.\n"
-    "- 눈에 잘 띄는 자리일수록 미끼가 되기 쉽다.\n"
-    "- 결국 오늘은 여기만 보면 된다.\n\n"
-
-    "중요:\n"
-    "- 위의 문장들을 그대로 복붙하지 말고, 이런 결의 글을 새로 써라.\n"
-    "- 본문은 자연스럽게 이어지는 산문이어야 한다.\n"
-    "- 체크리스트처럼 보이면 실패다.\n"
-)
+Writing rules:
+- Korean output only.
+- Start with "{TIME_KST_SHORT} KST / {TICKER} {SPOT}".
+- Write 4 to 6 short paragraphs, with 1 to 3 sentences per paragraph.
+- Paragraph flow: today's mood -> why the center price matters -> upper pressure -> lower pressure -> soft wrap-up.
+- Avoid repeating the same idea, same price, or same jargon across paragraphs.
+- Do not give trade instructions, entry ideas, stop ideas, target ideas, or checklist-style triggers.
+- Prefer soft, considerate wording.
+- If a term may be hard for a general investor, mark it in the body as `term*`.
+- Add glossary lines only for terms that were actually marked with `*` in the body.
+- Keep glossary explanations very short and friendly.
+""".strip()
 
 SILENT_FIX_SYSTEM = (
     "너는 감수 편집자다. 글을 새로 쓰지 마라.\n"
@@ -268,6 +227,25 @@ SILENT_FIX_SYSTEM = (
     "출력은 최종 본문만."
 )
 
+
+MAKA_FINAL_FIX_SYSTEM = """
+You are the final Korean editor for a preview draft.
+
+Your job is to keep the writer's voice, but make the result gentler, clearer, and safer.
+
+Edit rules:
+- Keep the text in Korean.
+- Do not add any new market facts or outside context.
+- Remove action-guiding phrasing such as entry, target, trigger, confirm, chase, follow, or checklist-like if/then wording.
+- Keep the build-up across paragraphs instead of collapsing everything into one dense paragraph.
+- Make the tone more considerate and less blunt.
+- It is good to keep soft, considerate phrasing when natural.
+- If the body uses `term*`, keep only glossary lines for those exact starred terms.
+- If a term is not starred in the body, do not explain it in the glossary.
+- If no starred terms are used, remove the glossary entirely.
+- Keep the first line time/ticker header.
+- Output only the final polished text.
+""".strip()
 
 # =========================
 # File helpers
@@ -897,10 +875,256 @@ def normalize_analysis_json(
     return analysis_json
 
 
+
+def _fmt_price(value: object) -> str:
+    try:
+        number = float(value)
+    except Exception:
+        return "n/a"
+    if abs(number - round(number)) < 0.005:
+        return str(int(round(number)))
+    return f"{number:.2f}"
+
+
+def _fmt_signed_pct(value: object) -> str:
+    try:
+        return f"{float(value):+.2f}%"
+    except Exception:
+        return "n/a"
+
+
+def _fmt_big_number(value: object) -> str:
+    try:
+        number = float(value)
+    except Exception:
+        return "n/a"
+    if abs(number) >= 1_000_000_000:
+        return f"{number / 1_000_000_000:+.2f}B"
+    if abs(number) >= 1_000_000:
+        return f"{number / 1_000_000:+.2f}M"
+    if abs(number) >= 1_000:
+        return f"{number / 1_000:+.1f}K"
+    return f"{number:+.0f}"
+
+
+def _clean_text(value: object, fallback: str = "") -> str:
+    text = str(value or "").strip()
+    return text or fallback
+
+
+def _build_strike_surface_lines(
+    strikes,
+    call_oi,
+    put_oi,
+    net_gex,
+    net_dex,
+    *,
+    spot: float,
+    max_gap_pct: float = 0.10,
+    min_total_oi: float = 1000.0,
+) -> list[str]:
+    rows: list[str] = []
+    for strike, c_oi, p_oi, gex, dex in zip(strikes, call_oi, put_oi, net_gex, net_dex):
+        total_oi = float(c_oi) + float(p_oi)
+        if total_oi <= 0:
+            continue
+        gap = abs(float(strike) - spot)
+        if spot > 0 and gap / spot > max_gap_pct:
+            continue
+        if total_oi < min_total_oi and gap > 10.0:
+            continue
+        rows.append(
+            "- "
+            + " | ".join(
+                [
+                    f"price {_fmt_price(strike)}",
+                    f"spot_gap {float(strike) - spot:+.2f}",
+                    f"call_oi {int(round(float(c_oi))):,}",
+                    f"put_oi {int(round(float(p_oi))):,}",
+                    f"total_oi {int(round(total_oi)):,}",
+                    f"net_gex {_fmt_big_number(gex)}",
+                    f"net_dex {_fmt_big_number(dex)}",
+                ]
+            )
+        )
+    return rows or ["- none"]
+
+
+def choose_story_pivot(
+    *,
+    intraday_df,
+    strikes,
+    call_oi,
+    put_oi,
+    net_gex,
+    net_dex,
+    spot: float,
+    day_high: float,
+    day_low: float,
+    pivot_mode: str,
+    manual_pivot: float | None,
+) -> tuple[float, str, str]:
+    manual_value = float(manual_pivot) if manual_pivot is not None else None
+    mode = (pivot_mode or "manual").strip().lower()
+
+    if mode != "auto":
+        if manual_value is not None:
+            return manual_value, "manual", "manual pivot from config"
+        return float(spot), "spot_fallback", "manual pivot missing; used spot as fallback"
+
+    if spot <= 0:
+        if manual_value is not None:
+            return manual_value, "manual_fallback", "auto pivot unavailable because spot was invalid"
+        return 0.0, "empty_fallback", "auto pivot unavailable because spot was invalid"
+
+    window = max(6.0, min(15.0, abs(day_high - day_low) + 2.0))
+    band_low = min(day_low, spot) - 1.0
+    band_high = max(day_high, spot) + 1.0
+
+    candidates: list[tuple[float, float, float, float, float, float]] = []
+    for strike, c_oi, p_oi, gex, dex in zip(strikes, call_oi, put_oi, net_gex, net_dex):
+        strike_f = float(strike)
+        total_oi = float(c_oi) + float(p_oi)
+        if total_oi <= 0:
+            continue
+        gap = abs(strike_f - spot)
+        if gap > window and not (band_low <= strike_f <= band_high):
+            continue
+        touch_count = 0.0
+        if intraday_df is not None and len(intraday_df) > 0:
+            try:
+                recent_df = intraday_df.tail(90)
+                high = to_series(recent_df["High"]).astype(float).values
+                low = to_series(recent_df["Low"]).astype(float).values
+                band = max(0.45, min(0.90, abs(spot) * 0.001))
+                touch_hits = ((low - band) <= strike_f) & ((high + band) >= strike_f)
+                touch_count = float(touch_hits.sum())
+            except Exception:
+                touch_count = 0.0
+        candidates.append((strike_f, total_oi, abs(float(gex)), abs(float(dex)), gap, touch_count))
+
+    if not candidates:
+        if manual_value is not None:
+            return manual_value, "manual_fallback", "no near-spot pivot candidate met the auto filter"
+        return float(spot), "spot_fallback", "no near-spot pivot candidate met the auto filter"
+
+    max_touch = max(item[5] for item in candidates)
+    if max_touch <= 0:
+        if manual_value is not None:
+            return manual_value, "manual_fallback", "auto pivot found no recent touch cluster"
+        return float(spot), "spot_fallback", "auto pivot found no recent touch cluster"
+
+    max_oi = max(item[1] for item in candidates) or 1.0
+    max_abs_gex = max(item[2] for item in candidates) or 1.0
+    max_abs_dex = max(item[3] for item in candidates) or 1.0
+
+    best_score = float("-inf")
+    best_strike = None
+    for strike_f, total_oi, abs_gex, abs_dex, gap, touch_count in candidates:
+        round_bonus = 0.08 if abs(strike_f - round(strike_f / 5.0) * 5.0) < 0.01 else 0.0
+        score = (
+            0.58 * (touch_count / max_touch)
+            + 0.20 * (total_oi / max_oi)
+            + 0.10 * (abs_dex / max_abs_dex)
+            + 0.05 * (abs_gex / max_abs_gex)
+            + 0.07 * max(0.0, 1.0 - (gap / max(window, 1.0)))
+            + round_bonus
+        )
+        if score > best_score:
+            best_score = score
+            best_strike = strike_f
+
+    if best_strike is None:
+        if manual_value is not None:
+            return manual_value, "manual_fallback", "auto pivot scoring did not produce a winner"
+        return float(spot), "spot_fallback", "auto pivot scoring did not produce a winner"
+
+    return float(best_strike), "auto", f"auto pivot from recent touch cluster plus near-spot options surface within +/-{window:.2f}"
+
+
+def build_writer_brief(
+    *,
+    time_kst: str,
+    time_kst_short: str,
+    ticker: str,
+    spot: float,
+    pivot: float,
+    pivot_source: str,
+    content_mode_kst: str,
+    mode_guide_kst: str,
+    intraday: dict,
+    summary: dict,
+    strike_surface_lines: list[str],
+) -> str:
+    day_open = float(intraday.get("day_open") or spot)
+    day_high = float(intraday.get("day_high") or spot)
+    day_low = float(intraday.get("day_low") or spot)
+    vwap_like = float(intraday.get("vwap_like") or spot)
+    open_move_pct = ((spot / day_open) - 1.0) * 100.0 if day_open else 0.0
+
+    phase_et = _clean_text(intraday.get("phase_et"), "unknown")
+    now_et = _clean_text(intraday.get("now_et"), "unknown")
+    flow_one_line = _clean_text(intraday.get("flow_one_line"), "No intraday flow note.")
+
+    qqq_price_summary = (
+        f"{ticker} {spot:.2f} (open {day_open:.2f}, high {day_high:.2f}, "
+        f"low {day_low:.2f}, VWAP_like {vwap_like:.2f}), "
+        f"{_fmt_signed_pct(open_move_pct)} from open; ET {phase_et}, 30m {_fmt_signed_pct(intraday.get('r_30m'))}."
+    )
+
+    session_mapping = (
+        f"Current ET {now_et}. KST mode {content_mode_kst}; {mode_guide_kst} "
+        f"Current flow note: {flow_one_line}"
+    )
+
+    options_structure = (
+        f"Pivot {_fmt_price(pivot)} has {_clean_text(intraday.get('pivot_touches'), '0')} nearby touches. "
+        f"Contracts pulled: {summary.get('contracts', 'n/a')}. "
+        "The strike ladder below is limited to about +/-10% around spot. "
+        "It is raw surface data: price, distance from spot, call OI, put OI, total OI, net GEX, and net DEX."
+    )
+
+    sections = [
+        "[Sample Type]\nmain",
+        f"[T in KST]\n{time_kst}",
+        f"[QQQ Price Summary]\n{qqq_price_summary}",
+        f"[Session Context]\n{session_mapping}",
+        f"[Options Structure]\n{options_structure}",
+        "[Strike Ladder Raw]\n" + "\n".join(strike_surface_lines),
+        (
+            "[Session Anchors Raw]\n"
+            f"- spot {spot:.2f}\n"
+            f"- pivot {pivot:.2f}\n"
+            f"- pivot_source {pivot_source}\n"
+            f"- vwap_like {vwap_like:.2f}\n"
+            f"- day_high {day_high:.2f}\n"
+            f"- day_low {day_low:.2f}"
+        ),
+        (
+            "[Task]\n"
+            f"Write the Maka-style QQQ market-structure commentary from the raw data above. "
+            f"Start with \"{time_kst_short} KST / {ticker} {spot:.2f}\" and keep it to 4-6 short paragraphs. "
+            "Focus on explaining the structure in a way that a general investor can follow. "
+            "Let the explanation build gradually instead of dropping every conclusion in the first paragraph. "
+            "Use a gentle, considerate tone. "
+            "Do not give trade instructions. Do not turn price levels into targets, triggers, or action plans. "
+            "If a term is hard, mark it with * in the body and explain only those starred terms in short glossary lines at the end. "
+            "If no term needs explanation, do not add a glossary. "
+            "Avoid repeating the same point. Do not add macro events, news, or calendar items unless they are explicitly present above."
+        ),
+    ]
+    return "\n\n".join(sections)
+
+
 # =========================
 # Main pipeline
 # =========================
-def run(ticker: str = "QQQ", pivot: float = 600.0):
+def run(ticker: str = "QQQ", pivot: float | None = None, pivot_mode: str | None = None):
+    manual_pivot = float(PIVOT_DEFAULT if pivot is None else pivot)
+    pivot_mode_value = str(pivot_mode or PIVOT_MODE or "manual").strip().lower()
+    if pivot_mode_value not in {"auto", "manual"}:
+        pivot_mode_value = "manual"
+
     now_kst = datetime.now(ZoneInfo("Asia/Seoul"))
     time_kst = now_kst.strftime("%Y-%m-%d %H:%M")
     time_kst_short = now_kst.strftime("%H:%M")
@@ -911,7 +1135,8 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
     run_id = now_kst.strftime("%Y-%m-%d_%H%M")
     base = ensure_dir(Path(OUTPUTS_DIR) / "posts" / run_id)
 
-    intraday = fetch_intraday_context(ticker, pivot=pivot)
+    intraday_df, intraday_interval = fetch_intraday_df(ticker)
+    intraday = fetch_intraday_context(ticker, pivot=manual_pivot)
     spot, spot_source = get_spot_robust(ticker, intraday)
 
     try:
@@ -954,6 +1179,22 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
         "top_dex": [{"strike": float(strikes[i]), "net_dex": float(net_dex[i])} for i in top_dex_idx],
         "top_oi": [{"strike": float(strikes[i]), "call_oi": float(call_oi[i]), "put_oi": float(put_oi[i])} for i in top_oi_idx],
     }
+
+    pivot, pivot_source, pivot_reason = choose_story_pivot(
+        intraday_df=intraday_df,
+        strikes=strikes,
+        call_oi=call_oi,
+        put_oi=put_oi,
+        net_gex=net_gex,
+        net_dex=net_dex,
+        spot=spot,
+        day_high=float(intraday.get("day_high") or spot),
+        day_low=float(intraday.get("day_low") or spot),
+        pivot_mode=pivot_mode_value,
+        manual_pivot=manual_pivot,
+    )
+
+    intraday = fetch_intraday_context(ticker, pivot=pivot)
 
     payload = {
         "time_kst": time_kst,
@@ -999,19 +1240,26 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
     )
 
     qqq_price_file = generate_qqq_session_chart_kst(outfile=str(base / "qqq_price.png"))
-
-    user_prompt = (
-        f"[TIME_KST] {time_kst}\n"
-        f"[TIME_KST_SHORT] {time_kst_short}\n"
-        f"[CONTENT_MODE_KST] {content_mode_kst}\n"
-        f"[MODE_GUIDE_KST] {mode_guide_kst}\n"
-        f"[TREND_MODE] {TREND_MODE}\n"
-        f"[TREND_MODE_GUIDE] {trend_mode_guide}\n"
-        f"[INTRADAY_ET] {json.dumps(intraday, ensure_ascii=False)}\n"
-        f"[SPOT] {ticker} = {spot:.2f}\n"
-        f"[PIVOT] {pivot:.2f}\n"
-        f"[CHART_FILE] {chart_file}\n\n"
-        f"{json.dumps(analysis_json, ensure_ascii=False)}"
+    strike_surface_lines = _build_strike_surface_lines(
+        strikes,
+        call_oi,
+        put_oi,
+        net_gex,
+        net_dex,
+        spot=spot,
+    )
+    user_prompt = build_writer_brief(
+        time_kst=time_kst,
+        time_kst_short=time_kst_short,
+        ticker=ticker,
+        spot=spot,
+        pivot=pivot,
+        pivot_source=pivot_source,
+        content_mode_kst=content_mode_kst,
+        mode_guide_kst=mode_guide_kst,
+        intraday=intraday,
+        summary=summary,
+        strike_surface_lines=strike_surface_lines,
     )
 
     r2 = client.chat.completions.create(
@@ -1030,7 +1278,8 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
         input=[
             {"role": "system", "content": KOREAN_SYSTEM},
             {"role": "system", "content": SILENT_FIX_SYSTEM},
-            {"role": "user", "content": json.dumps({"analysis": analysis_json, "text": maka_body}, ensure_ascii=False)},
+            {"role": "system", "content": MAKA_FINAL_FIX_SYSTEM},
+            {"role": "user", "content": json.dumps({"brief": user_prompt, "text": maka_body}, ensure_ascii=False)},
         ],
     )
     final_body = (r3.output_text or "").strip()
@@ -1042,12 +1291,16 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
         "time_kst": time_kst,
         "ticker": ticker,
         "pivot": pivot,
+        "pivot_source": pivot_source,
+        "pivot_reason": pivot_reason,
+        "pivot_mode": pivot_mode_value,
         "spot": spot,
         "spot_source": spot_source,
         "content_mode_kst": content_mode_kst,
         "mode_guide_kst": mode_guide_kst,
         "trend_mode": TREND_MODE,
         "trend_mode_guide": trend_mode_guide,
+        "intraday_interval": intraday_interval,
         "intraday": intraday,
         "analysis_json": analysis_json,
         "files": {
@@ -1065,11 +1318,13 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
         "meta_path": str((Path(OUTPUTS_DIR) / "posts" / run_id / "meta.json").as_posix()),
         "content_mode_kst": content_mode_kst,
         "trend_mode": TREND_MODE,
+        "pivot": pivot,
+        "pivot_source": pivot_source,
     }
     write_json(Path(OUTPUTS_DIR) / "latest.json", latest)
 
     print("\n" + "=" * 70)
-    print(f"[Maka Body - {time_kst} | {content_mode_kst} | trend={TREND_MODE}]")
+    print(f"[Maka Body - {time_kst} | {content_mode_kst} | trend={TREND_MODE} | pivot={pivot:.2f} ({pivot_source})]")
     print("=" * 70)
     print(final_body)
     print("=" * 70)
@@ -1081,4 +1336,4 @@ def run(ticker: str = "QQQ", pivot: float = 600.0):
 
 
 if __name__ == "__main__":
-    run(RUN_TICKER, PIVOT_DEFAULT)
+    run(RUN_TICKER, PIVOT_DEFAULT, PIVOT_MODE)

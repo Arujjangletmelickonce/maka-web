@@ -1,8 +1,9 @@
 [models]
-maka_ft_model = "ft:gpt-4.1-2025-04-14:personal:maka-v7:DH4TcoSv"
-pro_model = "gpt-5.2"
+maka_ft_model = "ft:gpt-4.1-2025-04-14:personal:maka-v8:DKSlm1Az"
+pro_model = "gpt-5.4"
 
 [run]
+pivot_mode = "auto"
 ticker = "QQQ"
 pivot = 600.0
 outputs_dir = "web/data"
