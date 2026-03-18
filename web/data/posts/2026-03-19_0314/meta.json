@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-03-19_0314",
+  "time_kst": "2026-03-19 03:14",
+  "ticker": "QQQ",
+  "pivot": 600.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-11.96",
+  "pivot_mode": "auto",
+  "spot": 600.125,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "intraday_live",
+  "mode_guide_kst": "지금 가격 변화와 옵션 반응의 상호작용을 가장 생생하게 해석한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-03-18 14:14",
+    "phase_et": "mid_day",
+    "interval": "1m",
+    "last": 600.125,
+    "day_open": 607.03,
+    "day_high": 608.26,
+    "day_low": 598.2999877929688,
+    "vwap_like": 600.053455818289,
+    "r_30m": 0.08922315591819441,
+    "flow_one_line": "VWAP 위에서 버티며 위를 열어두는 흐름",
+    "pivot": 600.0,
+    "pivot_touches": 19
+  },
+  "analysis_json": {
+    "content_mode_kst": "intraday_live",
+    "spot": 600.125,
+    "now_et": "2026-03-18 14:14",
+    "phase_et": "mid_day",
+    "flow_one_line": "VWAP 위에서 버티며 위를 열어두는 흐름",
+    "day_stats": {
+      "open": 607.03,
+      "high": 608.26,
+      "low": 598.2999877929688,
+      "vwap_like": 600.053455818289
+    },
+    "pivot": 600.0,
+    "pivot_touches": 19,
+    "one_liner": "오늘 판의 중심은 600이다. 여기서는 방어선이 아니라 공포와 희망을 둘 다 팔 수 있는 자석이고, 이 자리를 오래 붙들수록 위아래 흔들기가 더 비싸진다.",
+    "key_levels": [
+      {
+        "price": 600,
+        "role": "pivot",
+        "why": "가장 큰 음수 GEX와 가장 큰 DEX, 압도적인 put OI가 한곳에 겹쳤다. 19번이나 두드린 건 방향 확정보다 이 가격 자체가 심리전 무대였다는 뜻이다. 붙들어 두면 핀처럼 보이지만, 한쪽으로 이탈하면 가장 먼저 가속이 붙는 자리다."
+      },
+      {
+        "price": 603,
+        "role": "resistance",
+        "why": "바로 위의 음수 GEX가 남아 있어 600 위 안착이 곧장 추세 안정으로 이어지지 않는다. 위로 열어두는 흐름이어도 603대는 희망을 파는 자리로 쓰이기 쉽다."
+      },
+      {
+        "price": 610,
+        "role": "resistance",
+        "why": "양수 GEX와 큰 call OI가 모여 있는 첫 상단 방패다. 위로 끌어올린 뒤 속도를 죽이기 좋은 구간이라, 여기서는 돌파 자체보다 눌러두기와 재핀 시도가 더 자연스럽다."
+      },
+      {
+        "price": 590,
+        "role": "support",
+        "why": "아래쪽의 큰 음수 GEX와 두터운 put OI가 겹친다. 평소 의미의 단단한 바닥이라기보다 600을 놓쳤을 때 공포를 크게 키우는 가속 구간의 첫 무대다. 방패처럼 보이던 put 쪽 구조가 오히려 하방 속도를 키울 수 있다."
+      }
+    ],
+    "core_thesis": "오늘은 방향보다 순서가 중요하다. 아침 급락 뒤 600을 다시 붙들며 VWAP 위로 복귀한 건 하방 붕괴를 막았다기보다 600을 중심으로 양쪽 프리미엄을 다시 받겠다는 운전이다. 다만 600은 음수 GEX 중심이라 오래 버틴다고 편해지는 자리가 아니다. 위로는 603에서 희망을 팔고, 아래로는 600 이탈 순간 공포를 비싸게 만드는 구조다.",
+    "participants_view": {
+      "market_maker": "600을 중심으로 최대한 오래 묶어두고 싶다. 하지만 이 자리는 중립 핀이 아니라 음수 GEX 자석이라, 흐름이 붙는 순간에는 따라 헤지해야 하는 불편한 중심이다. 그래서 600 위에서는 바로 추격시키지 않고 603과 610에서 속도를 꺾는 쪽이 유리하다.",
+      "whales": "아침에 아래를 흔든 뒤 다시 600 근처로 되돌린 건 싸게 공포를 끝내려는 태도가 아니다. 600을 축으로 프리미엄이 가장 잘 붙는 구간을 유지하면서, 위에서는 call 쪽 기대를 팔고 아래에서는 put 쪽 불안을 다시 살리는 식의 판 짜기가 읽힌다.",
+      "retail": "장 초반 급락을 본 뒤 아직도 600 아래 붕괴 공포를 놓지 못했고, 동시에 VWAP 회복을 보고 위 재돌파 기대도 다시 붙는다. 결국 600 근처에서 양방향 서사가 동시에 살아 있어 가장 흔들리기 쉬운 상태다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "600과 VWAP 위를 계속 붙들고 603 아래에서 소모전을 이어갈 때",
+        "expectation": "판은 강세 확정보다 위를 열어둔 채 눌러두기로 간다. 600을 지키는 모습 자체가 매수 서사를 키우지만, 실제 운전은 603과 610을 이용해 희망을 천천히 비싸게 파는 쪽에 가깝다."
+      },
+      "if_break": {
+        "condition": "600을 다시 내주고 VWAP 아래 체류가 길어질 때",
+        "expectation": "핀처럼 보이던 600이 바로 가속 페달로 바뀐다. 아래는 590 쪽 음수 GEX 구간이 열리면서 가짜 이탈이 아니라 헤지 추격이 붙는 압박으로 성격이 달라진다."
+      }
+    },
+    "watch": [
+      "600 위 체류가 단순 회복인지, 603 앞에서 반복적으로 막히며 희망 판매로 바뀌는지",
+      "600 이탈 뒤 재회복이 빠른 가짜 이탈인지, 아니면 VWAP 아래 체류가 길어지며 590 쪽 공포 가격표가 다시 붙는지"
+    ],
+    "risks": [
+      "600 터치가 너무 많아 한 번의 짧은 이탈만으로도 과장 해석하기 쉽다. 오늘 핵심은 숫자 자체보다 체류 시간이다.",
+      "610의 양수 GEX 방패를 강한 상단 목표처럼 읽으면 오해다. 이 자리는 위를 막는 벽이면서 동시에 위로 끌어올린 뒤 힘을 죽이기 좋은 구간이다."
+    ],
+    "chart_window_usd": 20.0,
+    "chart_title_en": "QQQ intraday options pivot at 600",
+    "chart_what_to_watch_en": "Watch whether 600 stays a pin above VWAP or flips into downside "
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
