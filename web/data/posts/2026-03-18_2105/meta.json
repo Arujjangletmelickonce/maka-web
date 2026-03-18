@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-03-18_2105",
+  "time_kst": "2026-03-18 21:05",
+  "ticker": "QQQ",
+  "pivot": 607.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-7.40",
+  "pivot_mode": "auto",
+  "spot": 604.89,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "premarket_preview",
+  "mode_guide_kst": "개장 전 벽, 자석, 가짜 방향 가능성을 짚고 초반 함정을 경계한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-03-18 08:05",
+    "phase_et": "premarket",
+    "interval": "1m",
+    "last": 604.89,
+    "day_open": 607.03,
+    "day_high": 608.26,
+    "day_low": 602.858,
+    "vwap_like": 607.1758469827586,
+    "r_30m": -0.18316831683168333,
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "pivot": 607.0,
+    "pivot_touches": 10
+  },
+  "analysis_json": {
+    "content_mode_kst": "premarket_preview",
+    "spot": 604.89,
+    "now_et": "2026-03-18 08:05",
+    "phase_et": "premarket",
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "day_stats": {
+      "open": 607.03,
+      "high": 608.26,
+      "low": 602.858,
+      "vwap_like": 607.1758469827586
+    },
+    "pivot": 607.0,
+    "pivot_touches": 10,
+    "one_liner": "오늘 판은 607을 중심으로 눌러두며 공포를 팔고, 605 아래에서 흔들어도 결국 610 벽을 다시 의식하게 만드는 구조다.",
+    "key_levels": [
+      {
+        "price": 607,
+        "role": "pivot",
+        "why": "개장 전 기준점이자 이미 여러 번 건드린 자리다. 많이 만졌다는 건 방향 확정보다 심리 고정점으로 쓰였다는 뜻이고, 초반에는 이 자리를 되찾는지 못 되찾는지가 분위기 스위치가 된다."
+      },
+      {
+        "price": 605,
+        "role": "support",
+        "why": "강한 양의 GEX가 붙어 있어 아래로 밀릴 때도 쉽게 일방 추세로 번지지 않게 막는 방패 역할을 한다. 다만 방패라는 믿음이 과해지면 이탈 순간에는 되레 가속 페달로 바뀌기 쉬운 자리다."
+      },
+      {
+        "price": 610,
+        "role": "resistance",
+        "why": "가장 두꺼운 양의 GEX와 큰 call OI가 겹친 상단 벽이다. 위로 열어주는 자리라기보다 희망을 팔기 좋은 자리라서, 초반 반등이 나와도 여기서는 다시 눌러두기 유인이 강하다."
+      },
+      {
+        "price": 600,
+        "role": "support",
+        "why": "가장 큰 DEX와 압도적인 put OI가 깔린 심리 방어선이다. 숫자 자체보다 모두가 보는 둥근 가격이라는 점이 중요하고, 이 구간이 시험대에 오르면 방어 의지 확인보다 공포 가격표가 먼저 붙는다."
+      }
+    ],
+    "core_thesis": "오늘은 방향보다 순서가 중요하다. 프리장 저점으로 겁을 준 뒤 605~607 회복 시도로 안도감을 팔고, 그 위에서는 610 벽으로 기대를 다시 눌러두는 그림이 중심축이다. 반대로 605가 버티지 못하면 지금의 완충 구조는 깨지고, 아래에서는 600이 마지막으로 crowd 심리를 모아 세우는 무대가 된다.",
+    "participants_view": {
+      "market_maker": "607 아래로는 과도한 공포를 오래 방치하기보다 605에서 속도를 줄이고, 607 위 회복이 나오면 610 앞에서 다시 눌러두고 싶어 한다. 지금 구조에서는 넓게 추세를 열기보다 가운데로 묶어두는 쪽이 편하다.",
+      "whales": "위에서는 610과 그 위 call OI 지대를 방패로 써서 희망을 팔고 싶어 하고, 아래에서는 600 put 집결을 믿게 만든 뒤 그 믿음이 과열되면 흔들기 좋은 판으로 본다. 즉 한쪽 확신이 생길 때마다 반대 심리를 가격화하려는 태도다.",
+      "retail": "프리장 하락을 보고 600 붕괴 공포에 쉽게 끌릴 수 있고, 반대로 607만 회복하면 금방 안도 쪽으로 기울기 쉽다. 오늘은 눈에 잘 보이는 숫자에 반응할수록 흔들리기 좋은 배치다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "초반에 605를 지키고 607 위로 다시 안착하는 흐름",
+        "expectation": "시장은 급락 공포보다 핀 성격을 강화한다. 위는 608~610 재시험이 열리지만, 그 반등조차 벽 확인용일 가능성이 크다."
+      },
+      "if_break": {
+        "condition": "605 아래에서 머무르며 607 복귀가 계속 막히는 흐름",
+        "expectation": "방패로 보이던 605가 가속 페달로 바뀌고 시선은 곧장 600으로 이동한다. 이 경우 해석의 초점은 하락 폭보다 공포를 얼마나 빠르게 가격에 태우는지로 바뀐다."
+      }
+    },
+    "watch": [
+      "607 회복이 한 번의 스침인지, 위에서 가격을 묶어두는 기준점 재장악인지",
+      "600이 단순 숫자 지지로 소비되는지, 아니면 put 집결 심리가 과하게 몰리며 되레 흔들기 무대로 변하는지"
+    ],
+    "risks": [
+      "프리장 고저폭이 이미 나와 있어 개장 직후 첫 방향이 가짜 이탈일 수 있다.",
+      "607을 너무 많이 건드린 구조라 개장 후에도 명확한 추세보다 반복 왕복으로 체감 난도가 높아질 수 있다."
+    ],
+    "chart_window_usd": 10.0,
+    "chart_title_en": "QQQ premarket option walls around 607 pivot",
+    "chart_what_to_watch_en": "Watch whether 605 holds as a shield and whether rebounds get pin"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
