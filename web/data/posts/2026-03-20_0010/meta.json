@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-03-20_0010",
+  "time_kst": "2026-03-20 00:10",
+  "ticker": "QQQ",
+  "pivot": 590.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-15.00",
+  "pivot_mode": "auto",
+  "spot": 592.1613159179688,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "intraday_live",
+  "mode_guide_kst": "지금 가격 변화와 옵션 반응의 상호작용을 가장 생생하게 해석한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-03-19 11:10",
+    "phase_et": "mid_day",
+    "interval": "1m",
+    "last": 592.0,
+    "day_open": 593.19,
+    "day_high": 663.41,
+    "day_low": 587.0800170898438,
+    "vwap_like": 590.574623468523,
+    "r_30m": 0.1268498942917473,
+    "flow_one_line": "VWAP 위에서 버티며 위를 열어두는 흐름",
+    "pivot": 590.0,
+    "pivot_touches": 9
+  },
+  "analysis_json": {
+    "content_mode_kst": "intraday_live",
+    "spot": 592.1613159179688,
+    "now_et": "2026-03-19 11:10",
+    "phase_et": "mid_day",
+    "flow_one_line": "VWAP 위에서 버티며 위를 열어두는 흐름",
+    "day_stats": {
+      "open": 593.19,
+      "high": 663.41,
+      "low": 587.0800170898438,
+      "vwap_like": 590.574623468523
+    },
+    "pivot": 590.0,
+    "pivot_touches": 9,
+    "one_liner": "오늘 판은 590을 방패로 여러 번 확인한 뒤, 그 방패를 발판으로 위 가격대 공포를 다시 매기려는 흐름이다.",
+    "key_levels": [
+      {
+        "price": 590,
+        "role": "pivot",
+        "why": "오늘 중심축이다. 터치가 9번이나 나온 건 여기서 계속 가격 합의를 다시 만들었다는 뜻이고, 지금은 VWAP 위에서 이 자리를 지키며 아래 불안을 눌러두는 중이다. 다만 top_gex 최상단 음수라서 방어선이 깨지면 완충이 아니라 변동 확대 스위치가 된다."
+      },
+      {
+        "price": 592,
+        "role": "support",
+        "why": "현물과 가장 맞닿아 있는 즉시 심리선이다. 592 인근도 음수 GEX가 커서 이 위에서는 추격 심리가 붙고, 이 아래로 미끄러지면 방금 만든 상승 해석이 빠르게 흔들린다. 위아래 흔들기의 경계선에 가깝다."
+      },
+      {
+        "price": 595,
+        "role": "resistance",
+        "why": "바로 위에서 희망을 팔기 좋은 자리다. 595와 600에 음수 GEX가 겹쳐 있어 한번 붙기 시작하면 눌림 저항이 아니라 오히려 헤지 가속이 붙을 수 있다. 그래서 막히면 짧게 눌러두는 자리, 넘기면 가짜가 아니라는 확인 자리다."
+      },
+      {
+        "price": 600,
+        "role": "resistance",
+        "why": "오늘 가장 노골적인 심리전 무대다. DEX와 OI가 동시에 크고 put OI도 두텁다. 평소엔 큰 미끼이자 자석인데, 지금처럼 590 위에서 버티는 구조에서는 위로 끌어올린 뒤 600에서 공포와 희망을 같이 파는 가격이 된다. 못 넘기면 핀, 소화하면 다음 위쪽 빈칸을 열어준다."
+      }
+    ],
+    "core_thesis": "오늘은 방향보다 순서가 중요하다. 590을 여러 번 두드려도 안 무너졌기 때문에 참가자들은 아래 붕괴보다 위 재평가를 먼저 보고 있다. 핵심은 590이 단순 방패로 끝나는지, 아니면 음수 GEX 특성상 위로 밀어붙이는 가속 페달로 바뀌는지다. 지금까지의 운전은 아래 공포를 소진시키고 595~600에서 새로 심리를 시험하는 쪽이다.",
+    "participants_view": {
+      "market_maker": "590 아래로는 따라가며 헤지해야 하고, 590 위에서는 눌러두기보다 가격을 따라가는 부담이 커진다. 그래서 지금은 590을 핀으로 묶기보다 그 위에서 변동을 관리하는 쪽에 가깝다.",
+      "whales": "590 put 방패를 믿고 아래 공포를 팔아먹은 뒤, 595와 600에서 다시 희망과 공포를 동시에 거래하려는 태도다. 즉 바로 붕괴를 원하기보다 위쪽 반응을 시험하며 비싸게 심리를 파는 그림이다.",
+      "retail": "아침 저점 이후 되돌림을 보며 위 추격 심리가 붙기 쉬운 구간이다. 동시에 595~600은 숫자가 둥글어 체감 저항이 커 보여 쉽게 겁먹거나 성급히 기대를 키우는 자리다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "590과 VWAP_like 위에서 버티며 592를 재이탈하지 않는 흐름",
+        "expectation": "판의 해석이 아래 방어에서 위 압박으로 넘어간다. 그러면 595 재도전이 자연스럽고, 여기서 안 밀리면 600이 자석이 아니라 시험대로 바뀐다."
+      },
+      "if_break": {
+        "condition": "590이 밀리고 그 아래에서 반등이 약해지는 흐름",
+        "expectation": "지금까지의 버티기가 가짜 이탈 유도였다는 해석이 붙는다. 590의 방패 성격이 사라지면서 음수 GEX가 아래 변동을 키우는 쪽으로 작동해 흔들기가 거칠어진다."
+      }
+    },
+    "watch": [
+      "590 재이탈 후 바로 회복되는지, 아니면 590 아래 체류 시간이 길어지는지",
+      "595 접근 때 속도가 붙는지, 아니면 숫자만 찍고 바로 눌리는지"
+    ],
+    "risks": [
+      "day_high 수치가 비정상적으로 커 보여 장중 고점 해석은 실제 체감과 다를 수 있다",
+      "음수 GEX 구간이 넓어 보이는 만큼 같은 가격대라도 반응이 과장돼 가짜 돌파와 가짜 이탈이 잦을 수 있다"
+    ],
+    "chart_window_usd": 20.0,
+    "chart_title_en": "QQQ Intraday Options Map",
+    "chart_what_to_watch_en": "Watch 590 as the hinge, 595 as the first squeeze test, and 600 a"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
