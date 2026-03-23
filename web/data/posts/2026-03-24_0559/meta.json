@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-03-24_0559",
+  "time_kst": "2026-03-24 05:59",
+  "ticker": "QQQ",
+  "pivot": 590.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-15.00",
+  "pivot_mode": "auto",
+  "spot": 588.1514,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "overnight_recap",
+  "mode_guide_kst": "전일 장과 야간 흐름을 짚고 오늘 밤 어디가 심리선인지 정리한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-03-23 16:59",
+    "phase_et": "afterhours",
+    "interval": "1m",
+    "last": 588.1514,
+    "day_open": 575.63,
+    "day_high": 597.0,
+    "day_low": 573.3,
+    "vwap_like": 590.4619265446349,
+    "r_30m": -0.057537086441572516,
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "pivot": 590.0,
+    "pivot_touches": 19
+  },
+  "analysis_json": {
+    "content_mode_kst": "overnight_recap",
+    "spot": 588.1514,
+    "now_et": "2026-03-23 16:59",
+    "phase_et": "afterhours",
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "day_stats": {
+      "open": 575.63,
+      "high": 597,
+      "low": 573.3,
+      "vwap_like": 590.4619265446349
+    },
+    "pivot": 590.0,
+    "pivot_touches": 19,
+    "one_liner": "어제 판은 590을 중심으로 붙잡아 두려는 손과 588 아래로 흔들어 공포를 팔려는 손이 동시에 있었고, 방패처럼 보이던 590이 밤사이 가장 예민한 심리선으로 남았다.",
+    "key_levels": [
+      {
+        "price": 590,
+        "role": "pivot",
+        "why": "하루 내내 가장 많이 부딪힌 중심축이고 DEX와 OI가 겹쳐 있어 핀으로 쓰기 좋은 자리다. 다만 바로 아래 589의 큰 양의 GEX와 588의 음의 GEX가 맞붙어 있어 590은 고정점이면서도 바로 성격이 바뀌는 경계다."
+      },
+      {
+        "price": 589,
+        "role": "support",
+        "why": "가장 큰 양의 GEX가 깔린 방패다. 이 위에서는 눌러도 다시 되감기기 쉬워 보였고, 밤에도 이 자리는 '무너지지 않으면 괜찮다'는 심리의 근거로 쓰이기 쉽다."
+      },
+      {
+        "price": 588,
+        "role": "support",
+        "why": "강한 음의 GEX가 바로 붙어 있어 589 아래에서 시장 성격이 급해지는 자리다. 낮에는 흔들기 구간이지만, 여기서 밀리면 방패가 가속 페달로 바뀌며 아래 변동성을 키우는 문턱이다."
+      },
+      {
+        "price": 610,
+        "role": "resistance",
+        "why": "위쪽에서 가장 눈에 띄는 call OI 둔덕이다. 희망을 팔기 좋은 숫자라 위로 띄워도 이 자리 전후에서는 상단 기대를 받아내기보다 되돌림 심리를 자극하는 무대로 쓰이기 쉽다."
+      }
+    ],
+    "core_thesis": "어제는 방향 승부보다 590 핀 유지와 그 아래 가짜 이탈 연출이 핵심이었다. 오늘 밤 심리도 같다. 590 위에 안착하면 판은 다시 안정 쪽 언어를 쓰고, 588이 열리면 그동안의 완충 구조가 순식간에 흔들림 증폭 장치로 바뀐다. 오늘은 어디로 가느냐보다 590-588 사이를 누가 먼저 포기하느냐가 속내다.",
+    "participants_view": {
+      "market_maker": "590을 중심으로 묶어 두는 쪽이 가장 편하다. 589의 양의 GEX를 방패로 쓰되 588 아래에서는 헤지 강도가 커질 수 있어, 그 선을 사수할 때와 포기할 때의 태도가 완전히 다르다.",
+      "whales": "위로는 600과 610에 기대를 걸게 만들고, 아래로는 588과 585에서 겁을 키우는 식의 심리전 재료를 쥐고 있다. 즉시 방향 선언보다 눈에 잘 보이는 숫자에서 반응을 끌어내는 쪽이 유리하다.",
+      "retail": "597 고점 기억 때문에 위 반등에는 희망을 붙이기 쉽고, 종가가 VWAP 아래인 점 때문에 588 이탈에는 과하게 불안해지기 쉽다. 가장 많이 흔들리기 좋은 구간이 딱 590 근처다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "590 재장악 또는 최소한 589 위에서 다시 머무는 흐름",
+        "expectation": "전일의 넓은 변동이 밤에는 핀 성격으로 압축되며, 아래 흔들기는 가짜 이탈처럼 소비되기 쉽다. 참여자들은 다시 눌러두기와 시간 끌기를 떠올리게 된다."
+      },
+      "if_break": {
+        "condition": "588 아래에서 머무르며 590 복귀가 바로 나오지 않는 흐름",
+        "expectation": "589의 방패 효력이 약해졌다는 해석이 붙으면서 하방 헤지 반응이 커질 수 있다. 그 순간 590은 중립축이 아니라 위에서 눌러두는 기준선으로 읽히고, 아래 숫자들은 자석보다 가속 구간으로 받아들여진다."
+      }
+    },
+    "watch": [
+      "590이 다시 핀처럼 작동하는지, 아니면 588-589 사이가 성격 전환 구간으로 굳는지",
+      "전일 고점 597을 찍고도 VWAP 아래에서 끝난 기억이 오늘 밤 참가자들의 상단 신뢰를 얼마나 약하게 만드는지"
+    ],
+    "risks": [
+      "애프터 흐름은 체결이 얇아 눈에 보이는 숫자 근처에서 심리가 과장될 수 있다",
+      "590 근처 OI가 커서 해석이 한쪽으로 쉬워 보여도 실제로는 위아래 흔들기 재료로 더 자주 쓰일 수 있다"
+    ],
+    "chart_window_usd": 24.0,
+    "chart_title_en": "QQQ Overnight: 590 Pin, 588 Flip Zone",
+    "chart_what_to_watch_en": "Watch whether 590 keeps acting like a pin or whether 588 turns t"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
