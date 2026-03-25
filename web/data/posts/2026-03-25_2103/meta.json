@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-03-25_2103",
+  "time_kst": "2026-03-25 21:03",
+  "ticker": "QQQ",
+  "pivot": 590.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-9.61",
+  "pivot_mode": "auto",
+  "spot": 590.9315,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "premarket_preview",
+  "mode_guide_kst": "개장 전 벽, 자석, 가짜 방향 가능성을 짚고 초반 함정을 경계한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-03-25 08:03",
+    "phase_et": "premarket",
+    "interval": "1m",
+    "last": 590.9315,
+    "day_open": 588.77,
+    "day_high": 591.5915,
+    "day_low": 583.98,
+    "vwap_like": 590.0833847736626,
+    "r_30m": 0.0730736663844267,
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "pivot": 590.0,
+    "pivot_touches": 17
+  },
+  "analysis_json": {
+    "content_mode_kst": "premarket_preview",
+    "spot": 590.9315,
+    "now_et": "2026-03-25 08:03",
+    "phase_et": "premarket",
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "day_stats": {
+      "open": 588.77,
+      "high": 591.5915,
+      "low": 583.98,
+      "vwap_like": 590.0833847736626
+    },
+    "pivot": 590.0,
+    "pivot_touches": 17,
+    "one_liner": "오늘 판의 중심은 590 붙들기다. 여기서는 방향을 만드는 게 아니라 590을 자석으로 써서 위 희망과 아래 공포를 둘 다 팔기 좋은 구조다.",
+    "key_levels": [
+      {
+        "price": 590,
+        "role": "pivot",
+        "why": "top_gex와 top_dex가 동시에 가장 두껍고 pivot 터치도 17번이다. 개장 초반 이 자리를 중심으로 눌러두기와 되감기가 반복되기 가장 좋은 핵심 자석이다."
+      },
+      {
+        "price": 594,
+        "role": "resistance",
+        "why": "590 위에서 가장 먼저 기대를 부풀리기 좋은 윗벽이다. 592~595 구간에 양의 GEX가 연속으로 깔려 있어 한번에 추세를 열기보다 위로 보여주고 다시 590대로 접어 넣는 가짜 이탈 무대가 되기 쉽다."
+      },
+      {
+        "price": 585,
+        "role": "support",
+        "why": "585와 그 아래 580에 DEX와 put OI가 두껍다. 아래로 흔들 때는 공포를 팔기 좋은 방패지만, 585를 개장 후 못 세우면 그 방패가 580 테스트를 부르는 가속 페달로 바뀐다."
+      },
+      {
+        "price": 575,
+        "role": "support",
+        "why": "가장 큰 put OI와 음의 GEX가 겹친 자리다. 평소엔 하단 방패처럼 보이지만, 실제로 이 구간이 시야에 들어오면 헤지 반응이 커지며 눌림이 자석이 아니라 급가속 구간으로 변할 수 있다."
+      }
+    ],
+    "core_thesis": "개장 전 구조만 보면 오늘은 590을 가운데 두고 위 594~595에서 희망을 팔고 아래 585에서 공포를 파는 판이다. 순서는 590 고정이 먼저고, 그 고정이 풀릴 때만 방패가 가속 페달로 바뀐다.",
+    "participants_view": {
+      "market_maker": "590에 가장 무겁게 기대고 싶어 한다. 양의 GEX가 두꺼워 초반에는 590 근처로 되감는 운전이 편하고, 592~595는 위로 열어주는 척하고 다시 접어 넣기 좋은 구간이다.",
+      "whales": "위로는 600과 610 call OI를 멀리 미끼로 세워두고, 아래로는 585·580·575 put OI를 방패처럼 진열해 놓은 모습이다. 당장 한쪽을 강하게 밀기보다 눈에 잘 보이는 경계만 강조해 참여자 반응을 끌어내기 좋다.",
+      "retail": "590 회복을 추세 시작으로 착각하거나, 585 이탈을 바로 붕괴로 해석하기 쉬운 자리다. 오늘 초반 함정은 방향 자체보다 눈에 띄는 숫자 이탈에 감정이 먼저 반응하는 데 있다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "개장 후 590 위에서 가격이 머물고 VWAP 유사값 근처 되감기가 반복될 때",
+        "expectation": "판은 위로 질주하기보다 590을 중심으로 압축된다. 592~595는 돌파 확인보다 희망을 비싸게 파는 무대로 쓰이기 쉽다."
+      },
+      "if_break": {
+        "condition": "개장 후 590을 잃고 585 반응까지 약해질 때",
+        "expectation": "초반 방패로 보이던 put 둔덕이 오히려 아래 헤지를 부르며 580, 심하면 575 시야를 빠르게 열 수 있다. 이때는 눌러두기 장세에서 가속 장세로 성격이 바뀐다."
+      }
+    },
+    "watch": [
+      "590에서 또다시 되감기 힘이 강한지, 아니면 개장 후 바로 pivot 이탈이 고착되는지",
+      "592~595 위 시도가 추세 확인으로 이어지는지, 아니면 짧은 과열 연출 뒤 다시 590대로 접히는지"
+    ],
+    "risks": [
+      "프리장 고점 591.5915 근처 움직임을 과대해석하면 개장 직후 가짜 방향에 휘말리기 쉽다",
+      "575의 큰 put OI를 단순 하단 지지로만 보면 안 된다. 음의 GEX가 겹쳐 실제 접근 시 변동 확대가 더 문제다"
+    ],
+    "chart_window_usd": 16.0,
+    "chart_title_en": "QQQ premarket options map around 590 pivot",
+    "chart_what_to_watch_en": "Watch whether 590 keeps acting as a magnet, or whether a loss of"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
