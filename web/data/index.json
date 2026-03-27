@@ -1,6 +1,15 @@
 {
-  "count": 133,
+  "count": 134,
   "items": [
+    {
+      "run_id": "2026-03-27_2103",
+      "time_kst": "2026-03-27 21:03",
+      "spot": 570.58,
+      "pivot": 570.0,
+      "content_mode_kst": "premarket_preview",
+      "trend_mode": "medium",
+      "path": "data/posts/2026-03-27_2103/meta.json"
+    },
     {
       "run_id": "2026-03-27_1827",
       "time_kst": "2026-03-27 18:27",
