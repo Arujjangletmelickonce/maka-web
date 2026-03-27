@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-03-27_1545",
+  "time_kst": "2026-03-27 15:45",
+  "ticker": "QQQ",
+  "pivot": 575.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-15.00",
+  "pivot_mode": "auto",
+  "spot": 575.8014,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "noon_brief",
+  "mode_guide_kst": "최근 며칠간 흐름과 참여자 태도를 설명하고 오늘 밤의 중심 자리를 제시한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-03-27 02:45",
+    "phase_et": "closed",
+    "interval": "1m",
+    "last": 575.8014,
+    "day_open": 585.35,
+    "day_high": 587.98,
+    "day_low": 559.0253,
+    "vwap_like": 578.9540292644474,
+    "r_30m": 0.10107437154478482,
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "pivot": 575.0,
+    "pivot_touches": 14
+  },
+  "analysis_json": {
+    "content_mode_kst": "noon_brief",
+    "spot": 575.8014,
+    "now_et": "2026-03-27 02:45",
+    "phase_et": "closed",
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "day_stats": {
+      "open": 585.35,
+      "high": 587.98,
+      "low": 559.0253,
+      "vwap_like": 578.9540292644474
+    },
+    "pivot": 575.0,
+    "pivot_touches": 14,
+    "one_liner": "오늘 판의 중심은 575 눌러두기다. 여기서 버티면 핀이고, 여기서 밀리면 방패가 가속 페달로 바뀐다.",
+    "key_levels": [
+      {
+        "price": 575,
+        "role": "pivot",
+        "why": "가장 큰 음의 GEX와 가장 두터운 put OI가 겹친 중심축이다. 하루 내내 14번 건드린 자리라는 건 방향 확정보다 이 가격을 무대로 공포와 희망을 계속 팔았다는 뜻이다."
+      },
+      {
+        "price": 580,
+        "role": "resistance",
+        "why": "음의 GEX와 큰 DEX, 두터운 put OI가 함께 몰린 바로 위 방어선이다. 575 위 안착 서사가 나오면 가장 먼저 기대를 파는 자리지만, 못 넘기면 위로 미끼만 던진 셈이 된다."
+      },
+      {
+        "price": 570,
+        "role": "support",
+        "why": "아래 첫 방패처럼 보이지만 이 구간도 음의 GEX가 커서 한 번 미끄러지면 완충보다 속도 붙이기 쉬운 자리다. 겉으로는 지지, 실제로는 흔들기 무대다."
+      },
+      {
+        "price": 560,
+        "role": "support",
+        "why": "오늘 저점대와 큰 put OI가 맞물린 공포의 저장고다. 아래로 시선이 쏠릴수록 새 공포를 팔기 좋은 자리라서, 한 번 열리면 체감 변동성이 급격히 커질 수 있다."
+      }
+    ],
+    "core_thesis": "최근 며칠 흐름의 핵심은 방향 확신이 아니라 중간 행사가를 중심으로 위아래를 흔들며 감정을 파는 구조다. 오늘도 575가 자석이자 전장이고, 580 회복은 희망을 팔기 좋은 반등 구간, 570 이탈은 기존 방패가 오히려 하방 속도를 키우는 전환점이다. 순서는 늘 같다. 먼저 575에서 붙들고, 그다음 580에서 위를 믿게 만들지, 아니면 570 아래로 공포를 확장할지 결정한다.",
+    "participants_view": {
+      "market_maker": "가장 불편한 자리가 575 부근이라 가격을 그 주변에 묶어두며 양쪽 추격을 소모시키는 태도다. 다만 음의 GEX가 두터워서 575를 벗어나는 순간에는 중립 유지 흐름이 오히려 변동성 증폭으로 바뀐다.",
+      "whales": "580 위에서는 희망을 비싸게 팔고 싶고, 570 아래에서는 공포를 비싸게 팔고 싶어 한다. 즉 한 방향 확정보다 눈에 띄는 숫자 위아래에서 심리 가격표를 다시 붙이는 쪽이다.",
+      "retail": "575를 기준으로 반등 복귀 서사와 추가 붕괴 서사를 번갈아 따라붙기 쉬운 상태다. 많이 보인 숫자일수록 확신이 커지는데, 바로 그 점이 흔들기 재료가 된다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "575 위에서 다시 가격이 머물고 578.95 부근 회복 서사가 붙을 때",
+        "expectation": "판은 급반전보다 핀 성격이 강해진다. 580은 돌파선이라기보다 위로 기대를 다시 팔기 좋은 시험대가 된다."
+      },
+      "if_break": {
+        "condition": "575를 다시 내주고 570 아래 체류가 길어질 때",
+        "expectation": "아래 put 방패가 완충이 아니라 가속 장치로 바뀐다. 다음 심리 무대는 560대 공포 가격표를 다시 열어젖히는 흐름이다."
+      }
+    },
+    "watch": [
+      "575를 다시 중심으로 묶으려는지, 아니면 570 아래 체류를 허용하는지",
+      "578.95 부근 회복이 진짜 균형 복원인지, 580 앞 희망 미끼인지"
+    ],
+    "risks": [
+      "음의 GEX 구간이라 눈에 보이는 이탈이 곧바로 가짜 이탈과 재진입으로 뒤집힐 수 있다",
+      "정규장 밖 흐름 특성상 얇은 체결로 숫자만 크게 흔들고 실제 의도는 575 핀 유지일 수 있다"
+    ],
+    "chart_window_usd": 35.0,
+    "chart_title_en": "QQQ: 575 Pin Or Accelerator",
+    "chart_what_to_watch_en": "Watch whether 575 keeps acting like a magnet, or flips into a do"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}

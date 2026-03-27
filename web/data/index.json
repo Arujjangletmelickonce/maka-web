@@ -1,6 +1,15 @@
 {
-  "count": 131,
+  "count": 132,
   "items": [
+    {
+      "run_id": "2026-03-27_1545",
+      "time_kst": "2026-03-27 15:45",
+      "spot": 575.8014,
+      "pivot": 575.0,
+      "content_mode_kst": "noon_brief",
+      "trend_mode": "medium",
+      "path": "data/posts/2026-03-27_1545/meta.json"
+    },
     {
       "run_id": "2026-03-27_1356",
       "time_kst": "2026-03-27 13:56",
