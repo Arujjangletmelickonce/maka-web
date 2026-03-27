@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-03-28_0308",
+  "time_kst": "2026-03-28 03:08",
+  "ticker": "QQQ",
+  "pivot": 564.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-15.00",
+  "pivot_mode": "auto",
+  "spot": 563.260009765625,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "intraday_live",
+  "mode_guide_kst": "지금 가격 변화와 옵션 반응의 상호작용을 가장 생생하게 해석한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-03-27 14:09",
+    "phase_et": "mid_day",
+    "interval": "1m",
+    "last": 563.260009765625,
+    "day_open": 576.05,
+    "day_high": 579.59,
+    "day_low": 563.1400146484375,
+    "vwap_like": 567.4247712283587,
+    "r_30m": -0.22496934889926212,
+    "flow_one_line": "VWAP 아래로 눌리며 공포를 팔기 좋은 흐름",
+    "pivot": 564.0,
+    "pivot_touches": 2
+  },
+  "analysis_json": {
+    "content_mode_kst": "intraday_live",
+    "spot": 563.260009765625,
+    "now_et": "2026-03-27 14:09",
+    "phase_et": "mid_day",
+    "flow_one_line": "VWAP 아래로 눌리며 공포를 팔기 좋은 흐름",
+    "day_stats": {
+      "open": 576.05,
+      "high": 579.59,
+      "low": 563.1400146484375,
+      "vwap_like": 567.4247712283587
+    },
+    "pivot": 564.0,
+    "pivot_touches": 2,
+    "one_liner": "오늘 판은 564를 핀으로 삼아 아래 공포를 팔고, 위로는 VWAP 복귀 기대를 미끼로 쓰는 압박 장세다.",
+    "key_levels": [
+      {
+        "price": 564,
+        "role": "pivot",
+        "why": "지금 현물 바로 위아래에서 음의 GEX가 두껍게 걸린 중심축이다. 두 번 찍고도 못 올라앉았다는 건 이 자리가 단순 숫자가 아니라 눌러두기와 가짜 복귀를 가르는 심리선이라는 뜻이다."
+      },
+      {
+        "price": 565,
+        "role": "resistance",
+        "why": "가장 큰 음의 GEX가 걸린 자리라 방패처럼 보이지만, 다시 올라타면 오히려 반응이 커지는 가속 구간이 된다. 오늘은 막는 자리이면서 동시에 위아래 흔들기를 키우는 스위치다."
+      },
+      {
+        "price": 560,
+        "role": "support",
+        "why": "굵은 put OI와 음의 GEX가 같이 있는 자리다. 아래 공포가 가장 잘 팔리는 방어선인데, 버티면 핀 역할을 하고 밀리면 방어가 추격으로 바뀌기 쉬운 자리다."
+      },
+      {
+        "price": 567.42,
+        "role": "resistance",
+        "why": "VWAP 유사값이다. 시가에서 크게 밀린 뒤 이 선 아래에 묶였다는 것 자체가 오늘 참여자들이 반등보다 눌러두기에 돈을 싣고 있다는 신호다. 여기 복귀는 단순 반등보다 체면 회복 시험대에 가깝다."
+      }
+    ],
+    "core_thesis": "오늘은 방향보다 순서가 중요하다. 위에서 575~580 put 방패를 들고 있던 판이 한 번 무너지자, 중심 전장은 565-564로 내려왔고 여기서 공포를 비싸게 팔아먹는 구조가 됐다. 564 아래에 머무는 동안은 약세 자체보다 흔들기 확대가 본질이고, 565를 되찾는 순간 방패가 가속 페달로 바뀐다.",
+    "participants_view": {
+      "market_maker": "음의 GEX가 560~567에 촘촘해 작은 가격 변화도 큰 반응으로 받아내는 구간이다. 그래서 한 방향 추세를 만들기보다 564-565를 축으로 흔들면서 프리미엄을 비싸게 받는 태도가 읽힌다.",
+      "whales": "큰 OI는 여전히 570·575·580 위에 몰려 있어 위쪽에는 무너진 방패의 잔상이 남아 있다. 지금은 그 위를 당장 회복시키기보다 560대 중반에서 눌러두고 공포와 희망을 번갈아 파는 쪽이 더 편한 포지션으로 보인다.",
+      "retail": "급락 뒤 저가 반등 기대와 추가 붕괴 공포가 동시에 큰 자리다. 그래서 564 부근의 작은 복귀에도 희망을 사고, 560 근처만 가도 공포를 따라붙기 쉬운 심리가 만들어져 있다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "564를 다시 올라타고 565 위에서 가격이 덜 흔들리기 시작할 때",
+        "expectation": "눌러두기 명분이 약해지며 567 부근 VWAP 회귀 서사가 살아난다. 이때는 반등 자체보다, 막던 벽이 반응을 키우는 쪽으로 성격이 바뀌는지가 핵심이다."
+      },
+      "if_break": {
+        "condition": "563 저점을 다시 깨고 560 쪽으로 미는 흐름이 붙을 때",
+        "expectation": "560은 방패처럼 보이는 자리지만 음의 GEX가 붙어 있어 이탈 시 충격 흡수가 아니라 추격 반응이 커질 수 있다. 아래로는 공포를 더 비싸게 팔기 쉬운 구간으로 바뀐다."
+      }
+    },
+    "watch": [
+      "564-565에서 되돌림이 막히는지, 아니면 막던 벽이 갑자기 탄력을 키우는지",
+      "560 접근 때 반발보다 변동 확대가 먼저 나오는지"
+    ],
+    "risks": [
+      "음의 GEX 구간이라 같은 가격대에서도 반응 속도가 갑자기 달라질 수 있다",
+      "장중 급락 이후라 단순 기술적 되돌림도 서사상 과대해석되기 쉽다"
+    ],
+    "chart_window_usd": 24.0,
+    "chart_title_en": "QQQ intraday options pressure around 564-565",
+    "chart_what_to_watch_en": "Watch whether 564-565 stays as a pin that sells fear, or flips i"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
