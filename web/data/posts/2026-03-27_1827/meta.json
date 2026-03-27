@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-03-27_1827",
+  "time_kst": "2026-03-27 18:27",
+  "ticker": "QQQ",
+  "pivot": 575.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-6.33",
+  "pivot_mode": "auto",
+  "spot": 574.24,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "premarket_preview",
+  "mode_guide_kst": "개장 전 벽, 자석, 가짜 방향 가능성을 짚고 초반 함정을 경계한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-03-27 05:27",
+    "phase_et": "premarket",
+    "interval": "1m",
+    "last": 574.24,
+    "day_open": 576.05,
+    "day_high": 576.49,
+    "day_low": 572.16,
+    "vwap_like": 574.1305747126435,
+    "r_30m": 0.10285016996427476,
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "pivot": 575.0,
+    "pivot_touches": 3
+  },
+  "analysis_json": {
+    "content_mode_kst": "premarket_preview",
+    "spot": 574.24,
+    "now_et": "2026-03-27 05:27",
+    "phase_et": "premarket",
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "day_stats": {
+      "open": 576.05,
+      "high": 576.49,
+      "low": 572.16,
+      "vwap_like": 574.1305747126435
+    },
+    "pivot": 575.0,
+    "pivot_touches": 3,
+    "one_liner": "오늘 판의 중심은 575다. 여기서는 방어가 아니라 심리전이 먼저 나오고, 575를 못 넘기면 눌러두기, 올라타면 그 방패가 바로 가속 페달로 바뀐다.",
+    "key_levels": [
+      {
+        "price": 575,
+        "role": "pivot",
+        "why": "top_gex와 top_dex가 동시에 가장 크고 터치도 3번 나온 중심축이다. 다들 보는 숫자라서 개장 직후 가장 먼저 흔들기 좋은 자리이고, 지키면 핀처럼 묶고 밀리면 음의 감마가 추격을 붙이는 자리다."
+      },
+      {
+        "price": 570,
+        "role": "support",
+        "why": "575 아래에서 다음 심리 방패다. put OI와 음의 GEX가 두껍게 겹쳐서 아래로 겁을 팔기 좋은 구간이지만, 한 번 미끄러지면 방어보다 헤지 추격이 먼저 붙기 쉬운 자리다."
+      },
+      {
+        "price": 580,
+        "role": "resistance",
+        "why": "575 위 가짜 안심을 시험하는 첫 무대다. put OI가 크고 DEX도 두터워서 위로 올려도 바로 시세를 열어주기보다 희망을 팔며 다시 눌러볼 유인이 큰 자리다."
+      },
+      {
+        "price": 565,
+        "role": "support",
+        "why": "570 방패가 깨졌을 때 시장 참여자들이 진짜 공포를 확인하는 다음 단이다. 여기까지 오면 단순 흔들기가 아니라 아래쪽 헤지 가속이 붙었다는 해석이 쉬워진다."
+      }
+    ],
+    "core_thesis": "오늘은 방향보다 순서가 중요하다. 개장 전 구조는 575를 자석처럼 쓰면서도 동시에 함정으로 쓰는 판이다. 초반에 575 위아래를 일부러 건드려 참여자 반응을 확인한 뒤, 못 올라서면 눌러두기 서사가 강화되고, 575를 올라타서 고정시키면 그동안의 방패가 되레 위로 밀어주는 연료가 된다.",
+    "participants_view": {
+      "market_maker": "575를 중심으로 핀을 만들고 싶어 하지만, 지금은 음의 감마가 커서 중심 이탈이 나오면 중립 복원보다 추격 헤지가 더 빨라질 수 있다. 그래서 개장 초반에는 575 근처에서 가짜 방향을 먼저 만들 유인이 크다.",
+      "whales": "575 put OI를 방패처럼 세워두고 580까지의 반등 기대를 비싸게 팔고 싶어 하는 쪽과, 575를 되찾는 장면을 연출해 위쪽 숏 헤지를 유도하려는 쪽이 같이 보인다. 핵심은 숫자 자체보다 575 위 체류 시간을 만들 수 있느냐다.",
+      "retail": "575는 눈에 가장 잘 보이는 숫자라 여기서 돌파 착시나 이탈 공포에 가장 쉽게 반응한다. 위에서는 안심을 사고 아래에서는 공포를 사기 쉬운 구조라, 초반 흔들기에 감정이 먼저 끌려갈 가능성이 크다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "개장 후 575를 되찾고 그 위에서 가격이 눌려도 바로 밀리지 않으며 VWAP 비슷한 축 위 체류가 이어질 때",
+        "expectation": "575가 단순 저항이 아니라 자석 겸 발판으로 바뀐다. 그러면 580은 막는 자리이면서도 한 번씩 찔러보는 목표물이 되고, 초반의 가짜 이탈은 위로 태우기 위한 정리 과정처럼 해석된다."
+      },
+      "if_break": {
+        "condition": "575를 회복하지 못하거나 회복 후 곧바로 다시 아래로 밀리며 574 이하 체류가 길어질 때",
+        "expectation": "오늘 중심축은 위 돌파 실패로 읽히고, 570 방패 시험이 빨라진다. 이 경우 눌러두기가 본색이 되고, 570이 흔들리면 565까지 공포를 파는 속도가 붙는다."
+      }
+    },
+    "watch": [
+      "575 재탈환 뒤 머무는지, 아니면 터치만 하고 다시 밀리는지",
+      "574 부근 VWAP 축을 기준으로 위아래 흔들기가 정리인지 분배인지"
+    ],
+    "risks": [
+      "575 집착이 강한 날이라 초반 첫 방향은 가짜일 수 있다",
+      "음의 감마가 커서 작은 이탈도 생각보다 빠르게 과장될 수 있다"
+    ],
+    "chart_window_usd": 20.0,
+    "chart_title_en": "QQQ premarket key levels",
+    "chart_what_to_watch_en": "Watch 575 pivot behavior, acceptance above it, or rejection towa"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
