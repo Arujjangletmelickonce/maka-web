@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-03-31_0048",
+  "time_kst": "2026-03-31 00:48",
+  "ticker": "QQQ",
+  "pivot": 563.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-9.52",
+  "pivot_mode": "auto",
+  "spot": 564.5900268554688,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "intraday_live",
+  "mode_guide_kst": "지금 가격 변화와 옵션 반응의 상호작용을 가장 생생하게 해석한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-03-30 11:48",
+    "phase_et": "mid_day",
+    "interval": "1m",
+    "last": 564.5800170898438,
+    "day_open": 564.5,
+    "day_high": 568.89,
+    "day_low": 561.3699951171875,
+    "vwap_like": 564.082226319085,
+    "r_30m": 0.40727011897563337,
+    "flow_one_line": "VWAP 위에서 버티며 위를 열어두는 흐름",
+    "pivot": 563.0,
+    "pivot_touches": 15
+  },
+  "analysis_json": {
+    "content_mode_kst": "intraday_live",
+    "spot": 564.5900268554688,
+    "now_et": "2026-03-30 11:48",
+    "phase_et": "mid_day",
+    "flow_one_line": "VWAP 위에서 버티며 위를 열어두는 흐름",
+    "day_stats": {
+      "open": 564.5,
+      "high": 568.89,
+      "low": 561.3699951171875,
+      "vwap_like": 564.082226319085
+    },
+    "pivot": 563.0,
+    "pivot_touches": 15,
+    "one_liner": "오늘은 563을 바닥 못처럼 박아두고 565를 흔들며 위 희망을 계속 팔고, 아래 공포는 쉽게 안 열어주는 판이다.",
+    "key_levels": [
+      {
+        "price": 563,
+        "role": "pivot",
+        "why": "터치가 15번 나온 오늘의 중심축이다. 여기서 계속 받아내면 참가자들은 아래 이탈보다 눌러두기 후 재상단 시도를 먼저 본다."
+      },
+      {
+        "price": 565,
+        "role": "resistance",
+        "why": "현물 바로 위인데 순감마가 음수라 방패보다 흔들림 증폭 구간에 가깝다. 못 넘기면 위로 미끼, 넘기면 짧게 가속이 붙는 자리다."
+      },
+      {
+        "price": 560,
+        "role": "support",
+        "why": "큰 음수 GEX와 두터운 풋 OI가 겹친다. 평소 방패처럼 보이지만 한번 밀리면 헤지 반응이 아래 변동을 키워 방패가 가속 페달로 바뀌는 자리다."
+      },
+      {
+        "price": 574,
+        "role": "resistance",
+        "why": "가장 강한 양수 GEX와 큰 콜 OI가 겹친 상단 자석이자 캡이다. 위가 열려도 여기서는 다시 눌러두기와 핀 시도가 강해질 무대다."
+      }
+    ],
+    "core_thesis": "지금 판의 속내는 563 위에서 시간을 끌며 565 부근에서 양방향 체결을 먹고, 위로는 574를 최종 캡으로 세워 희망을 팔려는 구조다. 방향보다 순서가 중요하다. 먼저 563 위 체류로 안심을 주고, 그 다음 565에서 흔들어 추격 심리를 자극한 뒤, 상단은 574 쪽에서 다시 묶으려는 흐름이다.",
+    "participants_view": {
+      "market_maker": "563 위에서는 과하게 아래를 열 필요가 없다. VWAP 위 체류를 허용하면서도 565 근처 음수 감마를 이용해 위아래 흔들기를 키우고, 상단은 574 양수 감마에서 속도를 죽이려는 태도다.",
+      "whales": "아래에서는 560과 555 풋 축으로 공포 값을 팔고 싶어 하고, 위에서는 570~585 콜 누적 구간에 기대를 붙여도 실제로는 574와 580 위에서 쉽게 직선 추세를 주고 싶어 하지 않는다.",
+      "retail": "장중 고점 568.89를 본 뒤 다시 565 근처에 오니 위 재돌파 기대를 키우기 쉽다. 동시에 563만 깨지지 않으면 안심하기 쉬워서, 바로 그 심리를 이용한 가짜 이탈과 재회수가 잘 먹히는 자리다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "563과 VWAP_like 위 체류가 이어지고 565를 자꾸 되찾는 흐름",
+        "expectation": "참가자들은 오전 고점 기억을 다시 붙잡는다. 그러면 위 체결이 몰리며 568대 재시험, 더 나아가 574 자석 확인 서사가 살아난다."
+      },
+      "if_break": {
+        "condition": "563 이탈이 길어지고 560 쪽으로 밀리는 흐름",
+        "expectation": "지금까지의 눌러두기 서사가 공포 재가격으로 바뀐다. 특히 560은 지지선이라기보다 변동 확대 스위치가 될 수 있어, 아래는 생각보다 빠르게 미끄러지는 심리가 나온다."
+      }
+    },
+    "watch": [
+      "563 위 복귀가 반복되는지, 아니면 565에서 계속 머리만 맞고 밀리는지",
+      "568대 재도전 때 탄력이 붙는지, 아니면 574 캡 기대만 남기고 다시 눌리는지"
+    ],
+    "risks": [
+      "565 부근 음수 감마 때문에 겉보기에 강해도 실제 체감은 흔들림이 더 큰 가짜 추세일 수 있다.",
+      "560 아래는 두터운 풋 벽이 오히려 헤지 가속 구간으로 바뀌어 오전보다 하방 체감 속도가 빨라질 수 있다."
+    ],
+    "chart_window_usd": 14.0,
+    "chart_title_en": "QQQ intraday options map",
+    "chart_what_to_watch_en": "563 pivot hold, 565 whip zone, 574 cap magnet"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
