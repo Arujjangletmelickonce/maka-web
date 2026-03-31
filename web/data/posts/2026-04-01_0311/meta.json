@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-04-01_0311",
+  "time_kst": "2026-04-01 03:11",
+  "ticker": "QQQ",
+  "pivot": 575.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-15.00",
+  "pivot_mode": "auto",
+  "spot": 574.4000244140625,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "intraday_live",
+  "mode_guide_kst": "지금 가격 변화와 옵션 반응의 상호작용을 가장 생생하게 해석한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-03-31 14:11",
+    "phase_et": "mid_day",
+    "interval": "1m",
+    "last": 574.3699951171875,
+    "day_open": 563.88,
+    "day_high": 576.2100219726562,
+    "day_low": 557.862,
+    "vwap_like": 569.6893640938622,
+    "r_30m": 0.026126645138924154,
+    "flow_one_line": "VWAP 위에서 버티며 위를 열어두는 흐름",
+    "pivot": 575.0,
+    "pivot_touches": 8
+  },
+  "analysis_json": {
+    "content_mode_kst": "intraday_live",
+    "spot": 574.4000244140625,
+    "now_et": "2026-03-31 14:11",
+    "phase_et": "mid_day",
+    "flow_one_line": "VWAP 위에서 버티며 위를 열어두는 흐름",
+    "day_stats": {
+      "open": 563.88,
+      "high": 576.2100219726562,
+      "low": 557.862,
+      "vwap_like": 569.6893640938622
+    },
+    "pivot": 575.0,
+    "pivot_touches": 8,
+    "one_liner": "오늘 판은 575를 뚫느냐보다 575를 몇 번이나 두드리며 위에 물량을 내놓게 만드느냐가 핵심이다.",
+    "key_levels": [
+      {
+        "price": 575,
+        "role": "pivot",
+        "why": "터치가 8번 나온 오늘의 중심 무대다. 573·575·577에 GEX가 두껍게 서 있어 눌러두기와 핀 작동이 먼저 나오지만, 같은 자리를 계속 두드리면 방패가 오히려 위로 밀어 올리는 가속 페달로 바뀐다."
+      },
+      {
+        "price": 573,
+        "role": "support",
+        "why": "당일 현물과 가장 가까운 상단 방패다. 최대 GEX가 걸린 자리라 한 번 미끄러져도 바로 되감기 쉬운 구간이고, 위에서 버티던 흐름이 살아 있는지 죽는지 가르는 첫 확인선이다."
+      },
+      {
+        "price": 577,
+        "role": "resistance",
+        "why": "575 위 가짜 이탈인지 진짜 확장인지 가르는 바로 윗문이다. 577에도 큰 GEX가 있어 첫 돌파는 튕김이 나오기 쉽지만, 여기서 눌림이 얕으면 위쪽 희망을 파는 세력이 오히려 추격 연료를 제공한다."
+      },
+      {
+        "price": 580,
+        "role": "resistance",
+        "why": "DEX와 OI가 함께 두꺼운 상단 심리선이다. 575를 넘긴 뒤 시장참여자들이 다음 자석으로 보는 자리라서, 여기까지 열리면 오늘 중반의 눌러두기 프레임이 상단 확장 프레임으로 바뀌었다는 해석이 선다."
+      }
+    ],
+    "core_thesis": "지금은 방향 싸움이 아니라 575를 중심으로 한 순서 싸움이다. 장은 VWAP 위에서 이미 위쪽 시나리오를 열어뒀고, 옵션 구조는 573~577에 핀을 만들며 시간을 끌고 있다. 그래서 먼저 나오는 것은 눌러두기와 흔들기지만, 575 위 체류가 길어질수록 위 물량을 팔던 방패가 상단 확장의 연료로 전환된다.",
+    "participants_view": {
+      "market_maker": "573~577 사이에서는 되감기와 핀을 선호한다. 현물이 575에 붙을수록 위아래 흔들며 감마로 눌러두고 싶지만, 반복 접촉이 누적되면 헤지 방향이 위로 기울 수 있어 방어가 점점 불편해진다.",
+      "whales": "오늘 큰손은 575를 바로 한 번에 뚫는 그림보다 그 아래와 위를 여러 번 오가며 콜 프리미엄과 공포 프리미엄을 둘 다 비싸게 만들고 싶어 보인다. 다만 573 아래로 제대로 못 눌리면 상단 577·580 쪽 기대를 다시 팔아먹는 쪽으로 태도가 바뀐다.",
+      "retail": "강한 시가 이후 눌림을 놓친 참여자는 575 돌파에 의미를 과하게 두기 쉽고, 반대로 여러 번 막히는 모습만 보고 상단을 쉽게 포기하기도 쉽다. 지금 개인 심리는 방향 확신보다 돌파 숫자에 끌리는 상태다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "573 위에서 버티고 575 재공략이 이어질 때",
+        "expectation": "핀은 살아 있어도 상단 압박이 누적된다. 575가 더 이상 천장이 아니라 자석이 되고, 577 테스트가 가짜 이탈이 아닌 체류 시도로 바뀐다."
+      },
+      "if_break": {
+        "condition": "573 이탈 뒤 575 복귀가 바로 막힐 때",
+        "expectation": "오늘의 상단 열림 해석이 한 번 식는다. 그러면 575는 자석이 아니라 희망을 파는 자리로 바뀌고, 장중 급등의 일부를 되돌리며 VWAP 쪽 되감기 서사가 강해진다."
+      }
+    },
+    "watch": [
+      "575를 다시 찍을 때 바로 튕기는지, 아니면 574대 체류 시간이 길어지며 매도벽을 소모하는지",
+      "577 첫 반응이 긴 윗꼬리로 끝나는지, 아니면 눌림이 얕아 상단 자석이 580으로 이동하는지"
+    ],
+    "risks": [
+      "575 숫자 자체가 너무 눈에 띄어 한 틱 상회 후 바로 되감는 가짜 이탈이 나오기 쉽다",
+      "이미 일중 변동폭이 커서 옵션벽 해석보다 단기 차익 실현이 더 크게 가격을 흔들 수 있다"
+    ],
+    "chart_window_usd": 18.34802197265622,
+    "chart_title_en": "QQQ intraday options map around 575 pivot",
+    "chart_what_to_watch_en": "Watch whether repeated tests of 575 turn the pin into upside acc"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
