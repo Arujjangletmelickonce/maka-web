@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-04-03_0600",
+  "time_kst": "2026-04-03 06:00",
+  "ticker": "QQQ",
+  "pivot": 585.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-15.00",
+  "pivot_mode": "auto",
+  "spot": 584.825,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "post_close_recap",
+  "mode_guide_kst": "오늘 어떤 식으로 운전했는지 복기하고 다음 세션으로 이어질 포인트를 남긴다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-04-02 17:00",
+    "phase_et": "afterhours",
+    "interval": "1m",
+    "last": 584.825,
+    "day_open": 576.6,
+    "day_high": 587.22,
+    "day_low": 571.64,
+    "vwap_like": 580.5304711737076,
+    "r_30m": -0.038458251431483514,
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "pivot": 585.0,
+    "pivot_touches": 10
+  },
+  "analysis_json": {
+    "content_mode_kst": "post_close_recap",
+    "spot": 584.825,
+    "now_et": "2026-04-02 17:00",
+    "phase_et": "afterhours",
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "day_stats": {
+      "open": 576.6,
+      "high": 587.22,
+      "low": 571.64,
+      "vwap_like": 580.5304711737076
+    },
+    "pivot": 585.0,
+    "pivot_touches": 10,
+    "one_liner": "오늘 판의 중심은 585였고, 여기는 지지선이라기보다 계속 붙잡아두며 위아래 공포와 희망을 둘 다 팔기 좋은 핀 자리였다.",
+    "key_levels": [
+      {
+        "price": 585,
+        "role": "pivot",
+        "why": "가장 큰 양의 GEX가 박혀 있고 실제로 10번이나 두드린 중심축이다. 방패처럼 보이지만 바로 위 586의 음의 GEX와 맞붙어 있어, 붙잡아둘 때는 핀이고 밀리면 바로 가속 장치로 성격이 바뀌는 자리였다."
+      },
+      {
+        "price": 586,
+        "role": "resistance",
+        "why": "상단 한 칸 위에 큰 음의 GEX와 가장 큰 DEX가 겹친 자리다. 여기서는 돌파 자체보다 가짜 이탈을 만들기 쉽고, 585 위 안착 실패가 나오면 위로 산 심리를 되감기 좋은 무대였다."
+      },
+      {
+        "price": 580,
+        "role": "support",
+        "why": "큰 put OI와 높은 DEX가 겹친 방어선이다. 장중 기준으로는 눌리면 다시 끌어올릴 명분이 있던 자리였고, 동시에 585 복귀 기대를 팔기 좋은 자석 역할도 했다."
+      },
+      {
+        "price": 590,
+        "role": "resistance",
+        "why": "call OI가 두껍고 양의 GEX도 받치는 상단 희망 판매 구간이다. 586을 넘겨도 바로 추세 확신으로 이어지지 않게 만드는 두 번째 천장 역할을 했다."
+      }
+    ],
+    "core_thesis": "오늘은 방향보다 순서가 중요했다. 아래 580권에서 공포를 팔고, 위 586~590에서 희망을 판 뒤, 중심을 585에 다시 묶어두는 운전이었다. 핵심은 585가 방패처럼 작동한 시간이 길었지만, 바로 위 586이 음의 GEX라서 그 방패가 언제든 가속 페달로 뒤집힐 수 있는 구조를 확인시킨 하루였다는 점이다.",
+    "participants_view": {
+      "market_maker": "585를 중심으로 델타를 눌러두며 장을 핀시키는 쪽이 유리했다. 다만 586 위에서는 헤지 반응이 커져 위아래 흔들기가 쉬워지고, 그래서 종일 585 복귀를 유도하는 쪽이 가장 편한 그림이었다.",
+      "whales": "580 put 방어 이미지를 남겨 하단 공포는 과하게 키우지 않으면서, 586과 590 위쪽에는 추격 심리가 붙을 때마다 공급을 내놓기 좋은 구조를 만들었다. 아래를 완전히 무너뜨리기보다 위 기대를 비싸게 팔고 싶어 보였다.",
+      "retail": "571대 저점 이후 반등을 보고 위로 열린 날처럼 해석하기 쉬웠지만, 실제로는 585와 586 사이에서 계속 확신을 빼앗겼다. 위에서는 돌파 기대를 사고 아래에서는 재차 밀릴 공포를 사는 식으로 심리가 흔들리기 좋았다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "다음 세션에도 585를 다시 회복해 그 위에서 거래가 붙고 586 재도전이 반복될 때",
+        "expectation": "핀의 중심이 유지된 채 상단 시험이 이어진다. 다만 586~590은 희망을 팔기 좋은 구간이라, 올라가도 일직선보다 되밀림을 섞으며 의심을 키우는 전개가 더 자연스럽다."
+      },
+      "if_break": {
+        "condition": "585를 잃은 뒤 580 복귀가 늦어지거나 580 아래 체류가 길어질 때",
+        "expectation": "오늘의 방패가 가속 페달로 바뀐다. 585에서 버티던 심리가 꺾이면서 위에서 묶인 포지션 정리가 아래 변동성을 키우는 쪽으로 작동하기 쉽다."
+      }
+    },
+    "watch": [
+      "585를 다시 핀으로 쓰는지, 아니면 586의 음의 GEX가 살아나며 위아래 반응을 증폭시키는지",
+      "580이 단순 지지인지, 공포를 더 비싸게 팔기 위한 재시험 무대인지"
+    ],
+    "risks": [
+      "585 근처 숫자만 보고 안정 구간으로 오해하면 실제로는 가장 흔들기 좋은 중심축이라는 점을 놓치기 쉽다.",
+      "586 돌파를 추세 확정으로 읽기 쉽지만, 바로 위 구조상 가짜 이탈과 재핀 가능성이 크다."
+    ],
+    "chart_window_usd": 20.0,
+    "chart_title_en": "QQQ options-driven recap: 585 pin, 586 trigger",
+    "chart_what_to_watch_en": "Watch whether 585 stays a pin or flips into an accelerator below"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
