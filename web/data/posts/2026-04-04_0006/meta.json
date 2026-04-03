@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-04-04_0006",
+  "time_kst": "2026-04-04 00:06",
+  "ticker": "QQQ",
+  "pivot": 585.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-15.00",
+  "pivot_mode": "auto",
+  "spot": 584.8,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "intraday_live",
+  "mode_guide_kst": "지금 가격 변화와 옵션 반응의 상호작용을 가장 생생하게 해석한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-04-03 11:06",
+    "phase_et": "mid_day",
+    "interval": "1m",
+    "last": 584.8,
+    "day_open": 576.6,
+    "day_high": 587.22,
+    "day_low": 571.64,
+    "vwap_like": 580.5304711737076,
+    "r_30m": 0.01624750942781361,
+    "flow_one_line": "VWAP 위에서 버티며 위를 열어두는 흐름",
+    "pivot": 585.0,
+    "pivot_touches": 22
+  },
+  "analysis_json": {
+    "content_mode_kst": "intraday_live",
+    "spot": 584.8,
+    "now_et": "2026-04-03 11:06",
+    "phase_et": "mid_day",
+    "flow_one_line": "VWAP 위에서 버티며 위를 열어두는 흐름",
+    "day_stats": {
+      "open": 576.6,
+      "high": 587.22,
+      "low": 571.64,
+      "vwap_like": 580.5304711737076
+    },
+    "pivot": 585.0,
+    "pivot_touches": 22,
+    "one_liner": "오늘 판은 585를 두고 눌러두는 척하면서도 위를 포기하지 않는 구조다. 585가 방패로 서 있으면 핀이고, 이 자리가 들리면 바로 590 자석이 작동한다.",
+    "key_levels": [
+      {
+        "price": 585,
+        "role": "pivot",
+        "why": "지금 판의 중심축이다. 터치가 과하게 많다는 건 여기서 가격을 묶어두려는 힘과 위로 넘기려는 힘이 계속 충돌했다는 뜻이다. mid_day에 이 자리를 VWAP 위에서 재확인하는 건 눌러두기 실패 여부를 가르는 심리전이다."
+      },
+      {
+        "price": 580,
+        "role": "support",
+        "why": "top_dex와 top_oi가 가장 두껍게 겹친 자리다. 오늘 위로 띄운 흐름의 평균 비용대라서 이 아래로 밀리면 오전에 쫓아온 희망이 흔들리고, 위에 있으면 참가자들은 하방 공포를 다시 팔기 어렵다."
+      },
+      {
+        "price": 590,
+        "role": "resistance",
+        "why": "강한 GEX와 두꺼운 call OI가 함께 있는 첫 번째 위쪽 방패다. 평소엔 눌러두는 벽이지만 585 위에서 체류가 길어질수록 이 벽은 오히려 끌어당기는 자석처럼 작동한다. 방패가 가속 페달로 바뀌는 첫 관문이다."
+      },
+      {
+        "price": 600,
+        "role": "resistance",
+        "why": "오늘 위쪽 서사의 최종 미끼다. GEX와 call OI가 가장 과장되게 쌓인 자리라서 참가자들이 희망을 팔기 가장 좋은 숫자다. 590이 열리면 다음 심리 목표는 자연스럽게 여기로 옮겨붙는다."
+      }
+    ],
+    "core_thesis": "오늘은 방향보다 순서가 중요하다. 아침 급반등으로 판을 위로 돌려놓았고, 지금은 585에서 숨 고르며 콜 벽을 핀으로 쓸지 자석으로 바꿀지 시험 중이다. VWAP 위 체류가 이어지면 오전의 급등은 과열이 아니라 위쪽 벽을 차례로 건드리기 위한 운전으로 읽힌다.",
+    "participants_view": {
+      "market_maker": "585를 중심으로 흔들어 시간가치를 태우고 싶어 한다. 다만 가격이 VWAP 위에서 버티니 완전한 눌러두기보다 585~590 사이에 가둬놓는 쪽이 편하다. 585가 유지되면 위 벽 헤지가 오히려 상방 반응을 키울 수 있다.",
+      "whales": "아래 570 put 방패를 둔 채 오늘은 위쪽 숫자에 시선을 몰아가고 있다. 590과 600의 큰 call OI는 단순 목표라기보다 희망을 팔아도 되는 무대다. 즉 위를 열어두되, 너무 쉽게 통과시키진 않으려는 태도다.",
+      "retail": "오전 반등을 보고 뒤늦게 위를 보기 쉬운 자리다. 585만 넘으면 곧장 590, 600을 떠올리기 쉽지만, 바로 그 기대가 가장 많이 팔리는 구간도 590 위쪽이다. 반대로 580 아래로 밀리면 오전의 자신감이 빠르게 흔들릴 수 있다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "585를 다시 지키고 VWAP 위 체류가 이어질 때",
+        "expectation": "핀 시도보다 590 자석 효과가 앞선다. 위로는 눌림보다 재도전이 반복되고, 590이 단순 저항이 아니라 시험대가 된다."
+      },
+      "if_break": {
+        "condition": "585를 잃고 580대 초반, 특히 VWAP 쪽으로 미끄러질 때",
+        "expectation": "오전 상승 서사는 숨이 죽는다. 그 순간 585는 지지보다 윗뚜껑으로 바뀌고, 참가자들은 위를 사기보다 오전의 과열을 정리하는 쪽으로 심리가 기운다."
+      }
+    },
+    "watch": [
+      "585에서 다시 핀처럼 눌리는지, 아니면 체류 시간이 길어지며 590 자석으로 바뀌는지",
+      "580.53 부근 VWAP_like가 단순 되돌림 받침인지, 위로 운전한 판의 평균단가 방패인지"
+    ],
+    "risks": [
+      "585 터치가 너무 많아 가짜 이탈이 나오기 쉬운 구간이다. 숫자 하나 넘겼다고 바로 성격이 바뀌었다고 보기 어렵다.",
+      "위쪽 590·600 call 벽은 기대를 부풀리는 동시에 희망을 팔기 좋은 자리라서, 상단에서 속도보다 흔들기가 먼저 나올 수 있다."
+    ],
+    "chart_window_usd": 15.58,
+    "chart_title_en": "QQQ intraday options map: 585 pivot, 590 magnet,",
+    "chart_what_to_watch_en": "Watch whether 585 stays as a pin or flips into an acceleration p"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
