@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-04-07_0010",
+  "time_kst": "2026-04-07 00:10",
+  "ticker": "QQQ",
+  "pivot": 588.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-8.07",
+  "pivot_mode": "auto",
+  "spot": 587.3599853515625,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "intraday_live",
+  "mode_guide_kst": "지금 가격 변화와 옵션 반응의 상호작용을 가장 생생하게 해석한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-04-06 11:10",
+    "phase_et": "mid_day",
+    "interval": "1m",
+    "last": 587.2750854492188,
+    "day_open": 587.38,
+    "day_high": 590.6099853515625,
+    "day_low": 584.542,
+    "vwap_like": 587.7648726536423,
+    "r_30m": -0.11309266071817259,
+    "flow_one_line": "VWAP 아래로 눌리며 공포를 팔기 좋은 흐름",
+    "pivot": 588.0,
+    "pivot_touches": 19
+  },
+  "analysis_json": {
+    "content_mode_kst": "intraday_live",
+    "spot": 587.3599853515625,
+    "now_et": "2026-04-06 11:10",
+    "phase_et": "mid_day",
+    "flow_one_line": "VWAP 아래로 눌리며 공포를 팔기 좋은 흐름",
+    "day_stats": {
+      "open": 587.38,
+      "high": 590.6099853515625,
+      "low": 584.542,
+      "vwap_like": 587.7648726536423
+    },
+    "pivot": 588.0,
+    "pivot_touches": 19,
+    "one_liner": "오늘은 방향보다 588을 누가 판의 중심으로 고정하느냐가 핵심이고, 위 590은 희망을 파는 벽, 아래 585는 방패처럼 보이다가 밀리면 바로 가속 페달로 바뀌는 자리다.",
+    "key_levels": [
+      {
+        "price": 588,
+        "role": "pivot",
+        "why": "장중 19번이나 건드린 중심축이다. 가격이 여기서 오래 맴돈다는 건 참여자들이 새 추세를 만들기보다 프리미엄을 태우며 핀으로 묶어두려 한다는 뜻이다."
+      },
+      {
+        "price": 590,
+        "role": "resistance",
+        "why": "가장 큰 GEX가 걸린 대표 상단 벽이다. 오전 고점도 이 근처에서 멈췄고, 위로 들이밀수록 콜 쪽 희망을 팔기 좋은 자리라 바로 추격보다 눌러두기 논리가 먼저 붙는다."
+      },
+      {
+        "price": 585,
+        "role": "support",
+        "why": "GEX와 OI가 함께 두꺼운 하단 방패다. 다만 지금처럼 VWAP 아래에서 눌리는 흐름이면 이 방패는 안심 구간이 아니라 시험대가 된다. 지키면 핀 복귀, 밀리면 아래 공포가 더 잘 팔린다."
+      },
+      {
+        "price": 580,
+        "role": "support",
+        "why": "가장 큰 하단 심리선이다. DEX와 put OI가 매우 두껍지만 GEX는 음수라, 내려올수록 완충보다 흔들기 성격이 강해진다. 즉 지지선이라기보다 하단 자석이자 변동성 증폭 구간이다."
+      }
+    ],
+    "core_thesis": "판은 지금 588 아래에서 공포를 비싸게 팔고, 590 근처에서는 희망을 비싸게 파는 구조다. 중심은 588 핀이고, 590 벽이 살아 있는 한 위는 가짜 이탈 후보가 되기 쉽다. 반대로 585가 버티는 동안에는 아래도 추세라기보다 겁을 키워 프리미엄을 태우는 흔들기다. 오늘의 속내는 한쪽 돌파보다 588을 중심으로 위아래 감정을 번갈아 파는 데 있다.",
+    "participants_view": {
+      "market_maker": "588을 축으로 눌러두는 쪽이 편하다. 590의 큰 양의 GEX는 상단 확장을 둔화시키고, 585까지는 되감기 공간으로 관리하기 좋다. 하지만 585 아래로 미끄러지면 580의 음의 GEX 구간이 열리면서 방패가 가속 페달로 바뀐다.",
+      "whales": "위에서는 590~595 콜 관심을 미끼로 쓰고, 아래에서는 585와 580의 put 방패 기대를 이용해 겁을 키우는 그림이다. 즉 한 방향 확신보다 레벨마다 심리를 팔아먹기 좋은 판을 선호하는 태도다.",
+      "retail": "590 돌파 기대와 585 붕괴 공포 사이에서 계속 흔들리기 쉽다. 오전 고점 기억 때문에 위로는 희망을 쫓고, VWAP 아래 체류 때문에 아래로는 불안을 키우는 전형적인 중간장 심리에 들어와 있다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "585 위를 유지하면서 588을 다시 회복해 그 위에 머무는 흐름",
+        "expectation": "중심축이 다시 588로 고정되며 핀 성격이 강해진다. 그러면 590은 돌파 목표라기보다 다시 한 번 희망을 파는 상단 캡으로 작동하기 쉽다."
+      },
+      "if_break": {
+        "condition": "585를 잃고 그 아래 체류가 이어지는 흐름",
+        "expectation": "하단 방패 해석이 무너지며 580 쪽 자석이 강해진다. 이때는 단순 조정이 아니라 공포를 더 비싸게 팔 수 있는 구간으로 성격이 바뀌고, 하방 흔들기가 빨라질 수 있다."
+      }
+    },
+    "watch": [
+      "588 재탈환 뒤에도 VWAP 아래에 갇히는지, 아니면 중심축이 위로 올라오는지",
+      "585 테스트 때 바로 되감기는지, 아니면 580 음의 GEX 구간을 열 만큼 체류가 붙는지"
+    ],
+    "risks": [
+      "588 근처 핀 장세가 계속되면 방향 해석보다 시간가치 소모가 판을 지배할 수 있다.",
+      "590 위로 순간 이탈이 나와도 큰 GEX 벽 때문에 추세 전환처럼 보이는 가짜 확장일 수 있다."
+    ],
+    "chart_window_usd": 14.0,
+    "chart_title_en": "QQQ Intraday Options Map",
+    "chart_what_to_watch_en": "Watch 588 pin behavior, 590 overhead wall, and whether 585 fails"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
