@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-04-08_0608",
+  "time_kst": "2026-04-08 06:08",
+  "ticker": "QQQ",
+  "pivot": 589.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-14.23",
+  "pivot_mode": "auto",
+  "spot": 589.33,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "post_close_recap",
+  "mode_guide_kst": "오늘 어떤 식으로 운전했는지 복기하고 다음 세션으로 이어질 포인트를 남긴다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-04-07 17:08",
+    "phase_et": "afterhours",
+    "interval": "1m",
+    "last": 589.3282,
+    "day_open": 586.291,
+    "day_high": 590.63,
+    "day_low": 578.4000854492188,
+    "vwap_like": 583.8456375668806,
+    "r_30m": 0.07441118035627081,
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "pivot": 589.0,
+    "pivot_touches": 22
+  },
+  "analysis_json": {
+    "content_mode_kst": "post_close_recap",
+    "spot": 589.33,
+    "now_et": "2026-04-07 17:08",
+    "phase_et": "afterhours",
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "day_stats": {
+      "open": 586.29,
+      "high": 590.63,
+      "low": 578.4,
+      "vwap_like": 583.85
+    },
+    "pivot": 589.0,
+    "pivot_touches": 22,
+    "one_liner": "오늘 판은 589~590을 자석처럼 붙들어 두고, 아래 587의 빈자리 공포와 위 590의 방패를 번갈아 보여주며 양쪽 심리를 다 턴 하루였다.",
+    "key_levels": [
+      {
+        "price": 590,
+        "role": "pivot",
+        "why": "가장 두꺼운 양의 GEX가 서 있는 중심 방패다. 종가 부근까지 다시 붙은 건 오늘 운전의 중심축이 여기였다는 뜻이고, 눌러두기와 핀의 무대가 이 자리였다."
+      },
+      {
+        "price": 587,
+        "role": "support",
+        "why": "음의 GEX가 크게 박혀 있어 지지라기보다 방패가 깨질 때 가속이 붙는 자리다. 589 아래에서 흔들면 공포를 팔기 좋고, 이탈 시에는 방어선이 아니라 미끄럼판으로 성격이 바뀐다."
+      },
+      {
+        "price": 580,
+        "role": "support",
+        "why": "OI와 DEX가 함께 두껍다. 아래에서 가장 많은 공포가 걸린 자리라 쉽게 깨기보다 한번씩 보여주며 겁을 키우기 좋은 하단 심리선이었다."
+      },
+      {
+        "price": 595,
+        "role": "resistance",
+        "why": "590 위 희망을 팔기 좋은 첫 번째 상단 구간이다. 양의 GEX가 이어져 급가속보다는 위에서 숨을 죽이게 만들고, 돌파 시에야 600 자석 서사가 붙는다."
+      }
+    ],
+    "core_thesis": "오늘은 방향보다 순서가 중요했다. 먼저 578.4까지 아래 공포를 크게 보여주고, 이후에는 VWAP 위로 복귀시킨 뒤 589~590에 계속 묶어 두면서 판의 주도권이 아직 위 방패 쪽에 있음을 확인시켰다. 다만 587이 음의 GEX라서 이 방패는 견고한 바닥이 아니라, 깨지는 순간 가속 페달로 바뀌는 구조다.",
+    "participants_view": {
+      "market_maker": "590을 중심으로 델타를 중화하며 핀을 만들고 싶어 했다. 589 터치가 과하게 많았던 건 우연이 아니라, 위 590 양의 GEX와 아래 587 음의 GEX 사이에서 가격을 붙들수록 유리한 구조였기 때문이다.",
+      "whales": "위에서는 590~595 구간에 희망을 팔고, 아래에서는 580 공포를 계속 남겨두는 식으로 양쪽 서사를 모두 유지하고 싶어 한 흔적이 보인다. 600의 큰 콜 OI는 당장 돌파 선언보다 상단 미끼 역할이 더 강했다.",
+      "retail": "장중 저점 뒤집기 이후에는 추격 심리가 붙기 쉬웠지만, 실제로는 589~590에서 계속 제자리걸음을 보며 조급함만 키웠다. 아래를 본 사람에게는 놓칠까 두렵게, 위를 본 사람에게는 이제 간다고 믿게 만드는 흔들기였다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "다음 세션도 589~590 위에서 받아내며 590을 다시 중심축으로 고정할 때",
+        "expectation": "오늘의 핀 구조가 연장된다. 그러면 595가 희망을 파는 다음 무대가 되고, 상단 서사는 600 자석을 들먹이되 속도보다 눌러두기가 먼저 나온다."
+      },
+      "if_break": {
+        "condition": "589 아래에서 밀린 뒤 587을 방패가 아니라 빈자리로 쓰기 시작할 때",
+        "expectation": "분위기가 바로 바뀐다. 오늘은 중심축이던 590이 위 덮개가 되고, 587 이탈은 아래 공포를 다시 켜면서 580 심리선 재시험 서사로 이어지기 쉽다."
+      }
+    },
+    "watch": [
+      "589~590 재안착이 계속되는지, 아니면 587이 다시 판의 스위치가 되는지",
+      "580이 실제 하단 방패로 쓰이는지, 아니면 공포를 비싸게 팔기 위한 재소환 자리인지"
+    ],
+    "risks": [
+      "590 위 숫자만 보고 상단 추세로 단순 해석하면 또 눌러두기 구간에 갇힐 수 있다",
+      "587을 단순 지지로 보면 안 된다. 이 자리는 버티면 안정이지만 깨지면 속도가 붙는 자리다"
+    ],
+    "chart_window_usd": 12.23,
+    "chart_title_en": "QQQ: 589-590 Pin, 587 Air Pocket, 580 Fear Shelf",
+    "chart_what_to_watch_en": "Watch whether 590 stays as the pin magnet or flips into a ceilin"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
