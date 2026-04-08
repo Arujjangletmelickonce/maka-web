@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-04-09_0345",
+  "time_kst": "2026-04-09 03:45",
+  "ticker": "QQQ",
+  "pivot": 606.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-15.00",
+  "pivot_mode": "auto",
+  "spot": 604.2100219726562,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "intraday_live",
+  "mode_guide_kst": "지금 가격 변화와 옵션 반응의 상호작용을 가장 생생하게 해석한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-04-08 14:45",
+    "phase_et": "mid_day",
+    "interval": "1m",
+    "last": 604.1837768554688,
+    "day_open": 607.25,
+    "day_high": 610.07,
+    "day_low": 587.18,
+    "vwap_like": 606.0772533962597,
+    "r_30m": -0.44673997784251407,
+    "flow_one_line": "VWAP 아래로 눌리며 공포를 팔기 좋은 흐름",
+    "pivot": 606.0,
+    "pivot_touches": 15
+  },
+  "analysis_json": {
+    "content_mode_kst": "intraday_live",
+    "spot": 604.2100219726562,
+    "now_et": "2026-04-08 14:45",
+    "phase_et": "mid_day",
+    "flow_one_line": "VWAP 아래로 눌리며 공포를 팔기 좋은 흐름",
+    "day_stats": {
+      "open": 607.25,
+      "high": 610.07,
+      "low": 587.18,
+      "vwap_like": 606.0772533962597
+    },
+    "pivot": 606.0,
+    "pivot_touches": 15,
+    "one_liner": "오늘 판은 606을 중심으로 위 희망은 잘라내고 아래 공포는 비싸게 파는 구조다.",
+    "key_levels": [
+      {
+        "price": 606,
+        "role": "pivot",
+        "why": "오늘 중심축이다. 15번이나 두드린 자리는 방향선이 아니라 심리전 무대다. 이 위로 못 올라서면 눌러두기, 되찾으면 방패 복구로 해석된다."
+      },
+      {
+        "price": 605,
+        "role": "support",
+        "why": "현물 바로 위아래에서 가장 두꺼운 GEX가 붙은 자리라 미끄럼을 늦추는 완충지대이자, 못 지키면 600 자석으로 끌려가기 쉬운 중간 경첩이다."
+      },
+      {
+        "price": 600,
+        "role": "support",
+        "why": "당일 옵션 구조의 핵심 자석이다. GEX와 DEX가 함께 가장 두껍고 call OI도 커서 오전 급락 뒤에도 가격을 묶어두려는 힘이 가장 강하다. 지지라기보다 핀의 중심이다."
+      },
+      {
+        "price": 610,
+        "role": "resistance",
+        "why": "강한 call OI와 상단 GEX가 겹친 희망 판매 구간이다. 여기로 되돌림이 와도 쉽게 추세 복구로 인정받기 어렵고, 위를 잠깐 찔러도 가짜 이탈이 나오기 쉬운 천장이다."
+      }
+    ],
+    "core_thesis": "오늘은 방향보다 순서가 중요하다. 610에서 희망을 팔고 600 근처에서 공포를 파는 판이었고, 지금은 606 아래에 눌러둔 채 600-605 핀 구간으로 수렴시키려는 의지가 더 강하다. 다만 606을 되찾아 고정시키면 방패가 다시 작동하고, 그전까지는 반등조차 위에서 물량 넘기기 재료로 쓰이기 쉽다.",
+    "participants_view": {
+      "market_maker": "상단 605-610의 두꺼운 GEX로 튀는 가격을 눌러두고, 하단에서는 600의 큰 DEX와 GEX를 이용해 급락 에너지를 흡수하며 핀으로 되돌리려는 태도다. 지금은 추세를 만들기보다 600-606 안에 가두는 쪽이 편하다.",
+      "whales": "610 위 희망 서사를 키우기보다 606 아래에서 반등 피로를 만들고 싶어 한다. 아래로는 600이 쉽게 무너지지 않는다는 점을 알기 때문에 붕괴보다 흔들기로 프리미엄을 비싸게 만들고, 위에서는 call OI가 많은 610과 615를 방패 삼아 되돌림을 팔고 싶은 자리다.",
+      "retail": "오전 저점 이후 반등 기대와 다시 무너질 공포 사이에서 흔들리는 구간이다. VWAP 아래 체류가 길어지자 추격 심리는 약해졌고, 600이 보이면 바닥 기대가 붙고 606 근처만 오면 회복 기대가 붙는 전형적인 양방향 소모전이다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "600-605를 지키고 606 재도전이 반복될 때",
+        "expectation": "공포 과열을 식히며 다시 핀 성격이 강해진다. 606 위 안착이 확인되기 전까지는 반등도 추세 전환보다 눌림 복구 시험으로 읽히고, 위에서는 610이 다시 희망 판매 구간이 된다."
+      },
+      "if_break": {
+        "condition": "600이 깨진 뒤 그 아래에서 머무를 때",
+        "expectation": "가장 큰 자석이던 600이 방패에서 가속 페달로 바뀐다. 그 순간 오늘 내내 버티던 완충이 사라지며 오전 급락의 기억이 다시 살아나고, 아래 put OI가 많은 더 낮은 구간을 향한 공포 재가격화가 빨라질 수 있다."
+      }
+    },
+    "watch": [
+      "606 회복이 잠깐 찍고 밀리는지, 아니면 VWAP 근처 체류로 성격이 바뀌는지",
+      "600 접근 때 반발이 즉시 나오는지, 아니면 핀 실패로 아래 체류가 길어지는지"
+    ],
+    "risks": [
+      "600의 큰 GEX를 과소평가하면 하방 서사를 과하게 읽기 쉽다.",
+      "610 call 벽을 과소평가하면 반등을 추세 복구로 오해하기 쉽다."
+    ],
+    "chart_window_usd": 22.89,
+    "chart_title_en": "QQQ intraday options map",
+    "chart_what_to_watch_en": "Watch 606 pivot behavior, 600 pin strength, and whether 610 caps"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
