@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-04-10_0335",
+  "time_kst": "2026-04-10 03:35",
+  "ticker": "QQQ",
+  "pivot": 610.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-9.46",
+  "pivot_mode": "auto",
+  "spot": 607.9400024414062,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "intraday_live",
+  "mode_guide_kst": "지금 가격 변화와 옵션 반응의 상호작용을 가장 생생하게 해석한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-04-09 14:35",
+    "phase_et": "mid_day",
+    "interval": "1m",
+    "last": 607.9600219726562,
+    "day_open": 603.7,
+    "day_high": 610.3599853515625,
+    "day_low": 602.9,
+    "vwap_like": 606.8679624364725,
+    "r_30m": -0.07888706640326593,
+    "flow_one_line": "VWAP 위지만 탄력이 식으면서 흔들기 좋은 흐름",
+    "pivot": 610.0,
+    "pivot_touches": 5
+  },
+  "analysis_json": {
+    "content_mode_kst": "intraday_live",
+    "spot": 607.9400024414062,
+    "now_et": "2026-04-09 14:35",
+    "phase_et": "mid_day",
+    "flow_one_line": "VWAP 위지만 탄력이 식으면서 흔들기 좋은 흐름",
+    "day_stats": {
+      "open": 603.7,
+      "high": 610.3599853515625,
+      "low": 602.9,
+      "vwap_like": 606.8679624364725
+    },
+    "pivot": 610.0,
+    "pivot_touches": 5,
+    "one_liner": "오늘 판은 610을 뚫는 싸움이 아니라 610을 미끼로 흔들며 시간가치를 태우는 판이고, 이 방패는 위로는 눌러두기지만 아래로 밀리면 바로 가속 페달로 바뀐다.",
+    "key_levels": [
+      {
+        "price": 610,
+        "role": "pivot",
+        "why": "최대 GEX와 큰 call OI가 겹친 오늘의 중심축이다. 이미 여러 번 찍고도 안착을 못 했다는 건 위로 열어주기보다 여기서 눌러두며 피로를 쌓게 만들려는 자리라는 뜻이다."
+      },
+      {
+        "price": 608,
+        "role": "support",
+        "why": "현물 위치와 가까운 양의 GEX 받침이다. 610 아래에서 버티는 마지막 완충지대라서 여기 위면 핀ning, 여기 아래면 610 방패의 성격이 압박으로 바뀐다."
+      },
+      {
+        "price": 615,
+        "role": "resistance",
+        "why": "610이 실제로 넘어가도 바로 숨통이 트이는 자리가 아니라 다음 call 방어선이다. 610 이탈이 진짜라면 시장이 희망을 팔기 가장 좋은 다음 무대가 여기다."
+      },
+      {
+        "price": 600,
+        "role": "support",
+        "why": "DEX가 가장 두껍고 OI도 큰 하단 심리선이다. 평소엔 아래를 받치는 방패지만 밀리는 흐름이 커지면 헤지 반응이 커져 흔들기 범위를 한 번에 넓힐 수 있는 자리다."
+      }
+    ],
+    "core_thesis": "지금 참여자들은 610을 상단 자석이자 천장으로 같이 쓰고 있다. 장중 고점이 610을 살짝 넘겼는데도 안착이 안 됐고, 현물은 VWAP 위에서 버티되 30분 탄력은 식었다. 이건 강한 추세 연장보다 608~610 사이에 묶어두며 콜 추격심리를 소모시키는 운전이다. 핵심은 방향보다 순서다. 먼저 610 아래에서 지치게 만들고, 그 뒤 608이 헐거워지면 위를 막던 방패가 아래를 미는 가속 페달로 성격을 바꾼다.",
+    "participants_view": {
+      "market_maker": "610 일대의 큰 양의 GEX를 이용해 가격을 붙잡아 두고 싶어 한다. 위로는 자주 찔러도 종가 전 안착은 막고, 아래로는 608만 지키면 핀ning으로 시간을 먹는 구조를 선호한다.",
+      "whales": "610 call이 쌓인 구간을 이용해 희망을 팔기 좋은 자리로 본다. 진짜로 판을 열 생각이면 610 위 체류를 길게 만들었을 텐데, 지금은 여러 번 닿게 하며 기대만 유지시키는 쪽에 가깝다.",
+      "retail": "고점 재돌파 기대를 계속 붙들기 쉬운 위치다. VWAP 위라는 이유로 강세 연장을 상상하기 쉽지만, 실제 판은 610 근처 반복 터치가 오히려 추격을 소모시키는 방식으로 흘렀다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "608 위에서 버티며 610 재도전이 나와도 다시 610 아래로 말리는 흐름",
+        "expectation": "상단 미끼는 유지되지만 실체는 핀ning이다. 610은 계속 자석처럼 불리되 종가 전까지는 시간가치만 태우는 흔들기가 중심이 된다."
+      },
+      "if_break": {
+        "condition": "608 이탈 뒤 VWAP 복귀 실패가 겹치는 흐름",
+        "expectation": "위를 막던 구조가 아래로는 헤지 가속으로 바뀐다. 그때부터는 600이 단순 지지선이 아니라 공포를 파는 다음 무대로 부각된다."
+      }
+    },
+    "watch": [
+      "610 재접근 때 즉시 밀리는지, 아니면 610 위 체류 시간이 늘어나는지",
+      "608과 VWAP_like 사이에서 매번 되받는지, 아니면 한 번에 둘 다 내주는지"
+    ],
+    "risks": [
+      "610 위에서 체류가 길어지면 지금의 눌러두기 해석은 바로 약해지고 615 쪽 희망 팔기 구간이 열린다.",
+      "하단 582의 큰 음의 GEX는 오늘 당장 먼 자리여도, 만약 하방 가속이 커지면 방어가 아니라 변동성 확대의 상징으로 다시 소환될 수 있다."
+    ],
+    "chart_window_usd": 16.0,
+    "chart_title_en": "QQQ Intraday Options Map",
+    "chart_what_to_watch_en": "Watch 610 as the pin ceiling, 608 as the first cushion, and 600 "
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
