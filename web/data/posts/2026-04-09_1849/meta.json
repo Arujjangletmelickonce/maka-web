@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-04-09_1849",
+  "time_kst": "2026-04-09 18:49",
+  "ticker": "QQQ",
+  "pivot": 604.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-6.00",
+  "pivot_mode": "auto",
+  "spot": 604.18,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "premarket_preview",
+  "mode_guide_kst": "개장 전 벽, 자석, 가짜 방향 가능성을 짚고 초반 함정을 경계한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-04-09 05:49",
+    "phase_et": "premarket",
+    "interval": "1m",
+    "last": 604.18,
+    "day_open": 603.7,
+    "day_high": 606.09,
+    "day_low": 602.9,
+    "vwap_like": 603.6401094339623,
+    "r_30m": 0.03311367926088771,
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "pivot": 604.0,
+    "pivot_touches": 4
+  },
+  "analysis_json": {
+    "content_mode_kst": "premarket_preview",
+    "spot": 604.18,
+    "now_et": "2026-04-09 05:49",
+    "phase_et": "premarket",
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "day_stats": {
+      "open": 603.7,
+      "high": 606.09,
+      "low": 602.9,
+      "vwap_like": 603.6401094339623
+    },
+    "pivot": 604.0,
+    "pivot_touches": 4,
+    "one_liner": "오늘 판은 604를 축으로 눌러두다가, 위로는 605~610 희망을 팔고 아래로는 600 공포를 파는 구조다.",
+    "key_levels": [
+      {
+        "price": 600,
+        "role": "support",
+        "why": "가장 두꺼운 DEX와 큰 GEX가 같이 받치는 하단 방패다. 프리장에선 안도감의 기준선이지만, 정규장 초반 이탈이 나오면 방패가 가속 페달로 바뀌며 아래 헤지 반응을 키우는 자리다."
+      },
+      {
+        "price": 604,
+        "role": "pivot",
+        "why": "현물과 가장 가까운 중심축이고 터치가 반복됐다. 지금 시장은 방향 확신보다 이 축 주변에서 참가자 심리를 흔들며 가짜 방향을 만들기 좋은 상태다."
+      },
+      {
+        "price": 605,
+        "role": "resistance",
+        "why": "현물 바로 위 콜 구간이라 위로 붙는 척하며 희망을 팔기 좋은 첫 미끼다. 604 위 안착이 나와도 여기서 바로 추격 심리를 시험할 가능성이 크다."
+      },
+      {
+        "price": 610,
+        "role": "resistance",
+        "why": "강한 양의 GEX와 DEX가 겹치는 상단 방패다. 위로 열리는 듯 보여도 일단은 속도를 죽이며 핀을 만들기 좋은 자리이고, 여기 반응이 약해질 때만 상방 탄력이 커진다."
+      }
+    ],
+    "core_thesis": "개장 전 구조만 보면 오늘은 방향보다 순서가 중요하다. 먼저 604를 중심으로 위아래를 다 보여주며 사람을 태운 뒤, 600과 605 사이에서 심리를 분리할 가능성이 크다. 위로는 605~610에서 희망을 팔고, 아래로는 600 근처에서 공포를 팔기 좋은 판이다. 핵심은 600 방패가 유지되느냐가 아니라, 그 방패가 깨질 때 헤지 성격이 방어에서 추격으로 바뀌느냐다.",
+    "participants_view": {
+      "market_maker": "604 근처에 가격을 묶어두는 쪽이 가장 편하다. 위로는 605와 610의 양의 GEX를 이용해 속도를 죽이고, 아래로는 600을 마지막 완충지대로 쓰며 초반 과열을 식히려는 태도다.",
+      "whales": "615 콜 OI가 두껍고 600 위 현물 구간에도 관심이 크다. 다만 지금은 강한 돌파를 바로 사는 그림보다 605 위 기대를 키웠다가 눌러 심리를 흔들거나, 600을 시험해 공포 가격을 만드는 쪽이 더 유리해 보인다.",
+      "retail": "604 위에서는 돌파 기대를, 600 아래에서는 붕괴 불안을 쉽게 키울 자리다. 오늘 초반에는 눈에 잘 보이는 숫자에 반응하며 가짜 이탈에 끌려다니기 쉬운 위치에 서 있다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "604를 중심으로 603.64 위에서 버티며 605를 반복 시험하는 흐름",
+        "expectation": "상단은 열려 보이지만 실제 의도는 605~610 사이에서 속도를 죽이며 기대를 소모시키는 쪽이다. 강한 추세라기보다 위를 보여주고 눌러두는 운전이 더 자연스럽다."
+      },
+      "if_break": {
+        "condition": "600 이탈이 정규장 초반에도 빠르게 되돌려지지 않는 흐름",
+        "expectation": "하단 방패가 방어선에서 가속 구간으로 바뀐다. 프리장에서는 완충처럼 보이던 구조가 정규장에선 아래 헤지 반응을 키우며 공포를 파는 무대로 전환될 수 있다."
+      }
+    },
+    "watch": [
+      "604를 다시 중심축으로 쓰는지, 아니면 605 위 체류를 일부러 보여주며 희망을 키우는지",
+      "600 첫 시험이 방어로 끝나는지, 아니면 이탈 후 복귀 실패로 성격이 바뀌는지"
+    ],
+    "risks": [
+      "프리장 고가 606.09 근처 움직임을 실제 추세 시작으로 오해하면 상단 미끼에 걸리기 쉽다.",
+      "600은 방패처럼 보이지만 깨지는 순간 심리와 헤지 방향이 함께 바뀌는 자리라 초반 해석이 뒤집힐 수 있다."
+    ],
+    "chart_window_usd": 16.0,
+    "chart_title_en": "QQQ premarket options map",
+    "chart_what_to_watch_en": "Watch 604 pivot behavior, 600 support reaction, and whether 605-"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
