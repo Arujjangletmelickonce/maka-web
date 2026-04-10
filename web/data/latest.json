@@ -1,9 +1,9 @@
 {
-  "latest_run_id": "2026-04-10_2106",
-  "updated_kst": "2026-04-10 21:06",
-  "meta_path": "web/data/posts/2026-04-10_2106/meta.json",
-  "content_mode_kst": "premarket_preview",
+  "latest_run_id": "2026-04-11_0012",
+  "updated_kst": "2026-04-11 00:12",
+  "meta_path": "web/data/posts/2026-04-11_0012/meta.json",
+  "content_mode_kst": "intraday_live",
   "trend_mode": "medium",
-  "pivot": 611.0,
+  "pivot": 612.0,
   "pivot_source": "auto"
 }
