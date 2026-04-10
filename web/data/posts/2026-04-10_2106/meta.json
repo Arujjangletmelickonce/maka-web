@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-04-10_2106",
+  "time_kst": "2026-04-10 21:06",
+  "ticker": "QQQ",
+  "pivot": 611.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-6.00",
+  "pivot_mode": "auto",
+  "spot": 610.6292,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "premarket_preview",
+  "mode_guide_kst": "개장 전 벽, 자석, 가짜 방향 가능성을 짚고 초반 함정을 경계한다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-04-10 08:06",
+    "phase_et": "premarket",
+    "interval": "1m",
+    "last": 610.6,
+    "day_open": 609.88,
+    "day_high": 611.42,
+    "day_low": 609.06,
+    "vwap_like": 610.2320670731708,
+    "r_30m": -0.09816753926702448,
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "pivot": 611.0,
+    "pivot_touches": 7
+  },
+  "analysis_json": {
+    "content_mode_kst": "premarket_preview",
+    "spot": 610.6292,
+    "now_et": "2026-04-10 08:06",
+    "phase_et": "premarket",
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "day_stats": {
+      "open": 609.88,
+      "high": 611.42,
+      "low": 609.06,
+      "vwap_like": 610.2320670731708
+    },
+    "pivot": 611.0,
+    "pivot_touches": 7,
+    "one_liner": "오늘 판은 611을 축으로 눌러두다가, 610을 다시 얹으면 위 콜벽 핀으로 묶고, 611이 밀리면 방패였던 자리가 바로 흔들기 통로로 바뀐다.",
+    "key_levels": [
+      {
+        "price": 611,
+        "role": "pivot",
+        "why": "개장 전부터 7번이나 건드린 중심축이다. 여기서 버티면 위로는 613~615 콜벽에 가둬두기 좋고, 못 버티면 610 아래로 심리선이 급히 약해지며 가짜 상방 시도였다는 해석이 붙는다."
+      },
+      {
+        "price": 610,
+        "role": "support",
+        "why": "현물, vwap_like, 큰 DEX와 OI가 겹치는 눈에 잘 보이는 자리다. 초반에 이 자리를 다시 얹어두면 참가자들은 안도 쪽으로 기울고, 놓치면 위에서 산 쪽 불안이 빠르게 커진다."
+      },
+      {
+        "price": 615,
+        "role": "resistance",
+        "why": "가장 큰 양의 GEX와 큰 call_oi가 겹친 대표 콜벽이다. 위로 열어주는 자리라기보다 희망을 팔기 좋은 상단 캡에 가깝고, 초반 급등이 나와도 일단 이쪽으로 끌어당겨 핀을 만들기 좋다."
+      },
+      {
+        "price": 605,
+        "role": "support",
+        "why": "음의 GEX가 박혀 있어 눌림 방어선이 아니라 깨지면 반응이 거칠어질 수 있는 자리다. 611 방어 실패 뒤 여기까지 밀리면 단순 조정이 아니라 방패가 가속 페달로 바뀌는 구간으로 읽힌다."
+      }
+    ],
+    "core_thesis": "중심은 611 공방이다. 위로는 613~615에 콜벽이 촘촘해 초반 들뜸을 팔아먹기 좋고, 아래로는 610이 첫 심리 방패다. 그래서 오늘은 방향보다 순서가 중요하다. 먼저 611 위를 굳히지 못하면 상방 시도는 미끼가 되고, 610을 재장악하면 다시 615 핀 시나리오가 살아난다.",
+    "participants_view": {
+      "market_maker": "611과 610 사이에서 체결을 모아 변동을 죽이고 싶어 한다. 위로 튀면 615 콜벽을 방패로 쓰고, 아래로 밀리면 605의 음의 GEX 구간을 이용해 흔들림을 키우기 쉬운 구조다.",
+      "whales": "615와 620에는 위를 열어주기보다 상단 기대를 팔아두려는 흔적이 강하다. 반대로 600~605에는 델타가 두껍게 깔려 있어 급히 무너뜨리기보다 그 아래 공포 가격표를 남겨두는 태도에 가깝다.",
+      "retail": "610 위 숫자만 보면 강하다고 느끼기 쉽다. 그래서 개장 직후 611 안착처럼 보이는 장면에 쉽게 쏠릴 수 있고, 그 안착이 짧게 끝나면 바로 불안으로 뒤집히는 구조다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "개장 후 610~611 위에서 다시 거래가 붙고 611을 눌러도 잘 안 밀릴 때",
+        "expectation": "초반 상방은 새 추세라기보다 613~615 쪽으로 끌어당겨 묶는 흐름이 되기 쉽다. 희망을 키우되 멀리 보내기보다는 보이는 콜벽 근처에서 핀을 만들려는 운전이 나온다."
+      },
+      "if_break": {
+        "condition": "611 회복이 실패하고 610 아래 체류가 길어질 때",
+        "expectation": "개장 전 흔들기가 가짜 상방 이탈로 해석되며 눌러두기 강도가 세진다. 이후 605가 단순 지지선이 아니라 변동을 키우는 통로가 되면서 아래쪽 공포 가격을 다시 부각시킬 수 있다."
+      }
+    },
+    "watch": [
+      "611을 다시 얹은 뒤 눌림이 얕은지, 아니면 611이 계속 머리 위 저항으로 남는지",
+      "610 근처에서 거래가 차분해지는지, 아니면 605 방향으로 반응 속도가 갑자기 빨라지는지"
+    ],
+    "risks": [
+      "615 콜벽만 보고 상단 캡을 단순 고정으로 읽으면 안 된다. 초반에는 그 벽을 보여주며 위아래를 더 흔들 수 있다.",
+      "600 아래 큰 DEX와 put_oi가 심리적 완충처럼 보이지만, 그 존재 자체가 아래 공포 서사를 계속 살아 있게 만든다."
+    ],
+    "chart_window_usd": 10.0,
+    "chart_title_en": "QQQ premarket: 611 pivot, 615 call wall",
+    "chart_what_to_watch_en": "Watch whether 611 turns into a base for a 613-615 pin, or fails "
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
