@@ -1,9 +1,9 @@
 {
-  "latest_run_id": "2026-04-11_0012",
-  "updated_kst": "2026-04-11 00:12",
-  "meta_path": "web/data/posts/2026-04-11_0012/meta.json",
+  "latest_run_id": "2026-04-11_0306",
+  "updated_kst": "2026-04-11 03:06",
+  "meta_path": "web/data/posts/2026-04-11_0306/meta.json",
   "content_mode_kst": "intraday_live",
   "trend_mode": "medium",
-  "pivot": 612.0,
+  "pivot": 610.0,
   "pivot_source": "auto"
 }
