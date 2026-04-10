@@ -1,0 +1,101 @@
+{
+  "run_id": "2026-04-11_0600",
+  "time_kst": "2026-04-11 06:00",
+  "ticker": "QQQ",
+  "pivot": 611.0,
+  "pivot_source": "auto",
+  "pivot_reason": "auto pivot from recent touch cluster plus near-spot options surface within +/-15.00",
+  "pivot_mode": "auto",
+  "spot": 612.0,
+  "spot_source": "intraday_last",
+  "content_mode_kst": "post_close_recap",
+  "mode_guide_kst": "오늘 어떤 식으로 운전했는지 복기하고 다음 세션으로 이어질 포인트를 남긴다.",
+  "trend_mode": "medium",
+  "trend_mode_guide": "옵션 추이와 현재 구조를 균형 있게 본다.",
+  "intraday_interval": "1m",
+  "intraday": {
+    "now_et": "2026-04-10 17:00",
+    "phase_et": "afterhours",
+    "interval": "1m",
+    "last": 612.0,
+    "day_open": 609.88,
+    "day_high": 613.6699829101562,
+    "day_low": 587.82,
+    "vwap_like": 611.4024172991392,
+    "r_30m": 0.08783852626217392,
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "pivot": 611.0,
+    "pivot_touches": 30
+  },
+  "analysis_json": {
+    "content_mode_kst": "post_close_recap",
+    "spot": 612.0,
+    "now_et": "2026-04-10 17:00",
+    "phase_et": "afterhours",
+    "flow_one_line": "정규장 밖에서는 위아래를 다 열어두되, 눈에 잘 보이는 자리부터 심리를 흔들기 좋은 흐름",
+    "day_stats": {
+      "open": 609.88,
+      "high": 613.67,
+      "low": 587.82,
+      "vwap_like": 611.4
+    },
+    "pivot": 611.0,
+    "pivot_touches": 30,
+    "one_liner": "오늘 QQQ는 611~612를 핀으로 박아두고 공포를 아래에서 팔고, 희망을 위에서 팔아먹은 뒤 결국 가장 큰 벽 위에 종가를 얹어 판의 중심축을 확인시켰다.",
+    "key_levels": [
+      {
+        "price": 611.0,
+        "role": "pivot",
+        "why": "터치가 과하게 많았다는 건 방향 승부보다 이 가격대에서 포지션을 소화하며 시간을 썼다는 뜻이다. 오늘 판은 추세가 아니라 611을 중심으로 감정과 프리미엄을 깎아낸 장이었다."
+      },
+      {
+        "price": 612.0,
+        "role": "pivot",
+        "why": "최대 GEX가 몰린 핵심 방패이자 종가가 걸린 자리다. 여기서는 위아래 변동을 흡수하며 눌러두기 역할을 했고, 다음 세션에도 가장 먼저 심리를 재정렬시키는 자석으로 본다."
+      },
+      {
+        "price": 615.0,
+        "role": "resistance",
+        "why": "상단 GEX와 call OI가 겹친 희망 판매 구간이다. 612 위 안착이 나와도 바로 탄력이 붙기보다 615에서 다시 한 번 위를 팔고 싶은 유인이 강한 자리다."
+      },
+      {
+        "price": 582.0,
+        "role": "support",
+        "why": "거대한 put OI가 쌓였지만 GEX는 음수라 평온한 방패가 아니라 무너지면 오히려 가속 페달이 되는 자리다. 오늘 저점 587.82가 이 구간을 정면으로 건드리지 못한 것도 참가자들이 이 밑의 연쇄 반응을 의식했다는 신호다."
+      }
+    ],
+    "core_thesis": "오늘 운전의 본질은 급락 저점을 보여주며 공포를 극대화한 뒤, 결국 611~612의 초대형 방패로 되감아 핀 시킨 것이다. 아래는 겁을 팔기 좋은 구역이었고, 위는 615를 앞세워 희망을 비싸게 팔기 좋은 구조였다. 즉 오늘은 방향보다 순서가 중요했고, 깊게 흔든 뒤 다시 가장 큰 벽으로 복귀시키며 누가 판의 중심을 쥐고 있는지 확인한 날이다.",
+    "participants_view": {
+      "market_maker": "612를 중심으로 델타를 중화시키며 변동을 흡수한 쪽이다. 장중 큰 하방 흔들기에도 종국엔 최대 GEX 자리로 복귀시킨 건 판을 612 근처에 묶어두는 게 가장 편했다는 뜻이다.",
+      "whales": "아래 582 계열 put 더미로 공포 서사를 유지하면서도, 당장 그 자리까지 밀어 연쇄를 터뜨리기보다는 611~615 사이에서 위아래 프리미엄이 계속 거래되게 만드는 쪽이 유리했다. 위로는 615 call 벽을 미끼로 써서 추격 심리를 식히고 싶어 한다.",
+      "retail": "587대 급락 구간에서 하방 공포에 끌리고, 종가가 612로 복귀하자 다시 상방 기대를 붙이기 쉬운 하루였다. 결국 대중은 아래에서 겁을 사고 위에서 희망을 사는 식으로 흔들렸고, 중심축은 계속 611~612에 있었다."
+    },
+    "branches": {
+      "if_hold": {
+        "condition": "다음 세션에도 611~612가 다시 중심으로 기능하고 그 위에서 가격이 눌려도 쉽게 이탈하지 않을 때",
+        "expectation": "시장은 오늘처럼 방향 과시보다 핀과 자석 성격을 이어갈 공산이 크다. 이 경우 615는 다시 희망을 파는 첫 무대가 된다."
+      },
+      "if_break": {
+        "condition": "611~612 방패가 밀리며 아래에서 받치던 안정감이 사라질 때",
+        "expectation": "그때는 오늘의 완충 장치가 해제되면서 600 쪽 DEX 밀집 구간이 먼저 심리 시험대가 된다. 더 아래로 시선이 열리면 582는 방패가 아니라 가속 페달 후보로 다시 호출된다."
+      }
+    },
+    "watch": [
+      "612가 다음 세션에도 자석처럼 복귀를 유도하는지, 아니면 방패 효력이 약해지는지",
+      "615에서 다시 상단 공급이 나오며 눌러두기 흐름이 반복되는지"
+    ],
+    "risks": [
+      "582 아래 구조를 단순 지지선으로 보면 안 된다. 음수 GEX라 깨질 때는 반응이 순해지지 않는다.",
+      "오늘 종가가 최대 GEX 위에 올라섰다고 바로 추세 전환으로 읽으면 오판이다. 아직은 핀의 승리이지, 상단 해방의 승리가 아니다."
+    ],
+    "chart_window_usd": 31.0,
+    "chart_title_en": "QQQ options map recap: 612 pin, 615 cap, 582 acc",
+    "chart_what_to_watch_en": "Watch whether 611-612 stays the magnet, whether 615 keeps sellin"
+  },
+  "files": {
+    "post": "post.md",
+    "maka_chart": "maka_chart.png",
+    "qqq_price": "qqq_price.png",
+    "meta": "meta.json"
+  }
+}
